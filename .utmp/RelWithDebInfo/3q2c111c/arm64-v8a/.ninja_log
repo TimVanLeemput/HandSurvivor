@@ -1,0 +1,10 @@
+# ninja log v5
+4	1149	1754684057005116955	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	2f115e7a58d3d32f
+2	1155	1754684057017351498	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	6f84419672c55944
+1	1165	1754684057027445701	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	473b9ebe969be8a2
+5	1176	1754684057038131406	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	fac64dcd03719fdb
+2	1208	1754684057070842772	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	1c4bae3edcf51121
+6	1274	1754684057136385548	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	df46ae8f4286f186
+3	1368	1754684057233109893	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	b8d7750748ef1943
+0	1428	1754684057291431392	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	7d2cc28ef210dc8e
+1428	1531	1754684057396004057	/Users/timvanleemput/Documents/GitHub/Unity/Kitesurf Simulator Git/Kitesurf Simulator/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3q2c111c/obj/arm64-v8a/libgame.so	9e7c13ee8163b214
