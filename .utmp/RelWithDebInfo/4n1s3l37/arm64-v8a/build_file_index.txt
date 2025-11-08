@@ -1,0 +1,2 @@
+C:\Users\vanle\Documents\GitHub\Unity\HandSurvivor\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+C:\Users\vanle\Documents\GitHub\Unity\HandSurvivor\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt

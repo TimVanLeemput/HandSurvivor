@@ -1,44 +1,30 @@
+using System.Collections;
 using UnityEngine;
 using Meta.XR.MRUtilityKit;
 
 namespace HandSurvivor
 {
     /// <summary>
-    /// Example script demonstrating how to use TableCalibrationManager for gameplay.
-    /// This shows how to spawn objects on the calibrated table surface.
-    /// Use this as a reference for implementing wave-based enemy spawning (HAN-23).
+    /// Safe table spawn manager. Spawns objects on a calibrated table using TableCalibrationManager.
+    /// Supports random, circle, and grid patterns. Fully safe for delayed calibration.
     /// </summary>
     public class TableSpawnExample : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField]
-        private TableCalibrationManager tableCalibration;
-
-        [SerializeField]
-        [Tooltip("Example prefab to spawn on the table (use enemy prefab later)")]
-        private GameObject spawnPrefab;
+        [SerializeField] private TableCalibrationManager tableCalibration;
+        [SerializeField, Tooltip("Prefab to spawn on the table")] private GameObject spawnPrefab;
 
         [Header("Spawn Settings")]
-        [SerializeField]
-        private int numberOfObjects = 5;
-
-        [SerializeField]
-        [Tooltip("Height offset above table surface")]
-        private float spawnHeight = 0.05f;
-
-        [SerializeField]
-        [Tooltip("Minimum distance from table edge (in meters)")]
-        private float edgeMargin = 0.1f;
+        [SerializeField] private int numberOfObjects = 5;
+        [SerializeField, Tooltip("Height above table surface")] private float spawnHeight = 0.05f;
+        [SerializeField, Tooltip("Minimum distance from table edge")] private float edgeMargin = 0.1f;
 
         private bool hasSpawned = false;
 
         private void Start()
         {
-            // Find TableCalibrationManager if not assigned
             if (tableCalibration == null)
-            {
-                tableCalibration = FindObjectOfType<TableCalibrationManager>();
-            }
+                tableCalibration = FindFirstObjectByType<TableCalibrationManager>();
 
             if (tableCalibration == null)
             {
@@ -46,10 +32,10 @@ namespace HandSurvivor
                 return;
             }
 
-            // Subscribe to calibration event
+            // Subscribe safely
             tableCalibration.OnTableCalibrated.AddListener(OnTableCalibrated);
 
-            // If already calibrated, spawn immediately
+            // If already calibrated at start, spawn immediately
             if (tableCalibration.IsCalibrated && !hasSpawned)
             {
                 SpawnObjectsOnTable();
@@ -59,240 +45,157 @@ namespace HandSurvivor
         private void OnDestroy()
         {
             if (tableCalibration != null)
-            {
                 tableCalibration.OnTableCalibrated.RemoveListener(OnTableCalibrated);
-            }
         }
 
-        /// <summary>
-        /// Called when table calibration is complete
-        /// </summary>
         private void OnTableCalibrated(MRUKAnchor table)
         {
             Debug.Log($"[TableSpawnExample] Table calibrated: {table.name}");
-
             if (!hasSpawned)
-            {
                 SpawnObjectsOnTable();
-            }
         }
 
         /// <summary>
-        /// Spawns objects randomly on the calibrated table surface
+        /// Spawn objects randomly on table surface
         /// </summary>
-        private void SpawnObjectsOnTable()
+        public void SpawnObjectsOnTable()
+        {
+            if (!ValidateSpawn()) return;
+
+            hasSpawned = true;
+            Bounds bounds = tableCalibration.GetTableBounds();
+
+            for (int i = 0; i < numberOfObjects; i++)
+            {
+                Vector3 pos = GetRandomPosition(bounds);
+                Quaternion rot = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
+                GameObject obj = Instantiate(spawnPrefab, pos, rot);
+                obj.name = $"{spawnPrefab.name}_{i}";
+                Debug.Log($"[TableSpawnExample] Spawned {obj.name} at {pos}");
+            }
+        }
+
+        private bool ValidateSpawn()
         {
             if (!tableCalibration.IsCalibrated)
             {
                 Debug.LogWarning("[TableSpawnExample] Cannot spawn - table not calibrated!");
-                return;
+                return false;
             }
 
             if (spawnPrefab == null)
             {
                 Debug.LogWarning("[TableSpawnExample] Spawn prefab not assigned!");
-                return;
+                return false;
             }
 
-            hasSpawned = true;
-
-            Bounds tableBounds = tableCalibration.GetTableBounds();
-
-            for (int i = 0; i < numberOfObjects; i++)
-            {
-                Vector3 spawnPosition = GetRandomPositionOnTable(tableBounds);
-                Quaternion spawnRotation = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
-
-                GameObject spawnedObject = Instantiate(spawnPrefab, spawnPosition, spawnRotation);
-                spawnedObject.name = $"{spawnPrefab.name}_{i}";
-
-                Debug.Log($"[TableSpawnExample] Spawned {spawnedObject.name} at {spawnPosition}");
-            }
+            return true;
         }
 
-        /// <summary>
-        /// Gets a random position on the table within bounds, respecting edge margins
-        /// </summary>
-        private Vector3 GetRandomPositionOnTable(Bounds bounds)
+        private Vector3 GetRandomPosition(Bounds bounds)
         {
-            // Calculate safe spawn area (avoid edges)
             float minX = bounds.min.x + edgeMargin;
             float maxX = bounds.max.x - edgeMargin;
             float minZ = bounds.min.z + edgeMargin;
             float maxZ = bounds.max.z - edgeMargin;
 
-            // Clamp to ensure valid range
-            minX = Mathf.Min(minX, bounds.center.x);
-            maxX = Mathf.Max(maxX, bounds.center.x);
-            minZ = Mathf.Min(minZ, bounds.center.z);
-            maxZ = Mathf.Max(maxZ, bounds.center.z);
+            // Ensure valid ranges
+            if (minX > maxX) { float tmp = minX; minX = maxX; maxX = tmp; }
+            if (minZ > maxZ) { float tmp = minZ; minZ = maxZ; maxZ = tmp; }
 
-            Vector3 randomPosition = new Vector3(
+            return new Vector3(
                 Random.Range(minX, maxX),
                 bounds.center.y + spawnHeight,
                 Random.Range(minZ, maxZ)
             );
-
-            return randomPosition;
         }
 
         /// <summary>
-        /// Example: Spawn object at table center (useful for boss spawns)
+        /// Spawn at table center
         /// </summary>
         public void SpawnAtTableCenter()
         {
-            if (!tableCalibration.IsCalibrated)
-            {
-                Debug.LogWarning("[TableSpawnExample] Cannot spawn - table not calibrated!");
-                return;
-            }
+            if (!ValidateSpawn()) return;
 
-            Vector3 centerPosition = tableCalibration.GetTableCenter();
-            centerPosition.y += spawnHeight;
-
-            GameObject centerObject = Instantiate(spawnPrefab, centerPosition, Quaternion.identity);
-            centerObject.name = $"{spawnPrefab.name}_Center";
-
-            Debug.Log($"[TableSpawnExample] Spawned at center: {centerPosition}");
+            Vector3 center = tableCalibration.GetTableCenter();
+            center.y += spawnHeight;
+            GameObject obj = Instantiate(spawnPrefab, center, Quaternion.identity);
+            obj.name = $"{spawnPrefab.name}_Center";
+            Debug.Log($"[TableSpawnExample] Spawned at center: {center}");
         }
 
         /// <summary>
-        /// Example: Spawn objects in a circle pattern (useful for wave spawning)
+        /// Spawn objects in a circle pattern
         /// </summary>
         public void SpawnInCircle(int count, float radius)
         {
-            if (!tableCalibration.IsCalibrated)
-            {
-                Debug.LogWarning("[TableSpawnExample] Cannot spawn - table not calibrated!");
-                return;
-            }
+            if (!ValidateSpawn()) return;
 
             Vector3 center = tableCalibration.GetTableCenter();
-            Bounds tableBounds = tableCalibration.GetTableBounds();
-
-            // Clamp radius to table size
-            float maxRadius = Mathf.Min(tableBounds.extents.x, tableBounds.extents.z) - edgeMargin;
+            Bounds bounds = tableCalibration.GetTableBounds();
+            float maxRadius = Mathf.Min(bounds.extents.x, bounds.extents.z) - edgeMargin;
             radius = Mathf.Min(radius, maxRadius);
 
-            float angleStep = 360f / count;
+            float step = 360f / count;
 
             for (int i = 0; i < count; i++)
             {
-                float angle = i * angleStep * Mathf.Deg2Rad;
-                Vector3 offset = new Vector3(
-                    Mathf.Cos(angle) * radius,
-                    spawnHeight,
-                    Mathf.Sin(angle) * radius
-                );
-
-                Vector3 spawnPosition = center + offset;
-                GameObject circleObject = Instantiate(spawnPrefab, spawnPosition, Quaternion.identity);
-                circleObject.name = $"{spawnPrefab.name}_Circle_{i}";
+                float angle = i * step * Mathf.Deg2Rad;
+                Vector3 offset = new Vector3(Mathf.Cos(angle) * radius, spawnHeight, Mathf.Sin(angle) * radius);
+                Vector3 pos = center + offset;
+                GameObject obj = Instantiate(spawnPrefab, pos, Quaternion.identity);
+                obj.name = $"{spawnPrefab.name}_Circle_{i}";
             }
 
-            Debug.Log($"[TableSpawnExample] Spawned {count} objects in circle with radius {radius}m");
+            Debug.Log($"[TableSpawnExample] Spawned {count} objects in circle (radius {radius})");
         }
 
         /// <summary>
-        /// Example: Spawn in a grid pattern (useful for organized waves)
+        /// Spawn objects in a grid pattern
         /// </summary>
         public void SpawnInGrid(int rows, int columns, float spacing)
         {
-            if (!tableCalibration.IsCalibrated)
-            {
-                Debug.LogWarning("[TableSpawnExample] Cannot spawn - table not calibrated!");
-                return;
-            }
+            if (!ValidateSpawn()) return;
 
             Vector3 center = tableCalibration.GetTableCenter();
-            Bounds tableBounds = tableCalibration.GetTableBounds();
+            Bounds bounds = tableCalibration.GetTableBounds();
 
-            // Calculate grid dimensions
             float gridWidth = (columns - 1) * spacing;
             float gridDepth = (rows - 1) * spacing;
 
-            // Ensure grid fits on table
-            if (gridWidth > tableBounds.size.x - edgeMargin * 2 ||
-                gridDepth > tableBounds.size.z - edgeMargin * 2)
+            if (gridWidth > bounds.size.x - edgeMargin * 2 || gridDepth > bounds.size.z - edgeMargin * 2)
             {
                 Debug.LogWarning("[TableSpawnExample] Grid too large for table!");
                 return;
             }
 
-            // Calculate starting position (bottom-left of grid)
-            Vector3 startPosition = center - new Vector3(gridWidth / 2f, -spawnHeight, gridDepth / 2f);
+            Vector3 start = center - new Vector3(gridWidth / 2f, -spawnHeight, gridDepth / 2f);
 
-            for (int row = 0; row < rows; row++)
+            for (int r = 0; r < rows; r++)
             {
-                for (int col = 0; col < columns; col++)
+                for (int c = 0; c < columns; c++)
                 {
-                    Vector3 offset = new Vector3(col * spacing, 0, row * spacing);
-                    Vector3 spawnPosition = startPosition + offset;
-
-                    GameObject gridObject = Instantiate(spawnPrefab, spawnPosition, Quaternion.identity);
-                    gridObject.name = $"{spawnPrefab.name}_Grid_R{row}_C{col}";
+                    Vector3 pos = start + new Vector3(c * spacing, 0, r * spacing);
+                    GameObject obj = Instantiate(spawnPrefab, pos, Quaternion.identity);
+                    obj.name = $"{spawnPrefab.name}_Grid_R{r}_C{c}";
                 }
             }
 
             Debug.Log($"[TableSpawnExample] Spawned {rows * columns} objects in {rows}x{columns} grid");
         }
 
-        /// <summary>
-        /// Example: Check if a position is within table bounds (useful for validation)
-        /// </summary>
         public bool IsPositionOnTable(Vector3 position)
         {
-            if (!tableCalibration.IsCalibrated)
-            {
-                return false;
-            }
-
-            Bounds tableBounds = tableCalibration.GetTableBounds();
-            return tableBounds.Contains(position);
+            return tableCalibration.IsCalibrated && tableCalibration.GetTableBounds().Contains(position);
         }
 
 #if UNITY_EDITOR
-        /// <summary>
-        /// Editor button to test spawning
-        /// </summary>
-        [ContextMenu("Test Spawn Objects")]
-        private void TestSpawn()
-        {
-            if (Application.isPlaying)
-            {
-                SpawnObjectsOnTable();
-            }
-            else
-            {
-                Debug.LogWarning("Enter Play Mode to test spawning");
-            }
-        }
-
+        [ContextMenu("Test Spawn Random")]
+        private void TestSpawnRandom() { if (Application.isPlaying) SpawnObjectsOnTable(); }
         [ContextMenu("Test Spawn Circle")]
-        private void TestSpawnCircle()
-        {
-            if (Application.isPlaying)
-            {
-                SpawnInCircle(8, 0.3f);
-            }
-            else
-            {
-                Debug.LogWarning("Enter Play Mode to test spawning");
-            }
-        }
-
+        private void TestSpawnCircle() { if (Application.isPlaying) SpawnInCircle(8, 0.3f); }
         [ContextMenu("Test Spawn Grid")]
-        private void TestSpawnGrid()
-        {
-            if (Application.isPlaying)
-            {
-                SpawnInGrid(3, 3, 0.15f);
-            }
-            else
-            {
-                Debug.LogWarning("Enter Play Mode to test spawning");
-            }
-        }
+        private void TestSpawnGrid() { if (Application.isPlaying) SpawnInGrid(3, 3, 0.15f); }
 #endif
     }
 }

@@ -1,0 +1,1 @@
+C:\Users\vanle\Documents\GitHub\Unity\HandSurvivor\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\4n1s3l37\obj\arm64-v8a
