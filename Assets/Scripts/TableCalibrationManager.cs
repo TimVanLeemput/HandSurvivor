@@ -63,6 +63,7 @@ namespace HandSurvivor
             {
                 MRUK.Instance.RoomCreatedEvent.AddListener(OnRoomCreated);
                 MRUK.Instance.RoomUpdatedEvent.AddListener(OnRoomUpdated);
+                
             }
             else
             {
@@ -158,7 +159,7 @@ namespace HandSurvivor
                 if (IsValidTableSurface(anchor, floorHeight))
                 {
                     tableCandidates.Add(anchor);
-                    Debug.Log($"[TableCalibration] ✓ ACCEPTED as table candidate: {anchor.name}");
+                    Debug.Log($"[TableCalibration] [OK] ACCEPTED as table candidate: {anchor.name}");
                 }
             }
 
@@ -184,10 +185,9 @@ namespace HandSurvivor
         {
             // Check if it's a horizontal plane/volume (table, desk, etc.)
             if (anchor.Label != MRUKAnchor.SceneLabels.TABLE &&
-                anchor.Label != MRUKAnchor.SceneLabels.COUCH &&
                 anchor.Label != MRUKAnchor.SceneLabels.OTHER)
             {
-                Debug.LogWarning($"[TableCalibration] ✗ {anchor.name} REJECTED: Wrong label '{anchor.Label}' (need TABLE/COUCH/OTHER)");
+                Debug.LogWarning($"[TableCalibration] [X] {anchor.name} REJECTED: Wrong label '{anchor.Label}' (need TABLE/COUCH/OTHER)");
                 return false;
             }
 
@@ -197,7 +197,7 @@ namespace HandSurvivor
 
             if (relativeHeight < minTableHeight || relativeHeight > maxTableHeight)
             {
-                Debug.LogWarning($"[TableCalibration] ✗ {anchor.name} REJECTED: Height from floor {relativeHeight:F2}m outside range [{minTableHeight}-{maxTableHeight}m]");
+                Debug.LogWarning($"[TableCalibration] [X] {anchor.name} REJECTED: Height from floor {relativeHeight:F2}m outside range [{minTableHeight}-{maxTableHeight}m]");
                 return false;
             }
 
@@ -209,7 +209,7 @@ namespace HandSurvivor
 
                 if (area < minTableArea)
                 {
-                    Debug.LogWarning($"[TableCalibration] ✗ {anchor.name} REJECTED: Area {area:F2}m² < minimum {minTableArea}m²");
+                    Debug.LogWarning($"[TableCalibration] [X] {anchor.name} REJECTED: Area {area:F2}m² < minimum {minTableArea}m²");
                     return false;
                 }
 
@@ -377,6 +377,11 @@ namespace HandSurvivor
             return new Bounds(calibratedTable.transform.position, Vector3.one);
         }
 
+        private void DoSomethingOnTableAnchorFound(MRUKAnchor anchor)
+        {
+            // anchor.
+        }
+
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
@@ -405,11 +410,12 @@ namespace HandSurvivor
             if (!anchor.PlaneRect.HasValue) return;
 
             Rect rect = anchor.PlaneRect.Value;
-            Vector3 center = anchor.transform.position;
             Vector3 size = new Vector3(rect.width, 0.02f, rect.height);
 
+            // Apply +90 degree X rotation to compensate for MRUK PlaneRect orientation
             Matrix4x4 oldMatrix = Gizmos.matrix;
-            Gizmos.matrix = anchor.transform.localToWorldMatrix;
+            Matrix4x4 rotationMatrix = Matrix4x4.Rotate(Quaternion.Euler(90f, 0f, 0f));
+            Gizmos.matrix = anchor.transform.localToWorldMatrix * rotationMatrix;
             Gizmos.DrawWireCube(Vector3.zero, size);
             Gizmos.matrix = oldMatrix;
         }

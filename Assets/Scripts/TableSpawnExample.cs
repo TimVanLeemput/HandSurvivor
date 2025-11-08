@@ -56,22 +56,58 @@ namespace HandSurvivor
         }
 
         /// <summary>
-        /// Spawn objects randomly on table surface
+        /// Spawn objects at table corners and center (for debugging)
+        /// Spawns exactly 5 objects: 4 corners + 1 center, no offset
+        /// Uses local space transform to properly handle OpenXR rotation
         /// </summary>
         public void SpawnObjectsOnTable()
         {
             if (!ValidateSpawn()) return;
 
             hasSpawned = true;
-            Bounds bounds = tableCalibration.GetTableBounds();
 
-            for (int i = 0; i < numberOfObjects; i++)
+            MRUKAnchor tableAnchor = tableCalibration.CalibratedTable;
+            if (tableAnchor == null || !tableAnchor.PlaneRect.HasValue)
             {
-                Vector3 pos = GetRandomPosition(bounds);
-                Quaternion rot = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
-                GameObject obj = Instantiate(spawnPrefab, pos, rot);
-                obj.name = $"{spawnPrefab.name}_{i}";
-                Debug.Log($"[TableSpawnExample] Spawned {obj.name} at {pos}");
+                Debug.LogError("[TableSpawnExample] Table anchor or PlaneRect not available!");
+                return;
+            }
+
+            // Get table dimensions from PlaneRect (local space)
+            Rect planeRect = tableAnchor.PlaneRect.Value;
+            float halfWidth = planeRect.width * 0.5f;
+            float halfHeight = planeRect.height * 0.5f;
+
+            // Define the 5 spawn positions in LOCAL space (relative to table anchor center)
+            // This ensures proper rotation handling with OpenXR
+            Vector3[] localPositions = new Vector3[]
+            {
+                // 4 corners in local space (X, Y-up, Z)
+                new Vector3(-halfWidth, spawnHeight, -halfHeight), // Bottom-left corner
+                new Vector3(halfWidth, spawnHeight, -halfHeight),  // Bottom-right corner
+                new Vector3(-halfWidth, spawnHeight, halfHeight),  // Top-left corner
+                new Vector3(halfWidth, spawnHeight, halfHeight),   // Top-right corner
+
+                // Center
+                new Vector3(0, spawnHeight, 0)                      // Center
+            };
+
+            string[] positionNames = { "BottomLeft", "BottomRight", "TopLeft", "TopRight", "Center" };
+
+            // Create transform matrix with +90 X rotation to match MRUK PlaneRect orientation
+            Quaternion correctionRotation = Quaternion.Euler(90f, 0f, 0f);
+            Matrix4x4 rotationMatrix = Matrix4x4.Rotate(correctionRotation);
+            Matrix4x4 transformMatrix = tableAnchor.transform.localToWorldMatrix * rotationMatrix;
+
+            // Transform local positions to world space using the corrected matrix
+            for (int i = 0; i < localPositions.Length; i++)
+            {
+                Vector3 worldPosition = transformMatrix.MultiplyPoint3x4(localPositions[i]);
+                Quaternion worldRotation = tableAnchor.transform.rotation * correctionRotation;
+
+                GameObject obj = Instantiate(spawnPrefab, worldPosition, worldRotation);
+                obj.name = $"{spawnPrefab.name}_{positionNames[i]}";
+                Debug.Log($"[TableSpawnExample] Spawned {obj.name} at world {worldPosition} (local {localPositions[i]})");
             }
         }
 
