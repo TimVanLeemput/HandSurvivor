@@ -941,7 +941,13 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -963,10 +969,10 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 144fe5a5-1d64-47ec-aa86-d3cb2506ca59
+  cloudProjectId: fc00764d-fb54-4452-b7bf-94923df8f444
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Kitesurf Simulator
+  projectName: HandSurvivor
   organizationId: tim-van-leemput-as-publisher
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
