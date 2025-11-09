@@ -13,7 +13,7 @@ namespace HandSurvivor.PowerUps
         [SerializeField] private bool useMainHand = false;
         [Tooltip("If true, uses MainHand/OffHand from HandSelectionManager. If false, uses specified hand.")]
         [SerializeField] private bool autoDetectHand = true;
-        [SerializeField] private HandPreference.HandType manualHandType = HandPreference.HandType.Right;
+        [SerializeField] private HandType manualHandType = HandType.Right;
 
         [Header("Pose Detection")]
         [SerializeField] private HandPoseType poseType = HandPoseType.FingerGun;
@@ -38,7 +38,7 @@ namespace HandSurvivor.PowerUps
             }
 
             // Determine which hand to use
-            HandPreference.HandType targetHand = DetermineTargetHand();
+            HandType targetHand = DetermineTargetHand();
 
             // Find or create hand pose detector
             if (poseDetector == null)
@@ -99,7 +99,7 @@ namespace HandSurvivor.PowerUps
             Cleanup();
         }
 
-        private HandPreference.HandType DetermineTargetHand()
+        private HandType DetermineTargetHand()
         {
             if (!autoDetectHand)
             {
@@ -115,17 +115,24 @@ namespace HandSurvivor.PowerUps
             return manualHandType;
         }
 
-        private HandPoseDetector FindHandPoseDetector(HandPreference.HandType handType)
+        private HandPoseDetector FindHandPoseDetector(HandType handType)
         {
             // Find all OVRHand components in scene
             OVRHand[] hands = FindObjectsByType<OVRHand>(FindObjectsSortMode.None);
 
             foreach (OVRHand hand in hands)
             {
+                // Check hand type via OVRSkeleton which has public API
+                OVRSkeleton skeleton = hand.GetComponent<OVRSkeleton>();
+                if (skeleton == null)
+                {
+                    continue;
+                }
+
                 // Check if this is the correct hand
-                bool isRightHand = hand.HandType == OVRHand.Hand.HandRight;
-                bool isTargetHand = (handType == HandPreference.HandType.Right && isRightHand) ||
-                                   (handType == HandPreference.HandType.Left && !isRightHand);
+                bool isRightHand = skeleton.GetSkeletonType() == OVRSkeleton.SkeletonType.HandRight;
+                bool isTargetHand = (handType == HandType.Right && isRightHand) ||
+                                   (handType == HandType.Left && !isRightHand);
 
                 if (isTargetHand)
                 {

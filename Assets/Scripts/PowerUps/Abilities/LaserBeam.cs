@@ -201,7 +201,7 @@ namespace HandSurvivor.PowerUps
             Ennemy enemy = hit.collider.GetComponent<Ennemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage((int)damage);
+                // enemy.TakeDamage((int)damage);
                 Debug.Log($"[LaserBeam] Damaged enemy: {damage} damage");
                 return;
             }

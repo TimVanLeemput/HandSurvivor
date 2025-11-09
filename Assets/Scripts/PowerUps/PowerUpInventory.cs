@@ -26,9 +26,8 @@ namespace HandSurvivor.PowerUps
         public int Count => powerUps.Count;
         public bool IsFull => powerUps.Count >= maxInventorySize;
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
             DontDestroyOnLoad(gameObject);
         }
 

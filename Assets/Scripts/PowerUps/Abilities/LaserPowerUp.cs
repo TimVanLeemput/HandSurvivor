@@ -66,7 +66,7 @@ namespace HandSurvivor.PowerUps
         private void FindTargetHand()
         {
             // Determine which hand to use based on HandSelectionManager
-            HandPreference.HandType targetHandType = useOffHand
+            HandType targetHandType = useOffHand
                 ? HandSelectionManager.GetOffHand()
                 : HandSelectionManager.GetMainHand();
 
@@ -75,9 +75,16 @@ namespace HandSurvivor.PowerUps
 
             foreach (OVRHand hand in hands)
             {
-                bool isRightHand = hand.HandType == OVRHand.Hand.HandRight;
-                bool isTargetHand = (targetHandType == HandPreference.HandType.Right && isRightHand) ||
-                                   (targetHandType == HandPreference.HandType.Left && !isRightHand);
+                // Check hand type via OVRSkeleton which has public API
+                OVRSkeleton skeleton = hand.GetComponent<OVRSkeleton>();
+                if (skeleton == null)
+                {
+                    continue;
+                }
+
+                bool isRightHand = skeleton.GetSkeletonType() == OVRSkeleton.SkeletonType.HandRight;
+                bool isTargetHand = (targetHandType == HandType.Right && isRightHand) ||
+                                   (targetHandType == HandType.Left && !isRightHand);
 
                 if (isTargetHand)
                 {
