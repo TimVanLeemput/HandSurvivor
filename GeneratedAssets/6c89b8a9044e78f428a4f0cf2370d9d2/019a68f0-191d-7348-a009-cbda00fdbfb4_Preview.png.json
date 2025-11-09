@@ -1,0 +1,11 @@
+{
+    "asset": "6c89b8a9044e78f428a4f0cf2370d9d2",
+    "fileName": "019a68f0-191d-7348-a009-cbda00fdbfb4_Preview.png",
+    "prompt": "red blood with alpha clipping\n",
+    "negativePrompt": "",
+    "model": "44ec3749-963a-44b1-aa54-dc19f6ed8ab2",
+    "modelName": "Unity Texture2D",
+    "customSeed": 971820549,
+    "w3CTraceId": "730ad1b97537c400f8e7842447338a93",
+    "refinementMode": "Generation"
+}

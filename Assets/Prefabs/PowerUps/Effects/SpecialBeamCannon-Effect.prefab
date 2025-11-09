@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 73258828367453031}
-  - component: {fileID: 5047063572401005879}
   - component: {fileID: 4343126109629533475}
+  - component: {fileID: 5047063572401005879}
   m_Layer: 0
   m_Name: SpecialBeamCannon-Effect
   m_TagString: Untagged
@@ -33,6 +33,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4343126109629533475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7768875096541566223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 095a78357d4884c49a40cb207f1c8725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.PowerUps.LaserBeam
+  maxRange: 50
+  damage: 15
+  damageInterval: 0.1
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  lineRenderer: {fileID: 5047063572401005879}
+  beamWidth: 0.05
+  beamColor: {r: 1, g: 0, b: 0, a: 1}
+  beamMaterial: {fileID: 2100000, guid: 415c81ad126eb75429c0bd7c6044234f, type: 2}
+  hitEffectPrefab: {fileID: 3652897219425112887, guid: b2cdb5ff928d3d344a29a3e825808b53, type: 3}
+  muzzleEffectPrefab: {fileID: 0}
+  beamSound: {fileID: 8300000, guid: 1242d889505a44c43b4541a79c3e12b1, type: 3}
+  loopBeamSound: 1
 --- !u!120 &5047063572401005879
 LineRenderer:
   serializedVersion: 2
@@ -152,29 +178,3 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &4343126109629533475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7768875096541566223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 095a78357d4884c49a40cb207f1c8725, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.PowerUps.LaserBeam
-  maxRange: 10
-  damage: 15
-  damageInterval: 0.1
-  hitLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  lineRenderer: {fileID: 5047063572401005879}
-  beamWidth: 0.05
-  beamColor: {r: 1, g: 0, b: 0, a: 1}
-  beamMaterial: {fileID: 2100000, guid: 415c81ad126eb75429c0bd7c6044234f, type: 2}
-  hitEffectPrefab: {fileID: 0}
-  muzzleEffectPrefab: {fileID: 0}
-  beamSound: {fileID: 8300000, guid: 1242d889505a44c43b4541a79c3e12b1, type: 3}
-  loopBeamSound: 1

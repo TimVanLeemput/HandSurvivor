@@ -1,0 +1,11 @@
+{
+    "asset": "6c89b8a9044e78f428a4f0cf2370d9d2",
+    "fileName": "019a68ee-a548-798a-8312-e1d850ea1d85_Preview.png",
+    "prompt": "blood",
+    "negativePrompt": "",
+    "model": "44ec3749-963a-44b1-aa54-dc19f6ed8ab2",
+    "modelName": "Unity Texture2D",
+    "customSeed": 1707988018,
+    "w3CTraceId": "962b515a3de2296031995ec795c2c620",
+    "refinementMode": "Generation"
+}

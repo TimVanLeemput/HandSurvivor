@@ -10,20 +10,19 @@ namespace HandSurvivor.PowerUps
     [RequireComponent(typeof(LineRenderer))]
     public class LaserBeam : MonoBehaviour
     {
-        [Header("Beam Settings")]
-        [SerializeField] private float maxRange = 50f;
+        [Header("Beam Settings")] [SerializeField]
+        private float maxRange = 50f;
+
         [SerializeField] private float damage = 10f;
         [SerializeField] private float damageInterval = 0.1f;
         [SerializeField] private LayerMask hitLayers = ~0;
 
-        [Header("Visual")]
-        [SerializeField] private LineRenderer lineRenderer;
+        [Header("Visual")] [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private float beamWidth = 0.05f;
         [SerializeField] private Color beamColor = Color.red;
         [SerializeField] private Material beamMaterial;
 
-        [Header("Effects")]
-        [SerializeField] private GameObject hitEffectPrefab;
+        [Header("Effects")] [SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private GameObject muzzleEffectPrefab;
         [SerializeField] private AudioClip beamSound;
         [SerializeField] private bool loopBeamSound = true;
@@ -160,6 +159,7 @@ namespace HandSurvivor.PowerUps
 
             if (didHit)
             {
+                Debug.Log($"[LaserBeam] Hit: {hit.collider.name}", hit.collider.gameObject);
                 endPos = hit.point;
 
                 // Update or spawn hit effect
@@ -171,11 +171,13 @@ namespace HandSurvivor.PowerUps
                     }
 
                     currentHitEffect.transform.position = hit.point;
-                    currentHitEffect.transform.rotation = Quaternion.LookRotation(hit.normal);
+                    // currentHitEffect.transform.rotation = Quaternion.LookRotation(hit.normal);
+                    currentHitEffect.transform.eulerAngles =
+                        new Vector3(0f, currentHitEffect.transform.eulerAngles.y, 0f);
                 }
 
                 // Deal damage
-                if (Time.time >= lastDamageTime + damageInterval)
+                if (Time.time >= lastDamageTime + damageInterval && hit.transform != null)
                 {
                     DealDamage(hit);
                     lastDamageTime = Time.time;
@@ -202,22 +204,20 @@ namespace HandSurvivor.PowerUps
         {
             // Try to find Enemy component
             Ennemy enemy = hit.collider.GetComponent<Ennemy>();
+            if (enemy == null)
+            {
+                enemy = hit.collider.transform.parent.GetComponent<Ennemy>();
+            }
+
             if (enemy != null)
             {
-                // enemy.TakeDamage((int)damage);
-                Debug.Log($"[LaserBeam] Damaged enemy: {damage} damage");
-                return;
+                Debug.Log($"[LaserBeam] Damaged enemy: {enemy.name}");
+                enemy.TakeDamage((int)damage);
             }
-
-            // Try to find Nexus component (player base)
-            Nexus nexus = hit.collider.GetComponent<Nexus>();
-            if (nexus != null)
+            else
             {
-                // Don't damage the player's own nexus!
-                return;
+                Debug.LogWarning($"[LaserBeam] Hit object '{hit.collider.name}' has no Ennemy component");
             }
-
-            // Add more damage receiver types here as needed
         }
 
         private void OnDestroy()

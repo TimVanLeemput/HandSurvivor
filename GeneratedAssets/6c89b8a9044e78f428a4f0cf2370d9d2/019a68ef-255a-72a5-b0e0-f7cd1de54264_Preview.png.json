@@ -1,0 +1,11 @@
+{
+    "asset": "6c89b8a9044e78f428a4f0cf2370d9d2",
+    "fileName": "019a68ef-255a-72a5-b0e0-f7cd1de54264_Preview.png",
+    "prompt": "blood material",
+    "negativePrompt": "",
+    "model": "44ec3749-963a-44b1-aa54-dc19f6ed8ab2",
+    "modelName": "Unity Texture2D",
+    "customSeed": 98297966,
+    "w3CTraceId": "613ae031703b020047e3fcaeb817f760",
+    "refinementMode": "Generation"
+}
