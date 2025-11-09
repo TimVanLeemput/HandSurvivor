@@ -4,6 +4,7 @@ public class Ennemy : MonoBehaviour
 {
     public int HP = 100;
     public int damage = 10;
+    public float speed = 10;
 
     public void DealDamage()
     {
