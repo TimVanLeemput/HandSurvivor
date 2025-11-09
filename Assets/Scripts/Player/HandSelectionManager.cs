@@ -94,7 +94,7 @@ namespace HandSurvivor
         {
             PlayerPrefs.SetInt(HAND_PREFERENCE_KEY, (int)handPreference.MainHand);
             PlayerPrefs.Save();
-            Debug.Log($"[HandSelection] Saved preference: Main Hand = {handPreference.MainHand}");
+            Debug.Log($"[HandSelection] Saved preference: Main Hand = {handPreference.MainHand} - Int should be {(int)handPreference.MainHand}");
         }
 
         /// <summary>
