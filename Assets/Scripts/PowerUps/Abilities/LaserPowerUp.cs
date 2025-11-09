@@ -25,10 +25,8 @@ namespace HandSurvivor.PowerUps
         private OVRHand targetHand;
         private OVRSkeleton targetSkeleton;
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
-
             // Create laser beam instance
             if (laserBeamPrefab != null)
             {
@@ -56,9 +54,8 @@ namespace HandSurvivor.PowerUps
             }
         }
 
-        protected override void Start()
+        protected void Start()
         {
-            base.Start();
 
             // Find the target hand and skeleton
             FindTargetHand();

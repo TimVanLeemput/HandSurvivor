@@ -22,7 +22,6 @@ namespace HandSurvivor.PowerUps
         public UnityEvent OnDeactivate;
         public UnityEvent OnExpire;
 
-        protected IPowerUpActivator activator;
         protected bool isActive = false;
         protected bool isOnCooldown = false;
         protected float activationTime = 0f;
@@ -34,35 +33,7 @@ namespace HandSurvivor.PowerUps
         public float RemainingDuration => Mathf.Max(0f, (activationTime + data.duration) - Time.time);
         public float RemainingCooldown => Mathf.Max(0f, cooldownEndTime - Time.time);
 
-        protected virtual void Awake()
-        {
-            // Get activator from component if provided
-            // if (activatorComponent != null && activatorComponent is IPowerUpActivator)
-            // {
-            //     activator = activatorComponent as IPowerUpActivator;
-            // }
-        }
-
-        protected virtual void Start()
-        {
-            if (activator != null)
-            {
-                activator.Initialize();
-                activator.OnActivationTriggered.AddListener(TryActivate);
-                activator.OnDeactivationTriggered.AddListener(TryDeactivate);
-            }
-        }
-
-        protected virtual void OnDestroy()
-        {
-            if (activator != null)
-            {
-                activator.OnActivationTriggered.RemoveListener(TryActivate);
-                activator.OnDeactivationTriggered.RemoveListener(TryDeactivate);
-                activator.Cleanup();
-            }
-        }
-
+      
         protected virtual void Update()
         {
             // Update cooldown
@@ -130,11 +101,6 @@ namespace HandSurvivor.PowerUps
             isActive = true;
             activationTime = Time.time;
 
-            if (activator != null)
-            {
-                activator.Enable();
-            }
-
             OnActivate?.Invoke();
             PlayActivationEffects();
             OnActivated();
@@ -157,11 +123,6 @@ namespace HandSurvivor.PowerUps
         protected virtual void Deactivate()
         {
             isActive = false;
-
-            if (activator != null)
-            {
-                activator.Disable();
-            }
 
             OnDeactivate?.Invoke();
             OnDeactivated();
