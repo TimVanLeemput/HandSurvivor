@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 
 namespace HandSurvivor.PowerUps
@@ -67,6 +68,7 @@ namespace HandSurvivor.PowerUps
         /// <summary>
         /// Start firing the laser from the specified origin point
         /// </summary>
+        [ButtonMethod]
         public void StartLaser(Transform originTransform)
         {
             if (IsActive)
@@ -103,6 +105,7 @@ namespace HandSurvivor.PowerUps
         /// <summary>
         /// Stop firing the laser
         /// </summary>
+        [ButtonMethod]
         public void StopLaser()
         {
             if (!IsActive)

@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1548151871461512379}
   - component: {fileID: 2157761768285255261}
-  - component: {fileID: 5813304206198189423}
-  - component: {fileID: 512946351366093341}
   m_Layer: 0
   m_Name: LaserBeam_PowerUp
   m_TagString: Untagged
@@ -47,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.PowerUps.LaserPowerUp
   data: {fileID: 11400000, guid: 185dd93df6e596b418260cbcf7682e62, type: 2}
-  activatorComponent: {fileID: 0}
   OnPickup:
     m_PersistentCalls:
       m_Calls: []
@@ -60,49 +57,9 @@ MonoBehaviour:
   OnExpire:
     m_PersistentCalls:
       m_Calls: []
-  laserBeamPrefab: {fileID: 0}
+  laserBeamPrefab: {fileID: 7768875096541566223, guid: 05f990bb57934e04db61b3fc69d63936, type: 3}
   laserDamage: 15
   laserRange: 50
   laserColor: {r: 1, g: 0, b: 0, a: 1}
   useOffHand: 1
   fingerTipBone: 20
---- !u!114 &5813304206198189423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3518080738894923628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79f0c017f11259b4ebc50579ac9a300e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.PowerUps.Examples.LaserPowerUpExample
-  laserCollectiblePrefab: {fileID: 0}
-  spawnHeight: 1.5
-  spawnDistance: 2
---- !u!114 &512946351366093341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3518080738894923628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a87ce2796c5523949a608a315636d58f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.PowerUps.HandPoseActivator
-  useMainHand: 0
-  autoDetectHand: 1
-  manualHandType: 1
-  poseType: 0
-  customPose:
-    thumb: 0
-    index: 0
-    middle: 0
-    ring: 0
-    pinky: 0
-    curlTolerance: 0.3
-  poseDetector: {fileID: 0}
-  handPoseDetectorPrefab: {fileID: 0}

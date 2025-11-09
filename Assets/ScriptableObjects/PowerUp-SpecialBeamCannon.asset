@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 501c41732d9499b478ce93bd3e1bc04d, type: 3}
-  m_Name: PowerUp-LaserBeam
+  m_Name: PowerUp-SpecialBeamCannon
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.PowerUps.PowerUpData
-  powerUpId: LaserBeam
-  displayName: Laser Beam
-  description: Make a gun shape with your hand to start shooting a powerful laser
-    from your index
+  powerUpId: SpecialBeamCannon
+  displayName: Special Beam Cannon
+  description: Bring two fingers to your forehead to start shooting a powerful golden
+    laser from your index
   icon: {fileID: 21300000, guid: b450d0b398880cb458f83d1a01b399ca, type: 3}
-  powerUpType: 2
-  duration: 2
+  powerUpType: 1
+  duration: 3
   cooldown: 1
   pickupVFX: {fileID: 0}
   activationVFX: {fileID: 0}
