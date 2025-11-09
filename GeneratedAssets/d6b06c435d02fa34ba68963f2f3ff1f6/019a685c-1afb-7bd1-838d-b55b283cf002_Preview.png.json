@@ -1,0 +1,11 @@
+{
+    "asset": "d6b06c435d02fa34ba68963f2f3ff1f6",
+    "fileName": "019a685c-1afb-7bd1-838d-b55b283cf002_Preview.png",
+    "prompt": "Golden laserbeam",
+    "negativePrompt": "",
+    "model": "44ec3749-963a-44b1-aa54-dc19f6ed8ab2",
+    "modelName": "Unity Texture2D",
+    "customSeed": 1439202652,
+    "w3CTraceId": "135fbcd4cc3cc09d177919f60fc56553",
+    "refinementMode": "Generation"
+}

@@ -21,12 +21,11 @@ namespace HandSurvivor.PowerUps.Examples
     ///    - Create empty GameObject, name it "LaserPowerUp"
     ///    - Add LaserPowerUp component
     ///    - Assign the PowerUpData asset to the 'data' field
-    ///    - Add HandPoseActivator component as child
+    ///    - Add HandPoseActivator component
     ///    - Assign HandPoseActivator to LaserPowerUp's 'activatorComponent' field
     ///    - Configure HandPoseActivator:
-    ///      * autoDetectHand: true
-    ///      * useMainHand: false (laser uses off-hand)
-    ///      * poseType: FingerGun
+    ///      * posePrefab: Assign RockPose prefab from Meta SDK
+    ///        Location: Packages/Meta XR Interaction SDK/Runtime/Sample/Prefabs/HandPose/RockPose.prefab
     ///    - Save as prefab in Assets/Prefabs/PowerUps/
     ///
     /// 3. CREATE COLLECTIBLE PREFAB:
@@ -51,9 +50,9 @@ namespace HandSurvivor.PowerUps.Examples
     /// 5. TEST IN VR:
     ///    - Put on Quest headset
     ///    - Walk to collectible and touch it to pick up
-    ///    - Make finger gun gesture with off-hand (index + thumb extended, others curled)
+    ///    - Make rock gesture with your hand (🤘 - pinky & index extended, thumb out)
     ///    - Hold gesture for ~0.3 seconds
-    ///    - Laser should shoot from index finger for 3 seconds
+    ///    - Laser should shoot from index finger for duration specified in PowerUpData
     ///
     /// TROUBLESHOOTING:
     ///
@@ -68,13 +67,14 @@ namespace HandSurvivor.PowerUps.Examples
     ///   OVRSkeleton needs a frame to initialize. Try waiting ~1 second after scene load.
     ///
     /// - "Pose not detected":
-    ///   Adjust curlTolerance in HandPoseDefinition (higher = more lenient)
-    ///   Check Debug logs to see finger pinch values
+    ///   Ensure the RockPose prefab is properly assigned and active
+    ///   Check Debug logs for HandPoseDetector messages
     ///   Ensure hand tracking is working in Quest settings
+    ///   Try different Meta SDK pose prefabs (ThumbsUpPose, ScissorsPose, etc.)
     ///
-    /// - "Laser shoots from wrong hand":
-    ///   Check HandSelectionManager is configured correctly
-    ///   Verify useMainHand = false on HandPoseActivator
+    /// - "No IActiveState found":
+    ///   Make sure the pose prefab from Meta SDK is assigned to HandPoseActivator
+    ///   Verify the prefab contains a ShapeRecognizerActiveState component
     ///
     /// EXTENDING THE SYSTEM:
     ///

@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,8 +13,8 @@ namespace HandSurvivor.PowerUps
         [Header("Configuration")]
         [SerializeField] protected PowerUpData data;
 
-        [Header("Activator")]
-        [SerializeField] protected MonoBehaviour activatorComponent;
+        // [Header("Activator")]
+        // [SerializeField] protected MonoBehaviour activatorComponent;
 
         [Header("Events")]
         public UnityEvent OnPickup;
@@ -36,10 +37,10 @@ namespace HandSurvivor.PowerUps
         protected virtual void Awake()
         {
             // Get activator from component if provided
-            if (activatorComponent != null && activatorComponent is IPowerUpActivator)
-            {
-                activator = activatorComponent as IPowerUpActivator;
-            }
+            // if (activatorComponent != null && activatorComponent is IPowerUpActivator)
+            // {
+            //     activator = activatorComponent as IPowerUpActivator;
+            // }
         }
 
         protected virtual void Start()
@@ -183,6 +184,7 @@ namespace HandSurvivor.PowerUps
         /// <summary>
         /// Override this in derived classes for activation logic
         /// </summary>
+        [ButtonMethod]
         protected abstract void OnActivated();
 
         /// <summary>
