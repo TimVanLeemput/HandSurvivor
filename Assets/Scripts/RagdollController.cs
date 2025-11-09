@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RagdollController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private NavMeshAgent nevMeshAgent;
     [SerializeField] private Rigidbody[] ragdollBodies;
     [SerializeField] private Collider[] ragdollColliders;
 
@@ -14,6 +16,8 @@ public class RagdollController : MonoBehaviour
             animator = GetComponent<Animator>();
         if (animator == null)
             animator = GetComponentInParent<Animator>();
+        if (nevMeshAgent == null)
+            nevMeshAgent = GetComponentInParent<NavMeshAgent>();
 
         // Récupère tous les rigidbodies du personnage
         ragdollBodies = GetComponentsInChildren<Rigidbody>();
@@ -44,7 +48,11 @@ public class RagdollController : MonoBehaviour
         // Exemple : déclenche si vitesse d'impact > seuil
         //if (collision.relativeVelocity.magnitude > 1f)
         {
-            Debug.Log("Impact violent, ragdoll activé !");
+            //Debug.Log("Impact violent, ragdoll activé !");
+            Rigidbody rb = collision.rigidbody;
+            Vector3 direction = collision.contacts[0].normal * -1f; // direction d'impact
+            rb.AddForce(direction * 50f, ForceMode.Impulse);
+            nevMeshAgent.isStopped = true;
             SetRagdoll(true);
         }
     }
