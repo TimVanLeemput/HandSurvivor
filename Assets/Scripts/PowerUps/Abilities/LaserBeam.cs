@@ -105,6 +105,7 @@ namespace HandSurvivor.PowerUps
         /// <summary>
         /// Stop firing the laser
         /// </summary>
+        [ButtonMethod]
         public void StopLaser()
         {
             if (!IsActive)

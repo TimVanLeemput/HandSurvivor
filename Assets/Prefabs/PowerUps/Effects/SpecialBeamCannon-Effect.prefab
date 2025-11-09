@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5047063572401005879}
   - component: {fileID: 4343126109629533475}
   m_Layer: 0
-  m_Name: LaserBeam-Effect
+  m_Name: SpecialBeamCannon-Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 5047063572401005879}
   beamWidth: 0.05
   beamColor: {r: 1, g: 0, b: 0, a: 1}
-  beamMaterial: {fileID: 2100000, guid: 23368b313969c934d85b266e6be8b410, type: 2}
+  beamMaterial: {fileID: 2100000, guid: 415c81ad126eb75429c0bd7c6044234f, type: 2}
   hitEffectPrefab: {fileID: 0}
   muzzleEffectPrefab: {fileID: 0}
   beamSound: {fileID: 8300000, guid: 1242d889505a44c43b4541a79c3e12b1, type: 3}

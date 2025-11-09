@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 
 namespace HandSurvivor.PowerUps
@@ -167,6 +168,13 @@ namespace HandSurvivor.PowerUps
             }
 
             fingerTipTransform = null;
+        }
+
+        [ButtonMethod]
+        private void stoplaser()
+        {
+            laserBeam.StopLaser();
+
         }
 
         private Transform GetFingerTipTransform()

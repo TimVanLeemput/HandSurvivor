@@ -1092,7 +1092,7 @@ PrefabInstance:
     - target: {fileID: 7265698706559887555, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 243225265}
+      objectReference: {fileID: 1124858916}
     - target: {fileID: 7265698706559887555, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -1106,6 +1106,10 @@ PrefabInstance:
       value: PlayAudio
       objectReference: {fileID: 0}
     - target: {fileID: 7265698706559887555, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: TryActivate
+      objectReference: {fileID: 0}
+    - target: {fileID: 7265698706559887555, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
       propertyPath: _onSelect.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Oculus.Interaction.AudioTrigger, Oculus.Interaction.Samples
       objectReference: {fileID: 0}
@@ -1115,7 +1119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7265698706559887555, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Oculus.Interaction.AudioTrigger, Oculus.Interaction.Samples
+      value: HandSurvivor.PowerUps.LaserPowerUp, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7265698706559887555, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
       propertyPath: _onSelect.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -1123,6 +1127,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7265698706559887555, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
       propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7265698706559887555, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1138,7 +1146,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3965696455179447046, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
   m_PrefabInstance: {fileID: 243225262}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 243225265}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aebd5da9a8bd22243b407f1927f4965b, type: 3}
@@ -1147,11 +1155,6 @@ MonoBehaviour:
 --- !u!4 &243225264 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3965696455179447047, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
-  m_PrefabInstance: {fileID: 243225262}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &243225265 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3965696455179447044, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
   m_PrefabInstance: {fileID: 243225262}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &254866061
@@ -3886,6 +3889,216 @@ Transform:
   - {fileID: 1717331164}
   m_Father: {fileID: 1168959351}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1124858915
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 512946351366093341, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: posePrefab
+      value: 
+      objectReference: {fileID: 3005601684205340120, guid: 3ac7f33474277cc4598513c999a34088, type: 3}
+    - target: {fileID: 512946351366093341, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: poseDetector
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 512946351366093341, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: manualHandType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 512946351366093341, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: handPoseDetectorPrefab
+      value: 
+      objectReference: {fileID: 872705180}
+    - target: {fileID: 1548151871461512379, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 534.32837
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548151871461512379, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548151871461512379, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1073.4539
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548151871461512379, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548151871461512379, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548151871461512379, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548151871461512379, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548151871461512379, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548151871461512379, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1548151871461512379, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: 1fd182c9f7c0fb041888a3f271424783, type: 2}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: laserRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: laserColor.g
+      value: 0.82272524
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: fingerTipBone
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: laserBeamPrefab
+      value: 
+      objectReference: {fileID: 7768875096541566223, guid: c71ff99d1ec80714086c3c609ef01612, type: 3}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: activatorComponent
+      value: 
+      objectReference: {fileID: 1124858916}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnExpire.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnPickup.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnDeactivate.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnExpire.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnPickup.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnExpire.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1124858916}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1124858916}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnExpire.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnPickup.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1124858916}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnExpire.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TryDeactivate
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TryActivate
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TryDeactivate
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnExpire.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HandSurvivor.PowerUps.LaserPowerUp, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HandSurvivor.PowerUps.LaserPowerUp, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HandSurvivor.PowerUps.LaserPowerUp, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnExpire.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnActivate.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: OnDeactivate.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3518080738894923628, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: m_Name
+      value: SpecialBeamCannon_PowerUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5813304206198189423, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: laserCollectiblePrefab
+      value: 
+      objectReference: {fileID: 3435513451073003634, guid: ae49615bbbfec4e4dbee83624084d78b, type: 3}
+    m_RemovedComponents:
+    - {fileID: 5813304206198189423, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+    - {fileID: 512946351366093341, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+--- !u!114 &1124858916 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+  m_PrefabInstance: {fileID: 1124858915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 267da7eb2dc632041866f93104797797, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.PowerUps.LaserPowerUp
 --- !u!1001 &1134216955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5719,6 +5932,10 @@ PrefabInstance:
       propertyPath: _transformFeatureStateProvider
       value: 
       objectReference: {fileID: 302972251}
+    - target: {fileID: 3965696455179447040, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
+      propertyPath: _transformFeatureConfigs._values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3965696455179447044, guid: 9de1955285a3aee4db01dfcd016da314, type: 3}
       propertyPath: m_Name
       value: FingerGunLeft
@@ -6168,6 +6385,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
+      propertyPath: laserRange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2157761768285255261, guid: 21d3d9a16bd84024bbaf2c20a25a0592, type: 3}
       propertyPath: fingerTipBone
       value: 8
       objectReference: {fileID: 0}
@@ -6303,6 +6524,7 @@ SceneRoots:
   - {fileID: 1601091067}
   - {fileID: 932785278}
   - {fileID: 7157718631864918417}
+  - {fileID: 1124858915}
   - {fileID: 2205806953904021077}
   - {fileID: 1420272752}
   - {fileID: 1066794944}
