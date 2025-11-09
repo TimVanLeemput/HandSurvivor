@@ -1,6 +1,10 @@
 {
   "dependencies": {
+    "com.domybest.mybox": "https://github.com/Deadcows/MyBox.git",
     "com.meta.xr.sdk.all": "81.0.0",
+    "com.unity.ai.assistant": "1.0.0-pre.12",
+    "com.unity.ai.generators": "1.0.0-pre.20",
+    "com.unity.ai.inference": "2.4.1",
     "com.unity.ai.navigation": "2.0.9",
     "com.unity.behavior": "1.0.13",
     "com.unity.collab-proxy": "2.10.0",

@@ -1,0 +1,10 @@
+# ninja log v5
+27	1179	7843467093053789	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	8b3c2bcd985e2109
+17	1188	7843467093099004	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	2ea12740e27f241
+12	1209	7843467093415574	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	ab5dadc36711ca55
+44	1218	7843467093503744	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	42c9e9a568dea57c
+1	1258	7843467093892614	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	f06ba6431b7e9692
+38	1378	7843467095109992	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	f204eefe79dc43f0
+22	1427	7843467095587205	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	4999250c09db3406
+7	1513	7843467096433917	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	4a846509cd30966b
+1513	1627	7843467097608454	C:/Users/vanle/Documents/GitHub/Unity/HandSurvivor/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4n1s3l37/obj/arm64-v8a/libgame.so	ec9e68cf462ef1a8
