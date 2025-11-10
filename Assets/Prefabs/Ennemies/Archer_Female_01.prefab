@@ -1659,7 +1659,6 @@ MonoBehaviour:
   m_BlackboardVariableOverridesList:
   - rid: 7674339563130323216
   - rid: 7674339563130323217
-  - rid: 7674339595344150666
   m_OriginalGraph: {fileID: 0}
   m_IsInitialised: 0
   m_IsStarted: 0
@@ -1682,14 +1681,6 @@ MonoBehaviour:
           m_Value1: 18348964704181089438
         Name: Target
         m_Value: {fileID: 0}
-    - rid: 7674339595344150666
-      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 14010765523483014804
-          m_Value1: 4283182176208005892
-        Name: Speed
-        m_Value: 0.15
 --- !u!114 &6531751460780166153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1704,7 +1695,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ennemy
   HP: 100
   damage: 10
-  speed: 0.15
 --- !u!1 &6043839428533267743
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,6 @@ public class Ennemy : MonoBehaviour
     public bool canTakeDamage = true;
 
     public Animator deathAnimator;
-    public float speed = 10;
 
     public void DealDamage()
     {
