@@ -1,4 +1,5 @@
 using System;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,9 +9,9 @@ public class PlaceWorldManually : MonoBehaviour
     public GameObject TopRight = null;
     public float WorldScaleMultiplier = 100f;
     public float PlaneUpdateSpeed = 0.05f;
-    public Vector3 minScale = Vector3.zero;
+    [ReadOnly] public Vector3 minScale = Vector3.zero;
     private Vector3 initialScale;
-
+    [SerializeField] private bool canUpdatePlane = true;
     private void Start()
     {
         initialScale = transform.localScale;
@@ -29,14 +30,21 @@ public class PlaceWorldManually : MonoBehaviour
         {
             transform.localScale = minScale;
         }
+
         if (transform.localScale.y < minScale.y)
         {
             transform.localScale = minScale;
         }
+
         if (transform.localScale.z < minScale.z)
         {
             transform.localScale = minScale;
         }
+    }
+
+    public void SetCanUpdatePlane(bool canUpdate)
+    {
+        canUpdatePlane = canUpdate;
     }
 
     private void InitializeCornerPositions()
@@ -93,7 +101,7 @@ public class PlaceWorldManually : MonoBehaviour
 
     private void UpdatePlane()
     {
-        if (BottomLeft == null || TopRight == null) return;
+        if (BottomLeft == null || TopRight == null || !canUpdatePlane) return;
 
         Vector3 bottomLeftPos = BottomLeft.transform.position;
         Vector3 topRightPos = TopRight.transform.position;
