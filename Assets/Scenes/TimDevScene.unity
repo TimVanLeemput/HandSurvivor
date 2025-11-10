@@ -573,12 +573,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec58ad7947ec4c74f8a71b5cfd0ccadc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.TableSpawnExample
-  tableCalibration: {fileID: 1164316672}
-  spawnPrefab: {fileID: 5593009694456506896, guid: c1f8b273844d68f459efa5c20d87893c, type: 3}
-  numberOfObjects: 5
-  spawnHeight: 0.05
-  edgeMargin: 0.1
-  hasSpawned: 0
 --- !u!1 &92565598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,6 +1269,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1419141320}
+        m_TargetAssemblyTypeName: FollowHeight, Assembly-CSharp
+        m_MethodName: SetShouldFollow
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &177641740
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1629,23 +1635,23 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1419141320}
         m_TargetAssemblyTypeName: FollowHeight, Assembly-CSharp
-        m_MethodName: ToggleFollow
-        m_Mode: 1
+        m_MethodName: SetShouldFollow
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   _whenUnselect:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1419141320}
         m_TargetAssemblyTypeName: FollowHeight, Assembly-CSharp
-        m_MethodName: ToggleFollow
-        m_Mode: 1
+        m_MethodName: SetShouldFollow
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6887,25 +6893,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3cd5236756578c4b82e3a51d6ec13bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.TableCalibrationManager
-  minTableHeight: 0.2
-  maxTableHeight: 1.3
-  minTableArea: 0.15
-  autoCalibrate: 1
-  allowManualSelection: 0
-  tableSurfaceMaterial: {fileID: 2100000, guid: 8c26c9c1c331c61429ed0233cb580421, type: 2}
-  showDebugGizmos: 1
-  OnTableCalibrated:
-    m_PersistentCalls:
-      m_Calls:
-      - {m_Target: {fileID: 768899695}, m_TargetAssemblyTypeName: DebugLogger, Assembly-CSharp, m_MethodName: LogWarning, m_Mode: 5, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: Testing logger - Table has been calibrated, m_BoolArgument: 0}, m_CallState: 2}
-    m_CallsDirty: 1
-  OnCalibrationFailed:
-    m_PersistentCalls:
-      m_Calls: []
-    m_CallsDirty: 1
-  calibratedTable: {fileID: 0}
-  currentRoom: {fileID: 0}
-  tableCandidates: []
 --- !u!1 &1168959350
 GameObject:
   m_ObjectHideFlags: 0
@@ -7684,9 +7671,10 @@ GameObject:
   - component: {fileID: 1325242705}
   - component: {fileID: 1325242706}
   - component: {fileID: 1325242707}
+  - component: {fileID: 1325242709}
   - component: {fileID: 1325242708}
   m_Layer: 0
-  m_Name: BottomLeft
+  m_Name: Grabbable-BottomLeftWorldAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7758,7 +7746,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 49b00ee46c5392846bbbc236c515acf0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7861,9 +7849,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1325242700}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb7085c111fcb44493d57d4e336d3fd, type: 3}
+  m_Script: {fileID: 11500000, guid: cbe2856c88ba13446948e0ef00b7df67, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.GrabFreeTransformer
+  m_EditorClassIdentifier: Assembly-CSharp::CustomGrabFreeTransformer
   _positionConstraints:
     ConstraintsAreRelative: 0
     XAxis:
@@ -7883,17 +7871,17 @@ MonoBehaviour:
         Max: 0
   _rotationConstraints:
     XAxis:
-      ConstrainAxis: 1
+      ConstrainAxis: 0
       AxisRange:
         Min: 0
         Max: 0
     YAxis:
-      ConstrainAxis: 1
+      ConstrainAxis: 0
       AxisRange:
         Min: 0
         Max: 0
     ZAxis:
-      ConstrainAxis: 1
+      ConstrainAxis: 0
       AxisRange:
         Min: 0
         Max: 0
@@ -7915,6 +7903,68 @@ MonoBehaviour:
         Min: 1
         Max: 1
   _resetScaleResponsivenessOnConstraintOvershoot: 0
+--- !u!114 &1325242709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325242700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4d82ea4db40004b98269248bd29965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrabFreeConstraintInjector
+  _newPositionConstraints:
+    ConstraintsAreRelative: 0
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+  _newRotationConstraints:
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+  _newScaleConstraints:
+    ConstraintsAreRelative: 0
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
 --- !u!1 &1356574078
 GameObject:
   m_ObjectHideFlags: 0
@@ -8188,23 +8238,23 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1325242707}
         m_TargetAssemblyTypeName: FollowHeight, Assembly-CSharp
-        m_MethodName: ToggleFollow
-        m_Mode: 1
+        m_MethodName: SetShouldFollow
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   _whenUnselect:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1325242707}
         m_TargetAssemblyTypeName: FollowHeight, Assembly-CSharp
-        m_MethodName: ToggleFollow
-        m_Mode: 1
+        m_MethodName: SetShouldFollow
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8382,77 +8432,15 @@ GameObject:
   - component: {fileID: 1419141322}
   - component: {fileID: 1419141321}
   - component: {fileID: 1419141320}
-  - component: {fileID: 1419141319}
+  - component: {fileID: 1419141327}
+  - component: {fileID: 1419141328}
   m_Layer: 0
-  m_Name: TopRight
+  m_Name: Grabbable-TopRightWorldAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1419141319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419141318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb7085c111fcb44493d57d4e336d3fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.GrabFreeTransformer
-  _positionConstraints:
-    ConstraintsAreRelative: 0
-    XAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    YAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    ZAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-  _rotationConstraints:
-    XAxis:
-      ConstrainAxis: 1
-      AxisRange:
-        Min: 0
-        Max: 0
-    YAxis:
-      ConstrainAxis: 1
-      AxisRange:
-        Min: 0
-        Max: 0
-    ZAxis:
-      ConstrainAxis: 1
-      AxisRange:
-        Min: 0
-        Max: 0
-  _scaleConstraints:
-    ConstraintsAreRelative: 1
-    XAxis:
-      ConstrainAxis: 1
-      AxisRange:
-        Min: 1
-        Max: 1
-    YAxis:
-      ConstrainAxis: 1
-      AxisRange:
-        Min: 1
-        Max: 1
-    ZAxis:
-      ConstrainAxis: 1
-      AxisRange:
-        Min: 1
-        Max: 1
-  _resetScaleResponsivenessOnConstraintOvershoot: 0
 --- !u!114 &1419141320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8482,7 +8470,7 @@ MonoBehaviour:
   _transferOnSecondSelection: 0
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 0}
-  _oneGrabTransformer: {fileID: 1419141319}
+  _oneGrabTransformer: {fileID: 1419141327}
   _twoGrabTransformer: {fileID: 0}
   _targetTransform: {fileID: 1419141326}
   _maxGrabPoints: -1
@@ -8613,6 +8601,131 @@ Transform:
   - {fileID: 1117190170}
   m_Father: {fileID: 1979432363}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1419141327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419141318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe2856c88ba13446948e0ef00b7df67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomGrabFreeTransformer
+  _positionConstraints:
+    ConstraintsAreRelative: 1
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+  _rotationConstraints:
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+  _scaleConstraints:
+    ConstraintsAreRelative: 1
+    XAxis:
+      ConstrainAxis: 1
+      AxisRange:
+        Min: 1
+        Max: 1
+    YAxis:
+      ConstrainAxis: 1
+      AxisRange:
+        Min: 1
+        Max: 1
+    ZAxis:
+      ConstrainAxis: 1
+      AxisRange:
+        Min: 1
+        Max: 1
+  _resetScaleResponsivenessOnConstraintOvershoot: 0
+--- !u!114 &1419141328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419141318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4d82ea4db40004b98269248bd29965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrabFreeConstraintInjector
+  _newPositionConstraints:
+    ConstraintsAreRelative: 1
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+  _newRotationConstraints:
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+  _newScaleConstraints:
+    ConstraintsAreRelative: 0
+    XAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    YAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
+    ZAxis:
+      ConstrainAxis: 0
+      AxisRange:
+        Min: 0
+        Max: 0
 --- !u!1 &1464582147
 GameObject:
   m_ObjectHideFlags: 0
@@ -15331,7 +15444,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 1356574080}
         m_TargetAssemblyTypeName: BoolStateChecker, Assembly-CSharp
@@ -15371,6 +15484,54 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1325242707}
+        m_TargetAssemblyTypeName: FollowHeight, Assembly-CSharp
+        m_MethodName: SetShouldFollow
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1419141328}
+        m_TargetAssemblyTypeName: GrabFreeConstraintInjector, Assembly-CSharp
+        m_MethodName: SetNewPositionConstraints
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1325242700}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1419141328}
+        m_TargetAssemblyTypeName: GrabFreeConstraintInjector, Assembly-CSharp
+        m_MethodName: SetShouldConstrainYPosition
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1419141328}
+        m_TargetAssemblyTypeName: GrabFreeConstraintInjector, Assembly-CSharp
+        m_MethodName: ApplyNewPositionConstraints
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &1842866846 stripped
 GameObject:
@@ -21640,10 +21801,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2196740035262886446}
+  - component: {fileID: 4807544585253401396}
   - component: {fileID: 637501691284659379}
   - component: {fileID: 4807544585253401395}
   - component: {fileID: 4612308814445834631}
-  - component: {fileID: 4807544585253401396}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -22833,6 +22994,36 @@ MonoBehaviour:
   PlaneUpdateSpeed: 0.05
   minScale: {x: 4, y: 0.22, z: 6}
   canUpdatePlane: 1
+  minDistanceBetweenGrabbableAnchorsNotRespected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4807544585253401395}
+        m_TargetAssemblyTypeName: UnityEngine.MeshRenderer, UnityEngine
+        m_MethodName: set_sharedMaterial
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2100000, guid: 6b4f2068666991942a68d3f81cbad54a, type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  minDistanceBetweenGrabbableAnchorsRespected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4807544585253401395}
+        m_TargetAssemblyTypeName: UnityEngine.MeshRenderer, UnityEngine
+        m_MethodName: set_sharedMaterial
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2100000, guid: f899e0437e20883469989541ff0f6b9c, type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4821664182828471561
 GameObject:
   m_ObjectHideFlags: 0

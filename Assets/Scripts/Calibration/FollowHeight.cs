@@ -21,4 +21,9 @@ public class FollowHeight : MonoBehaviour
     {
         ShouldFollow = !ShouldFollow;
     }
+    
+    public void SetShouldFollow(bool follow)
+    {
+        ShouldFollow = follow;
+    }
 }

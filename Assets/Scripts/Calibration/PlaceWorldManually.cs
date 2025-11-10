@@ -1,6 +1,7 @@
 using System;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public class PlaceWorldManually : MonoBehaviour
@@ -12,6 +13,11 @@ public class PlaceWorldManually : MonoBehaviour
     [ReadOnly] public Vector3 minScale = Vector3.zero;
     private Vector3 initialScale;
     [SerializeField] private bool canUpdatePlane = true;
+    private bool _wasDistanceRespected = true;
+
+    [Header("Events")]
+    public UnityEvent minDistanceBetweenGrabbableAnchorsNotRespected;
+    public UnityEvent minDistanceBetweenGrabbableAnchorsRespected;
     private void Start()
     {
         initialScale = transform.localScale;
@@ -78,24 +84,20 @@ public class PlaceWorldManually : MonoBehaviour
         float currentWidth = Mathf.Abs(topRightPos.x - bottomLeftPos.x);
         float currentHeight = Mathf.Abs(topRightPos.z - bottomLeftPos.z);
 
-        if (currentWidth < minWidth || currentHeight < minHeight)
+        bool isDistanceRespected = currentWidth >= minWidth && currentHeight >= minHeight;
+
+        if (isDistanceRespected != _wasDistanceRespected)
         {
-            Vector3 center = (bottomLeftPos + topRightPos) / 2f;
+            if (isDistanceRespected)
+            {
+                minDistanceBetweenGrabbableAnchorsRespected?.Invoke();
+            }
+            else
+            {
+                minDistanceBetweenGrabbableAnchorsNotRespected?.Invoke();
+            }
 
-            float adjustedWidth = Mathf.Max(currentWidth, minWidth);
-            float adjustedHeight = Mathf.Max(currentHeight, minHeight);
-
-            BottomLeft.transform.position = new Vector3(
-                center.x - adjustedWidth / 2f,
-                bottomLeftPos.y,
-                center.z - adjustedHeight / 2f
-            );
-
-            TopRight.transform.position = new Vector3(
-                center.x + adjustedWidth / 2f,
-                topRightPos.y,
-                center.z + adjustedHeight / 2f
-            );
+            _wasDistanceRespected = isDistanceRespected;
         }
     }
 
