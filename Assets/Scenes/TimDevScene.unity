@@ -1644,7 +1644,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
+        m_CallState: 0
   _whenUnselect:
     m_PersistentCalls:
       m_Calls:
@@ -1659,7 +1659,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
   _whenInteractorViewAdded:
     m_PersistentCalls:
       m_Calls: []
@@ -2506,6 +2506,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 375759048}
+  - component: {fileID: 375759049}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -2533,6 +2534,33 @@ Transform:
   - {fileID: 2994788540771911825}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1773428102 &375759049
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375759047}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: -1.274, y: 2, z: -1.2348}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets:
+  - {x: 0.52989995, y: 0, z: 0.4956}
+  m_RotationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_Active: 1
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 1325242701}
+    weight: 1
 --- !u!1 &412631899
 GameObject:
   m_ObjectHideFlags: 0
@@ -3372,6 +3400,10 @@ PrefabInstance:
     - target: {fileID: 4879306793721756947, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: m_Name
       value: Button-EnableMovePosition
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879306793721756947, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7671,7 +7703,6 @@ GameObject:
   - component: {fileID: 1325242705}
   - component: {fileID: 1325242706}
   - component: {fileID: 1325242707}
-  - component: {fileID: 1325242709}
   - component: {fileID: 1325242708}
   m_Layer: 0
   m_Name: Grabbable-BottomLeftWorldAnchor
@@ -7689,14 +7720,14 @@ Transform:
   m_GameObject: {fileID: 1325242700}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.474, y: 0, z: -1.5344901}
+  m_LocalPosition: {x: -1.8039, y: 2, z: -1.7304}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 224362147}
   - {fileID: 7516989855378178575}
   - {fileID: 708722277}
-  m_Father: {fileID: 1979432363}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1325242702
 CapsuleCollider:
@@ -7776,7 +7807,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325242700}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &1325242705
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7819,8 +7850,8 @@ MonoBehaviour:
   _transferOnSecondSelection: 0
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 0}
-  _oneGrabTransformer: {fileID: 1325242708}
-  _twoGrabTransformer: {fileID: 0}
+  _oneGrabTransformer: {fileID: 1325242707}
+  _twoGrabTransformer: {fileID: 1325242708}
   _targetTransform: {fileID: 1325242701}
   _maxGrabPoints: -1
   _rigidbody: {fileID: 1325242705}
@@ -7835,11 +7866,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1325242700}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15e1e1e188704174eb44d285ed6ec376, type: 3}
+  m_Script: {fileID: 11500000, guid: e9597e632dfbca247bcf65e49c67078e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FollowHeight
-  Target: {fileID: 1419141318}
-  ShouldFollow: 0
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.OneGrabTranslateTransformer
+  _constraints:
+    ConstraintsAreRelative: 1
+    MinX:
+      Constrain: 1
+      Value: -10
+    MaxX:
+      Constrain: 1
+      Value: 10
+    MinY:
+      Constrain: 0
+      Value: 0
+    MaxY:
+      Constrain: 0
+      Value: 0
+    MinZ:
+      Constrain: 1
+      Value: -10
+    MaxZ:
+      Constrain: 1
+      Value: 10
 --- !u!114 &1325242708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7849,122 +7898,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1325242700}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbe2856c88ba13446948e0ef00b7df67, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b80644816ce922468d6e1dc8c12daff, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CustomGrabFreeTransformer
-  _positionConstraints:
-    ConstraintsAreRelative: 0
-    XAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    YAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    ZAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-  _rotationConstraints:
-    XAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    YAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    ZAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-  _scaleConstraints:
-    ConstraintsAreRelative: 1
-    XAxis:
-      ConstrainAxis: 1
-      AxisRange:
-        Min: 1
-        Max: 1
-    YAxis:
-      ConstrainAxis: 1
-      AxisRange:
-        Min: 1
-        Max: 1
-    ZAxis:
-      ConstrainAxis: 1
-      AxisRange:
-        Min: 1
-        Max: 1
-  _resetScaleResponsivenessOnConstraintOvershoot: 0
---- !u!114 &1325242709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1325242700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a4d82ea4db40004b98269248bd29965, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GrabFreeConstraintInjector
-  _newPositionConstraints:
-    ConstraintsAreRelative: 0
-    XAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    YAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    ZAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-  _newRotationConstraints:
-    XAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    YAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    ZAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-  _newScaleConstraints:
-    ConstraintsAreRelative: 0
-    XAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    YAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
-    ZAxis:
-      ConstrainAxis: 0
-      AxisRange:
-        Min: 0
-        Max: 0
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.TwoGrabRotateTransformer
+  _pivotTransform: {fileID: 1325242701}
+  _rotationAxis: 1
+  _constraints:
+    MinAngle:
+      Constrain: 0
+      Value: 0
+    MaxAngle:
+      Constrain: 0
+      Value: 0
 --- !u!1 &1356574078
 GameObject:
   m_ObjectHideFlags: 0
@@ -8236,7 +8181,7 @@ MonoBehaviour:
   _whenSelect:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1325242707}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FollowHeight, Assembly-CSharp
         m_MethodName: SetShouldFollow
         m_Mode: 6
@@ -8251,7 +8196,7 @@ MonoBehaviour:
   _whenUnselect:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1325242707}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FollowHeight, Assembly-CSharp
         m_MethodName: SetShouldFollow
         m_Mode: 6
@@ -8440,7 +8385,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1419141320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15485,7 +15430,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1325242707}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FollowHeight, Assembly-CSharp
         m_MethodName: SetShouldFollow
         m_Mode: 6
@@ -15508,7 +15453,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
       - m_Target: {fileID: 1419141328}
         m_TargetAssemblyTypeName: GrabFreeConstraintInjector, Assembly-CSharp
         m_MethodName: SetShouldConstrainYPosition
@@ -15520,7 +15465,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
+        m_CallState: 0
       - m_Target: {fileID: 1419141328}
         m_TargetAssemblyTypeName: GrabFreeConstraintInjector, Assembly-CSharp
         m_MethodName: ApplyNewPositionConstraints
@@ -15532,7 +15477,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
+        m_CallState: 0
 --- !u!1 &1842866846 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 39983ac309c64a346b605e69511af288, type: 3}
@@ -15730,7 +15675,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1325242701}
   - {fileID: 1419141326}
   - {fileID: 1356574079}
   m_Father: {fileID: 375759048}
@@ -21687,7 +21631,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -21695,7 +21639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -21708,7 +21652,7 @@ PrefabInstance:
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 375759049}
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -21726,15 +21670,23 @@ PrefabInstance:
       value: SetFalseAndCheck
       objectReference: {fileID: 0}
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: set_constraintActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: BoolState, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: Oculus.Interaction.AudioTrigger, Oculus.Interaction.Samples
+      value: UnityEngine.Animations.ParentConstraint, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4879306793721756947, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
@@ -29981,6 +29933,7 @@ SceneRoots:
   - {fileID: 412631903}
   - {fileID: 2010043921}
   - {fileID: 1464582150}
+  - {fileID: 1325242701}
   - {fileID: 375759048}
   - {fileID: 98515338}
   - {fileID: 5949587551995122210}
