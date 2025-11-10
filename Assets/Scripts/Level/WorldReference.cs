@@ -1,4 +1,5 @@
 using System;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 /// <summary>
@@ -8,6 +9,7 @@ using UnityEngine;
 public class WorldReference : MonoBehaviour
 {
     public Renderer WorldPlaneRenderer = null;
+    public NavMeshSurface NavMeshSurface = null;
     public Vector3 TopLeftCorner = Vector3.zero;
     public Vector3 TopRightCorner = Vector3.zero;
     public Vector3 BottomLeftCorner = Vector3.zero;
