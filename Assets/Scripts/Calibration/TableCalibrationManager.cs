@@ -13,6 +13,8 @@ namespace HandSurvivor
     /// </summary>
     public class TableCalibrationManager : MonoBehaviour
     {
+        public static TableCalibrationManager Instance { get; private set; }
+
         [Header("Table Detection Settings")]
         [SerializeField]
         [Tooltip("Minimum height (in meters) for a surface to be considered a table")]
@@ -56,6 +58,11 @@ namespace HandSurvivor
         public MRUKAnchor CalibratedTable => calibratedTable;
         public bool IsCalibrated => calibratedTable != null;
 
+        private void Awake()
+        {
+            Instance = this;
+        }
+        
         private void Start()
         {
             // Subscribe to MRUK room creation events

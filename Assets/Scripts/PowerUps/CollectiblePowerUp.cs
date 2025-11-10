@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,28 +11,29 @@ namespace HandSurvivor.PowerUps
     [RequireComponent(typeof(Collider))]
     public class CollectiblePowerUp : MonoBehaviour
     {
-        [Header("Power-Up Configuration")]
-        [SerializeField] private PowerUpData powerUpData;
+        [Header("Power-Up Configuration")] [SerializeField]
+        private PowerUpData powerUpData;
+
         [SerializeField] private GameObject powerUpPrefab;
 
         [Header("Pickup Settings")]
         [Tooltip("Automatically pickup on collision (true) or require grab interaction (false)")]
-        [SerializeField] private bool autoPickupOnCollision = true;
+        [SerializeField]
+        private bool autoPickupOnCollision = true;
+
         [SerializeField] private LayerMask playerLayers = ~0;
         [SerializeField] private string playerTag = "Player";
 
-        [Header("Visual")]
-        [SerializeField] private float rotationSpeed = 50f;
+        [Header("Visual")] [SerializeField] private float rotationSpeed = 50f;
+        [SerializeField] private bool shouldBobUpAndDown = true;
         [SerializeField] private float bobSpeed = 2f;
         [SerializeField] private float bobAmount = 0.2f;
         [SerializeField] private GameObject visualMesh;
 
-        [Header("Effects")]
-        [SerializeField] private GameObject auraEffectPrefab;
+        [Header("Effects")] [SerializeField] private GameObject auraEffectPrefab;
         [SerializeField] private AudioClip ambientSound;
 
-        [Header("Events")]
-        public UnityEvent OnPickedUp;
+        [Header("Events")] public UnityEvent OnPickedUp;
 
         private Vector3 startPosition;
         private float bobOffset;
@@ -84,10 +86,13 @@ namespace HandSurvivor.PowerUps
             }
 
             // Bob up and down
-            float newY = startPosition.y + Mathf.Sin((Time.time + bobOffset) * bobSpeed) * bobAmount;
-            Vector3 newPos = transform.position;
-            newPos.y = newY;
-            transform.position = newPos;
+            if (shouldBobUpAndDown)
+            {
+                float newY = startPosition.y + Mathf.Sin((Time.time + bobOffset) * bobSpeed) * bobAmount;
+                Vector3 newPos = transform.position;
+                newPos.y = newY;
+                transform.position = newPos;
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -99,7 +104,7 @@ namespace HandSurvivor.PowerUps
 
             // Check if collider is on player layer or has player tag
             bool isPlayer = ((1 << other.gameObject.layer) & playerLayers) != 0 ||
-                           other.CompareTag(playerTag);
+                            other.CompareTag(playerTag);
 
             if (isPlayer)
             {
@@ -110,6 +115,7 @@ namespace HandSurvivor.PowerUps
         /// <summary>
         /// Manually trigger pickup (for grab interactions)
         /// </summary>
+        [ButtonMethod]
         public void Pickup()
         {
             if (hasBeenCollected)
@@ -143,12 +149,12 @@ namespace HandSurvivor.PowerUps
             }
 
             // Check if inventory is full
-            if (PowerUpInventory.Instance.IsFull)
-            {
-                Debug.LogWarning($"[CollectiblePowerUp] Inventory full! Cannot pickup {powerUpData.displayName}");
-                hasBeenCollected = false; // Allow retry
-                return;
-            }
+            // if (PowerUpInventory.Instance.is)
+            // {
+            //     Debug.LogWarning($"[CollectiblePowerUp] Inventory full! Cannot pickup {powerUpData.displayName}");
+            //     hasBeenCollected = false; // Allow retry
+            //     return;
+            // }
 
             // Instantiate the power-up
             GameObject powerUpObj = Instantiate(powerUpPrefab);

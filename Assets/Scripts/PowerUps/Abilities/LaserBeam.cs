@@ -211,6 +211,7 @@ namespace HandSurvivor.PowerUps
 
             if (enemy != null)
             {
+                enemy.GetComponent<RagdollController>().SetRagdoll(true);
                 Debug.Log($"[LaserBeam] Damaged enemy: {enemy.name}");
                 enemy.TakeDamage((int)damage);
             }

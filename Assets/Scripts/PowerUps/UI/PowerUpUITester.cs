@@ -59,13 +59,13 @@ namespace HandSurvivor.PowerUps.UI
         [ButtonMethod]
         private void ActivateFirstPowerUp()
         {
-            if (PowerUpInventory.Instance == null || PowerUpInventory.Instance.Count == 0)
+            if (PowerUpInventory.Instance == null || PowerUpInventory.Instance.PowerUpStacks.Count == 0)
             {
                 Debug.LogWarning("[PowerUpUITester] No power-ups in inventory!");
                 return;
             }
 
-            PowerUpBase powerUp = PowerUpInventory.Instance.PowerUps[0];
+            PowerUpBase powerUp = PowerUpInventory.Instance.PowerUpStacks[0].powerUpInstance;
             powerUp.TryActivate();
             Debug.Log($"[PowerUpUITester] Activated {powerUp.Data.displayName}");
         }
@@ -73,13 +73,13 @@ namespace HandSurvivor.PowerUps.UI
         [ButtonMethod]
         private void RemoveFirstPowerUp()
         {
-            if (PowerUpInventory.Instance == null || PowerUpInventory.Instance.Count == 0)
+            if (PowerUpInventory.Instance == null || PowerUpInventory.Instance.PowerUpStacks.Count == 0)
             {
                 Debug.LogWarning("[PowerUpUITester] No power-ups in inventory!");
                 return;
             }
 
-            PowerUpBase powerUp = PowerUpInventory.Instance.PowerUps[0];
+            PowerUpBase powerUp = PowerUpInventory.Instance.PowerUpStacks[0].powerUpInstance;
             string name = powerUp.Data.displayName;
             PowerUpInventory.Instance.RemovePowerUp(powerUp);
             Destroy(powerUp.gameObject);
@@ -120,18 +120,8 @@ namespace HandSurvivor.PowerUps.UI
             }
 
             Debug.Log($"[PowerUpUITester] Inventory Status:\n" +
-                     $"  Count: {PowerUpInventory.Instance.Count}\n" +
                      $"  Active: {PowerUpInventory.Instance.GetActivePowerUps().Count}\n" +
                      $"  On Cooldown: {PowerUpInventory.Instance.GetCooldownPowerUps().Count}");
-
-            foreach (PowerUpBase powerUp in PowerUpInventory.Instance.PowerUps)
-            {
-                Debug.Log($"  - {powerUp.Data.displayName}: " +
-                         $"Active={powerUp.IsActive}, " +
-                         $"Cooldown={powerUp.IsOnCooldown}, " +
-                         $"Duration={powerUp.RemainingDuration:F1}s, " +
-                         $"CooldownRemaining={powerUp.RemainingCooldown:F1}s");
-            }
         }
 
         [ButtonMethod]

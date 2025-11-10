@@ -20,12 +20,14 @@ namespace HandSurvivor.PowerUps.UI
         [SerializeField] private TextMeshProUGUI cooldownText;
         [SerializeField] private TextMeshProUGUI durationText;
         [SerializeField] private TextMeshProUGUI nameText;
+        [SerializeField] private TextMeshProUGUI countText;
         [SerializeField] private GameObject activeIndicator;
         [SerializeField] private GameObject cooldownOverlay;
 
         [Header("Display Settings")]
         [SerializeField] private bool showCooldownTimer = true;
         [SerializeField] private bool showDurationTimer = true;
+        [SerializeField] private bool showStackCount = true;
         [SerializeField] private bool showPercentage = false;
         [SerializeField] private Color activeColor = Color.green;
         [SerializeField] private Color cooldownColor = Color.gray;
@@ -183,6 +185,7 @@ namespace HandSurvivor.PowerUps.UI
         {
             UpdateCooldownDisplay();
             UpdateDurationDisplay();
+            UpdateStackCountDisplay();
             UpdateVisualState();
         }
 
@@ -381,6 +384,41 @@ namespace HandSurvivor.PowerUps.UI
         public bool HasPowerUp()
         {
             return powerUp != null;
+        }
+
+        /// <summary>
+        /// Get the power-up this UI is tracking
+        /// </summary>
+        public PowerUpBase GetPowerUp()
+        {
+            return powerUp;
+        }
+
+        /// <summary>
+        /// Update the stack count display
+        /// </summary>
+        private void UpdateStackCountDisplay()
+        {
+            if (!showStackCount || countText == null || powerUp == null)
+            {
+                return;
+            }
+
+            // Get stack count from inventory
+            int stackCount = PowerUpInventory.Instance != null
+                ? PowerUpInventory.Instance.GetPowerUpCount(powerUp)
+                : 0;
+
+            if (stackCount > 1)
+            {
+                countText.text = $"x{stackCount}";
+                countText.gameObject.SetActive(true);
+            }
+            else
+            {
+                countText.text = "";
+                countText.gameObject.SetActive(false);
+            }
         }
 
         /// <summary>

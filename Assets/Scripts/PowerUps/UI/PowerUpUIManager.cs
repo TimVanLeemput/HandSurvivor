@@ -61,6 +61,7 @@ namespace HandSurvivor.PowerUps.UI
             {
                 PowerUpInventory.Instance.OnPowerUpAdded.AddListener(OnInventoryPowerUpAdded);
                 PowerUpInventory.Instance.OnPowerUpRemoved.AddListener(OnInventoryPowerUpRemoved);
+                PowerUpInventory.Instance.OnPowerUpTypeRemoved.AddListener(OnInventoryPowerUpTypeRemoved);
 
                 // Sync with existing power-ups in inventory
                 SyncWithInventory();
@@ -76,6 +77,7 @@ namespace HandSurvivor.PowerUps.UI
             {
                 PowerUpInventory.Instance.OnPowerUpAdded.RemoveListener(OnInventoryPowerUpAdded);
                 PowerUpInventory.Instance.OnPowerUpRemoved.RemoveListener(OnInventoryPowerUpRemoved);
+                PowerUpInventory.Instance.OnPowerUpTypeRemoved.RemoveListener(OnInventoryPowerUpTypeRemoved);
             }
         }
 
@@ -92,10 +94,10 @@ namespace HandSurvivor.PowerUps.UI
             // Clear existing UI
             ClearAll();
 
-            // Add UI for each power-up in inventory
-            foreach (PowerUpBase powerUp in PowerUpInventory.Instance.PowerUps)
+            // Add UI for each power-up stack in inventory
+            foreach (PowerUpStack stack in PowerUpInventory.Instance.PowerUpStacks)
             {
-                AddPowerUpUI(powerUp);
+                AddPowerUpUI(stack.powerUpInstance);
             }
 
             Debug.Log($"[PowerUpUIManager] Synced with inventory: {activeUIElements.Count} power-ups");
@@ -170,14 +172,15 @@ namespace HandSurvivor.PowerUps.UI
         /// </summary>
         private PowerUpUI GetUIForPowerUp(PowerUpBase powerUp)
         {
-            // Since PowerUpUI doesn't expose the powerUp reference publicly,
-            // we'll need to track via order or add a getter
-            // For now, we'll assume they're managed in order
+            if (powerUp == null)
+            {
+                return null;
+            }
+
             foreach (PowerUpUI ui in activeUIElements)
             {
-                if (ui.HasPowerUp())
+                if (ui.GetPowerUp() == powerUp)
                 {
-                    // This is a simplified check - you may want to add a proper getter
                     return ui;
                 }
             }
@@ -203,17 +206,37 @@ namespace HandSurvivor.PowerUps.UI
         }
 
         /// <summary>
-        /// Called when a power-up is added to inventory
+        /// Called when a power-up is added to inventory (or stack count increases)
         /// </summary>
-        private void OnInventoryPowerUpAdded(PowerUpBase powerUp)
+        private void OnInventoryPowerUpAdded(PowerUpBase powerUp, int newCount)
         {
-            AddPowerUpUI(powerUp);
+            // Check if UI already exists for this power-up
+            PowerUpUI existingUI = GetUIForPowerUp(powerUp);
+            if (existingUI == null)
+            {
+                // First time adding this type, create new UI
+                AddPowerUpUI(powerUp);
+            }
+            else
+            {
+                // Already exists, just update it (UI will refresh on its own via Update)
+                Debug.Log($"[PowerUpUIManager] Power-up stack updated: {powerUp.Data.displayName} x{newCount}");
+            }
         }
 
         /// <summary>
-        /// Called when a power-up is removed from inventory
+        /// Called when a power-up stack count decreases
         /// </summary>
-        private void OnInventoryPowerUpRemoved(PowerUpBase powerUp)
+        private void OnInventoryPowerUpRemoved(PowerUpBase powerUp, int newCount)
+        {
+            // Stack count decreased but still exists, UI will update on its own
+            Debug.Log($"[PowerUpUIManager] Power-up stack decreased: {powerUp.Data.displayName} x{newCount}");
+        }
+
+        /// <summary>
+        /// Called when a power-up type is completely removed from inventory (stack reached 0)
+        /// </summary>
+        private void OnInventoryPowerUpTypeRemoved(PowerUpBase powerUp)
         {
             RemovePowerUpUI(powerUp);
         }

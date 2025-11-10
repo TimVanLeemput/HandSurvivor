@@ -135,13 +135,6 @@ namespace HandSurvivor.PowerUps.Examples
                 Debug.LogWarning("[LaserPowerUpExample] No PowerUpInventory in scene!");
                 return;
             }
-
-            Debug.Log($"[LaserPowerUpExample] Inventory: {PowerUpInventory.Instance.Count} power-ups");
-
-            foreach (PowerUpBase powerUp in PowerUpInventory.Instance.PowerUps)
-            {
-                Debug.Log($"  - {powerUp.Data.displayName} (Active: {powerUp.IsActive}, Cooldown: {powerUp.IsOnCooldown})");
-            }
         }
 
         [MyBox.ButtonMethod]
