@@ -177,7 +177,7 @@ namespace HandSurvivor.PowerUps
                 }
 
                 // Deal damage
-                if (Time.time >= lastDamageTime + damageInterval && hit.transform != null)
+                if (Time.time >= lastDamageTime + damageInterval && hit.transform != null && hit.transform.gameObject != null)
                 {
                     DealDamage(hit);
                     lastDamageTime = Time.time;

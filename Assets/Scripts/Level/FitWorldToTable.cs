@@ -8,28 +8,33 @@ public class FitWorldToTable : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float tablePadding = 0.05f;
     [SerializeField] private float verticalOffset = 0.01f;
-    private float _reversedWorldScale = 100f; // Matching 0.01 world scale 
+    private float _reversedWorldScale = 100f;
 
     [Header("NavMesh")]
     [SerializeField] private bool rebuildNavMesh = true;
     [SerializeField] private float navMeshRebuildDelay = 0.1f;
 
     [Header("References")]
-    [SerializeField] private TableCalibrationManager calibrationManager;
+    [SerializeField] private ARPlaneCalibration planeCalibration;
     [SerializeField] private SceneLoader sceneLoader;
 
     private WorldReference worldReference;
 
     private void Start()
     {
-        if (calibrationManager == null)
+        if (planeCalibration == null)
         {
-            calibrationManager = FindFirstObjectByType<TableCalibrationManager>();
+            planeCalibration = FindFirstObjectByType<ARPlaneCalibration>();
         }
 
         if (sceneLoader == null)
         {
             sceneLoader = FindFirstObjectByType<SceneLoader>();
+        }
+
+        if (planeCalibration != null)
+        {
+            planeCalibration.OnPlaneLocked.AddListener(OnPlaneLocked);
         }
 
         if (sceneLoader != null)
@@ -40,9 +45,22 @@ public class FitWorldToTable : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (planeCalibration != null)
+        {
+            planeCalibration.OnPlaneLocked.RemoveListener(OnPlaneLocked);
+        }
+
         if (sceneLoader != null)
         {
             sceneLoader.OnSceneLoaded.RemoveListener(OnSceneLoaded);
+        }
+    }
+
+    private void OnPlaneLocked(Transform plane)
+    {
+        if (worldReference != null)
+        {
+            FitWorld();
         }
     }
 
@@ -64,21 +82,25 @@ public class FitWorldToTable : MonoBehaviour
         }
 
         worldReference = refs[0];
-        FitWorld();
+
+        if (planeCalibration != null && planeCalibration.IsLocked)
+        {
+            FitWorld();
+        }
     }
 
     private void FitWorld()
     {
-        if (worldReference == null || !calibrationManager.IsCalibrated)
+        if (worldReference == null || planeCalibration == null || !planeCalibration.IsLocked)
         {
             return;
         }
 
-        Bounds tableBounds = calibrationManager.GetTableBounds();
-        Vector3 tableCenter = calibrationManager.GetTableCenter();
+        Bounds planeBounds = planeCalibration.PlaneBounds;
+        Vector3 planeCenter = planeCalibration.PlaneTransform.position;
 
-        float usableWidth = tableBounds.size.x - (tablePadding * 2);
-        float usableDepth = tableBounds.size.z - (tablePadding * 2);
+        float usableWidth = planeBounds.size.x - (tablePadding * 2);
+        float usableDepth = planeBounds.size.z - (tablePadding * 2);
 
         worldReference.GetWorldPlaneBounds();
 
@@ -100,16 +122,28 @@ public class FitWorldToTable : MonoBehaviour
         worldReference.transform.localScale = new Vector3(scaleX/_reversedWorldScale, 1f/_reversedWorldScale, scaleZ/_reversedWorldScale);
 
         worldReference.transform.position = new Vector3(
-            tableCenter.x,
-            tableCenter.y + verticalOffset,
-            tableCenter.z
+            planeCenter.x,
+            planeCenter.y + verticalOffset,
+            planeCenter.z
         );
+
+        worldReference.transform.rotation = planeCalibration.PlaneTransform.rotation;
 
         Debug.Log($"[FitWorldToTable] Fitted world: Scale({scaleX:F2}, {scaleZ:F2})");
 
         if (rebuildNavMesh)
         {
+            DisableNavMeshAgents();
             StartCoroutine(RebuildNavMesh());
+        }
+    }
+
+    private void DisableNavMeshAgents()
+    {
+        UnityEngine.AI.NavMeshAgent[] agents = worldReference.GetComponentsInChildren<UnityEngine.AI.NavMeshAgent>();
+        foreach (UnityEngine.AI.NavMeshAgent agent in agents)
+        {
+            agent.enabled = false;
         }
     }
 
@@ -133,6 +167,16 @@ public class FitWorldToTable : MonoBehaviour
         }
 
         Debug.Log($"[FitWorldToTable] NavMesh rebuilt");
+
+        yield return new WaitForEndOfFrame();
+
+        UnityEngine.AI.NavMeshAgent[] agents = worldReference.GetComponentsInChildren<UnityEngine.AI.NavMeshAgent>();
+        foreach (UnityEngine.AI.NavMeshAgent agent in agents)
+        {
+            agent.enabled = true;
+        }
+
+        Debug.Log($"[FitWorldToTable] NavMeshAgents re-enabled");
     }
 
     [ContextMenu("Refit World")]

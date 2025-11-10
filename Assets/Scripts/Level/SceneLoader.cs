@@ -8,11 +8,9 @@ public class SceneLoader : MonoBehaviour
 {
     [Header("Scene Settings")]
     [SerializeField] private string sceneToLoad;
-    [SerializeField] private bool loadOnTableCalibrated = true;
+    [SerializeField] private bool loadOnPlaceLocked = true;
     [SerializeField] private float loadDelay = 0.5f;
 
-    [Header("References")]
-    [SerializeField] private TableCalibrationManager calibrationManager;
 
     [Header("Events")]
     public UnityEvent<string> OnSceneLoaded;
@@ -24,38 +22,9 @@ public class SceneLoader : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    private void OnPlaneLocked(Transform plane)
     {
-        if (loadOnTableCalibrated)
-        {
-            if (calibrationManager == null)
-            {
-                calibrationManager = FindFirstObjectByType<TableCalibrationManager>();
-            }
-
-            if (calibrationManager != null)
-            {
-                calibrationManager.OnTableCalibrated.AddListener(OnTableCalibrated);
-
-                if (calibrationManager.IsCalibrated)
-                {
-                    OnTableCalibrated(calibrationManager.CalibratedTable);
-                }
-            }
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (calibrationManager != null)
-        {
-            calibrationManager.OnTableCalibrated.RemoveListener(OnTableCalibrated);
-        }
-    }
-
-    private void OnTableCalibrated(Meta.XR.MRUtilityKit.MRUKAnchor table)
-    {
-        if (loadOnTableCalibrated && !string.IsNullOrEmpty(sceneToLoad))
+        if (loadOnPlaceLocked && !string.IsNullOrEmpty(sceneToLoad))
         {
             StartCoroutine(LoadSceneWithDelay());
         }
