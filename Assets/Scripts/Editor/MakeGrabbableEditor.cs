@@ -17,18 +17,14 @@ public class MakeGrabbableEditor : EditorWindow
             return;
         }
 
-        // Ajouter le Rigidbody s'il n'existe pas déjà
+        // Ajouter le Rigidbody
         Rigidbody rb = selectedObject.AddComponent<Rigidbody>();
 
-        // Ajouter le script Grabbable s'il n'existe pas déjà
+        // Ajouter le script Grabbable
         Grabbable grabbable = selectedObject.AddComponent<Grabbable>();
 
-        // Créer un objet enfant pour HandGrabInteractable
-        GameObject childObject = new GameObject("HandGrabInteractable");
-        childObject.transform.SetParent(selectedObject.transform);
-
-        // Ajouter le script HandGrabInteractable à l'enfant
-        HandGrabInteractable handGrabInteractable = childObject.AddComponent<HandGrabInteractable>();
+        // Ajouter le script HandGrabInteractable 
+        HandGrabInteractable handGrabInteractable = selectedObject.AddComponent<HandGrabInteractable>();
         handGrabInteractable.InjectOptionalPointableElement(grabbable);
         handGrabInteractable.InjectRigidbody(rb);
         

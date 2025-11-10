@@ -1,13 +1,14 @@
+using System.Collections;
 using UnityEngine;
 
 public class Ennemy : MonoBehaviour
 {
     public int HP = 100;
     public int damage = 10;
+    public float speed = 10;
     public bool canTakeDamage = true;
 
     public Animator deathAnimator;
-    public float speed = 10;
 
     public void DealDamage()
     {
@@ -22,6 +23,18 @@ public class Ennemy : MonoBehaviour
             deathAnimator.SetTrigger("Death");
             HP = 0;
             canTakeDamage = false;
+            Die();
         }
+    }
+
+    public void Die()
+    {
+        StartCoroutine(DeathCoroutine());
+    }
+
+    private IEnumerator DeathCoroutine()
+    {
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
     }
 }

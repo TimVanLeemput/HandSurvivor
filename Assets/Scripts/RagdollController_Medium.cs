@@ -1,14 +1,14 @@
+using System.Collections;
+using MyBox;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RagdollController : MonoBehaviour
+public class RagdollController_Medium : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private NavMeshAgent nevMeshAgent;
     [SerializeField] private Rigidbody[] ragdollBodies;
     [SerializeField] private Collider[] ragdollColliders;
-
-    private bool isRagdoll = false;
 
     void Awake()
     {
@@ -28,29 +28,33 @@ public class RagdollController : MonoBehaviour
 
     public void SetRagdoll(bool active)
     {
-        isRagdoll = active;
         animator.enabled = !active;
 
         foreach (var rb in ragdollBodies)
             rb.isKinematic = !active;
-
-        foreach (var col in ragdollColliders)
-        {
-            if (col.gameObject == this.gameObject) continue; // ignore le collider principal
-            col.enabled = active;
-        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    [ButtonMethod]
+    public void SetRagdollTrue()
     {
-        if (isRagdoll) return;
+        SetRagdoll(true);
+    }
 
-        Rigidbody rb = collision.rigidbody;
-        Vector3 direction = collision.contacts[0].normal * -1f; // direction d'impact
-        rb.AddForce(direction * 50f, ForceMode.Impulse);
+    [ButtonMethod]
+    public void SetRagdollFalse()
+    {
+        SetRagdoll(false);
+    }
+
+    public void OnGrab()
+    {
+        nevMeshAgent.enabled = false;
         nevMeshAgent.isStopped = true;
         SetRagdoll(true);
+    }
 
+    public void OnRelease()
+    {
         animator.GetComponent<Ennemy>().Die();
     }
 }
