@@ -38,7 +38,7 @@ public class WavesManager : MonoBehaviour
             
             var graphAgent = go.GetComponent<BehaviorGraphAgent>();
             graphAgent.SetVariableValue("Target", Nexus.Instance.gameObject);
-            graphAgent.SetVariableValue("Speed", Random.Range(0.1f, 0.15f));
+            graphAgent.SetVariableValue("Speed", go.GetComponent<Ennemy>().speed);
             
 
             ennemiesSpawned++;
