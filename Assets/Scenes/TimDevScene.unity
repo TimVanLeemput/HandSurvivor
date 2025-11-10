@@ -18922,7 +18922,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.030994408}
-  m_LocalScale: {x: 4, y: 0.22, z: 6}
+  m_LocalScale: {x: 10, y: 0.22, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4577180064385834393}
@@ -22983,7 +22983,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3781000175258161854}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 322f782a09ee52e4c8446ac234bb800b, type: 3}
   m_Name: 
@@ -22993,6 +22993,9 @@ MonoBehaviour:
   WorldScaleMultiplier: 100
   PlaneUpdateSpeed: 0.05
   minScale: {x: 4, y: 0.22, z: 6}
+  lockScale: 1
+  keepAspectRatio: 0
+  aspectRatioScaleLock: 0
   canUpdatePlane: 1
   minDistanceBetweenGrabbableAnchorsNotRespected:
     m_PersistentCalls:

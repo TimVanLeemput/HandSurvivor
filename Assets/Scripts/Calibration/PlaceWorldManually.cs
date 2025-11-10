@@ -11,9 +11,20 @@ public class PlaceWorldManually : MonoBehaviour
     public float WorldScaleMultiplier = 100f;
     public float PlaneUpdateSpeed = 0.05f;
     [ReadOnly] public Vector3 minScale = Vector3.zero;
+    [SerializeField] private bool lockScale = false;
+    [SerializeField] private bool keepAspectRatio = false;
+    [SerializeField] private AspectRatioScaleLock aspectRatioScaleLock = AspectRatioScaleLock.UseMinimum;
     private Vector3 initialScale;
     [SerializeField] private bool canUpdatePlane = true;
     private bool _wasDistanceRespected = true;
+
+    public enum AspectRatioScaleLock
+    {
+        UseMinimum,
+        UseMaximum,
+        LockToWidth,
+        LockToHeight
+    }
 
     [Header("Events")]
     public UnityEvent minDistanceBetweenGrabbableAnchorsNotRespected;
@@ -103,7 +114,21 @@ public class PlaceWorldManually : MonoBehaviour
 
     private void UpdatePlane()
     {
-        if (BottomLeft == null || TopRight == null || !canUpdatePlane) return;
+        if (BottomLeft == null || !canUpdatePlane) return;
+
+        if (lockScale)
+        {
+            MeshFilter _meshFilter = GetComponent<MeshFilter>();
+            if (_meshFilter != null && _meshFilter.sharedMesh != null)
+            {
+                Bounds meshBounds = _meshFilter.sharedMesh.bounds;
+                Vector3 offset = meshBounds.center - meshBounds.min;
+                transform.position = BottomLeft.transform.position + offset;
+            }
+            return;
+        }
+
+        if (TopRight == null) return;
 
         Vector3 bottomLeftPos = BottomLeft.transform.position;
         Vector3 topRightPos = TopRight.transform.position;
@@ -119,11 +144,34 @@ public class PlaceWorldManually : MonoBehaviour
         {
             Bounds meshBounds = meshFilter.sharedMesh.bounds;
 
-            transform.localScale = new Vector3(
-                (width / meshBounds.size.x) * WorldScaleMultiplier,
-                initialScale.y * WorldScaleMultiplier,
-                (height / meshBounds.size.z) * WorldScaleMultiplier
-            );
+            float scaleX = (width / meshBounds.size.x) * WorldScaleMultiplier;
+            float scaleZ = (height / meshBounds.size.z) * WorldScaleMultiplier;
+
+            if (keepAspectRatio)
+            {
+                float uniformScale = aspectRatioScaleLock switch
+                {
+                    AspectRatioScaleLock.UseMinimum => Mathf.Min(scaleX, scaleZ),
+                    AspectRatioScaleLock.UseMaximum => Mathf.Max(scaleX, scaleZ),
+                    AspectRatioScaleLock.LockToWidth => scaleX,
+                    AspectRatioScaleLock.LockToHeight => scaleZ,
+                    _ => Mathf.Min(scaleX, scaleZ)
+                };
+
+                transform.localScale = new Vector3(
+                    uniformScale,
+                    initialScale.y * WorldScaleMultiplier,
+                    uniformScale
+                );
+            }
+            else
+            {
+                transform.localScale = new Vector3(
+                    scaleX,
+                    initialScale.y * WorldScaleMultiplier,
+                    scaleZ
+                );
+            }
         }
     }
 
