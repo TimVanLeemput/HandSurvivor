@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Ennemy : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Ennemy : MonoBehaviour
     public float speed = 10;
     public int XPAmount = 10;
     public bool canTakeDamage = true;
+    public bool isTargeted = false;
 
     public Animator deathAnimator;
 
@@ -32,6 +34,7 @@ public class Ennemy : MonoBehaviour
 
     public void Die(bool dropXP = true)
     {
+        GetComponent<NavMeshAgent>().isStopped = true;
         if (dropXP)
             XPManager.Instance.DropXP(XPAmount, transform.position);
         StartCoroutine(DeathCoroutine());
@@ -52,6 +55,8 @@ public class Ennemy : MonoBehaviour
             t += Time.deltaTime;
             yield return null;
         }
+
+        WavesManager.Instance.CurrentEnnemies.Remove(this);
         Destroy(gameObject);
     }
 
