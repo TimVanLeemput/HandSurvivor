@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using Oculus.Interaction;
 using Oculus.Interaction.Surfaces;
 
@@ -22,8 +23,12 @@ public class PokeScaleController : MonoBehaviour
     [SerializeField] private float minScale = 0f;
     [SerializeField] private float maxScale = 1f;
 
+    [Header("Events")]
+    [SerializeField] private UnityEvent onMinScaleReached;
+
     private Vector3 initialScale;
     private bool wasSelecting = false;
+    private bool hasReachedMinScale = false;
 
     private void Start()
     {
@@ -42,9 +47,9 @@ public class PokeScaleController : MonoBehaviour
             return;
         }
 
-        bool isSelecting = pokeInteractable.SelectingInteractors.Count > 0;
+        bool isInteracting = pokeInteractable.InteractorViews.Count() > 0;
 
-        if (isSelecting)
+        if (isInteracting)
         {
             UpdateScale();
             wasSelecting = true;
@@ -58,13 +63,11 @@ public class PokeScaleController : MonoBehaviour
 
     private void UpdateScale()
     {
-        PokeInteractor interactor = pokeInteractable.SelectingInteractors.FirstOrDefault();
+        PokeInteractor interactor = pokeInteractable.InteractorViews.FirstOrDefault() as PokeInteractor;
         if (interactor == null || pokeInteractable.SurfacePatch == null)
         {
             return;
         }
-
-        float pokeDepth = 0f;
 
         Vector3 interactorPosition = interactor.Origin;
 
@@ -73,13 +76,29 @@ public class PokeScaleController : MonoBehaviour
             Vector3 surfaceNormal = hit.Normal;
             Vector3 toInteractor = interactorPosition - hit.Point;
 
-            pokeDepth = Mathf.Max(0, -Vector3.Dot(toInteractor, surfaceNormal));
+            // Distance from surface (positive = in front, negative = past surface)
+            float distanceFromSurface = Vector3.Dot(toInteractor, surfaceNormal);
+
+            // Calculate travel distance from hover start position
+            // When at maxPokeDistance away: travelDistance = 0 → scale = maxScale
+            // When at surface: travelDistance = maxPokeDistance → scale = minScale
+            float travelDistance = maxPokeDistance - distanceFromSurface;
+            float pokeProgress = Mathf.Clamp01(travelDistance / maxPokeDistance);
+            float targetScale = Mathf.Lerp(maxScale, minScale, pokeProgress);
+
+            ApplyScale(targetScale);
+
+            // Check if min scale reached
+            if (Mathf.Approximately(pokeProgress, 1f) && !hasReachedMinScale)
+            {
+                hasReachedMinScale = true;
+                onMinScaleReached?.Invoke();
+            }
+            else if (!Mathf.Approximately(pokeProgress, 1f))
+            {
+                hasReachedMinScale = false;
+            }
         }
-
-        float pokeProgress = Mathf.Clamp01(pokeDepth / maxPokeDistance);
-        float targetScale = Mathf.Lerp(maxScale, minScale, pokeProgress);
-
-        ApplyScale(targetScale);
     }
 
     private void ApplyScale(float scaleValue)
@@ -105,5 +124,6 @@ public class PokeScaleController : MonoBehaviour
     private void ResetScale()
     {
         targetTransform.localScale = initialScale;
+        hasReachedMinScale = false;
     }
 }
