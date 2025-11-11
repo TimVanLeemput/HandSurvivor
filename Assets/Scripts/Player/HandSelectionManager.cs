@@ -199,6 +199,31 @@ namespace HandSurvivor
             return Instance.IsOffHand(hand);
         }
 
+        /// <summary>
+        /// Static helper - Check if a GameObject is part of the main hand hierarchy
+        /// </summary>
+        public static bool IsMainHandObject(GameObject obj)
+        {
+            return Utilities.TargetHandFinder.IsMainHand(obj);
+        }
+
+        /// <summary>
+        /// Static helper - Check if a GameObject is part of the off hand hierarchy
+        /// </summary>
+        public static bool IsOffHandObject(GameObject obj)
+        {
+            return Utilities.TargetHandFinder.IsOffHand(obj);
+        }
+
+        /// <summary>
+        /// Static helper - Get the HandType (Left/Right) from a GameObject
+        /// Returns null if the GameObject is not part of a hand
+        /// </summary>
+        public static HandType? GetHandTypeFromObject(GameObject obj)
+        {
+            return Utilities.TargetHandFinder.GetHandTypeFromObject(obj);
+        }
+
 #if UNITY_EDITOR
         [ContextMenu("Debug: Log Current Preference")]
         private void DebugLogPreference()

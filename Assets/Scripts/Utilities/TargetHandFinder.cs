@@ -117,5 +117,63 @@ namespace HandSurvivor.Utilities
 
             return new HandComponents();
         }
+
+        /// <summary>
+        /// Determines if a GameObject is part of the main hand hierarchy
+        /// </summary>
+        public static bool IsMainHand(GameObject obj)
+        {
+            HandType? handType = GetHandTypeFromObject(obj);
+            if (handType == null) return false;
+            return HandSelectionManager.CheckIsMainHand(handType.Value);
+        }
+
+        /// <summary>
+        /// Determines if a GameObject is part of the off hand hierarchy
+        /// </summary>
+        public static bool IsOffHand(GameObject obj)
+        {
+            HandType? handType = GetHandTypeFromObject(obj);
+            if (handType == null) return false;
+            return HandSelectionManager.CheckIsOffHand(handType.Value);
+        }
+
+        /// <summary>
+        /// Gets the HandType (Left/Right) from a GameObject in the hand hierarchy
+        /// Returns null if not part of a hand
+        /// </summary>
+        public static HandType? GetHandTypeFromObject(GameObject obj)
+        {
+            // Search up hierarchy for OVRHand or OVRSkeleton
+            OVRHand hand = obj.GetComponentInParent<OVRHand>();
+            OVRSkeleton skeleton = obj.GetComponentInParent<OVRSkeleton>();
+
+            if (skeleton != null)
+            {
+                OVRSkeleton.SkeletonType skelType = skeleton.GetSkeletonType();
+                bool isRightHand = (skelType == OVRSkeleton.SkeletonType.HandRight ||
+                                   skelType == OVRSkeleton.SkeletonType.XRHandRight);
+                bool isLeftHand = (skelType == OVRSkeleton.SkeletonType.HandLeft ||
+                                  skelType == OVRSkeleton.SkeletonType.XRHandLeft);
+
+                if (isRightHand) return HandType.Right;
+                if (isLeftHand) return HandType.Left;
+            }
+
+            // Fallback: check hierarchy names for "left" or "right"
+            string hierarchyPath = obj.name;
+            Transform current = obj.transform.parent;
+            while (current != null)
+            {
+                hierarchyPath = current.name + "/" + hierarchyPath;
+                current = current.parent;
+            }
+
+            string lowerPath = hierarchyPath.ToLower();
+            if (lowerPath.Contains("right")) return HandType.Right;
+            if (lowerPath.Contains("left")) return HandType.Left;
+
+            return null;
+        }
     }
 }

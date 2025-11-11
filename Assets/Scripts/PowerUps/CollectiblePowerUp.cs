@@ -21,8 +21,13 @@ namespace HandSurvivor.PowerUps
         [SerializeField]
         private bool autoPickupOnCollision = true;
 
-        [SerializeField] private LayerMask playerLayers = ~0;
-        [SerializeField] private string playerTag = "Player";
+        [Header("Which layers can pick up?")] 
+        [SerializeField] private LayerMask layers;
+
+        [Header("Which hand can pick up?")] [SerializeField]
+        private bool mainHandCanPickup = true;
+
+        [SerializeField] private bool offHandCanPickup = true;
 
         [Header("Visual")] [SerializeField] private float rotationSpeed = 50f;
         [SerializeField] private bool shouldBobUpAndDown = true;
@@ -97,18 +102,40 @@ namespace HandSurvivor.PowerUps
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log($"[CollectiblePowerUp] OnTriggerEnter - Object: {other.gameObject.name}, Layer: {LayerMask.LayerToName(other.gameObject.layer)}", other.gameObject);
+
             if (!autoPickupOnCollision || hasBeenCollected)
+            {
+                Debug.Log($"[CollectiblePowerUp] Skipped - autoPickup: {autoPickupOnCollision}, collected: {hasBeenCollected}");
+                return;
+            }
+
+            // Check if collider is on player layer
+            bool isPlayer = ((1 << other.gameObject.layer) & layers) != 0;
+            Debug.Log($"[CollectiblePowerUp] Layer check - isPlayer: {isPlayer}, layers mask: {layers.value}");
+            if (!isPlayer)
             {
                 return;
             }
 
-            // Check if collider is on player layer or has player tag
-            bool isPlayer = ((1 << other.gameObject.layer) & playerLayers) != 0 ||
-                            other.CompareTag(playerTag);
+            // Determine if this hand is main or off hand
+            bool isMainHand = HandSelectionManager.IsMainHandObject(other.gameObject);
+            bool isOffHand = HandSelectionManager.IsOffHandObject(other.gameObject);
+            Debug.Log($"[CollectiblePowerUp] isMainHand: {isMainHand}, isOffHand: {isOffHand}");
+            Debug.Log($"[CollectiblePowerUp] Pickup permissions - mainHandCanPickup: {mainHandCanPickup}, offHandCanPickup: {offHandCanPickup}");
 
-            if (isPlayer)
+            // Check if this hand is allowed to pick up
+            if ((isMainHand && mainHandCanPickup) || (isOffHand && offHandCanPickup))
             {
+                Debug.Log($"[CollectiblePowerUp] ✓ Pickup allowed! Calling Pickup()");
                 Pickup();
+                Debug.Log(
+                    $"  [CollectiblePowerUp] Picked up: {powerUpData.displayName}, collider hit {other.gameObject.name}",
+                    other.gameObject);
+            }
+            else
+            {
+                Debug.Log($"[CollectiblePowerUp] ✗ Pickup denied - hand not allowed");
             }
         }
 
