@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Make a gun shape with your hand to start shooting a powerful laser
     from your index
   icon: {fileID: 21300000, guid: b450d0b398880cb458f83d1a01b399ca, type: 3}
-  powerUpType: 1
+  powerUpType: 0
   duration: 3
   cooldown: 1
   pickupVFX: {fileID: 0}
