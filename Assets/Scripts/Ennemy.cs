@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Ennemy : MonoBehaviour
@@ -6,6 +8,7 @@ public class Ennemy : MonoBehaviour
     public int HP = 100;
     public int damage = 10;
     public float speed = 10;
+    public int XPAmount = 10;
     public bool canTakeDamage = true;
 
     public Animator deathAnimator;
@@ -27,14 +30,33 @@ public class Ennemy : MonoBehaviour
         }
     }
 
-    public void Die()
+    public void Die(bool dropXP = true)
     {
+        if (dropXP)
+            XPManager.Instance.DropXP(XPAmount, transform.position);
         StartCoroutine(DeathCoroutine());
     }
 
     private IEnumerator DeathCoroutine()
     {
         yield return new WaitForSeconds(2);
+        List<SkinnedMeshRenderer> smrs = GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+        float t = 0;
+        float dissovleDuration = 1;
+        while (t < dissovleDuration)
+        {
+            foreach (SkinnedMeshRenderer smr in smrs)
+            {
+                smr.material.SetFloat("_Dissolve", t);
+            }
+            t += Time.deltaTime;
+            yield return null;
+        }
         Destroy(gameObject);
+    }
+
+    public void DropXP()
+    {
+        XPManager.Instance.DropXP(XPAmount, transform.position);
     }
 }
