@@ -5,38 +5,18 @@ using HandSurvivor;
 
 public class FitWorldToTable : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField] private float tablePadding = 0.05f;
-    [SerializeField] private float verticalOffset = 0.01f;
-    private float _reversedWorldScale = 100f;
-
-    [Header("NavMesh")]
-    [SerializeField] private bool rebuildNavMesh = true;
+    [Header("NavMesh")] [SerializeField] private bool rebuildNavMesh = true;
     [SerializeField] private float navMeshRebuildDelay = 0.1f;
 
-    [Header("References")]
-    [SerializeField] private ARPlaneCalibration planeCalibration;
-    [SerializeField] private SceneLoader sceneLoader;
+    [Header("References")] [SerializeField]
+    private SceneLoader sceneLoader;
+
+    [SerializeField] private WorldPlacementReference worldPlacementReference;
 
     private WorldReference worldReference;
 
     private void Start()
     {
-        if (planeCalibration == null)
-        {
-            planeCalibration = FindFirstObjectByType<ARPlaneCalibration>();
-        }
-
-        if (sceneLoader == null)
-        {
-            sceneLoader = FindFirstObjectByType<SceneLoader>();
-        }
-
-        if (planeCalibration != null)
-        {
-            planeCalibration.OnPlaneLocked.AddListener(OnPlaneLocked);
-        }
-
         if (sceneLoader != null)
         {
             sceneLoader.OnSceneLoaded.AddListener(OnSceneLoaded);
@@ -45,22 +25,9 @@ public class FitWorldToTable : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (planeCalibration != null)
-        {
-            planeCalibration.OnPlaneLocked.RemoveListener(OnPlaneLocked);
-        }
-
         if (sceneLoader != null)
         {
             sceneLoader.OnSceneLoaded.RemoveListener(OnSceneLoaded);
-        }
-    }
-
-    private void OnPlaneLocked(Transform plane)
-    {
-        if (worldReference != null)
-        {
-            FitWorld();
         }
     }
 
@@ -83,58 +50,26 @@ public class FitWorldToTable : MonoBehaviour
 
         worldReference = refs[0];
 
-        if (planeCalibration != null && planeCalibration.IsLocked)
-        {
-            FitWorld();
-        }
+        FitWorld();
     }
 
     private void FitWorld()
     {
-        if (worldReference == null || planeCalibration == null || !planeCalibration.IsLocked)
+        if (worldReference == null || worldPlacementReference == null)
         {
             return;
         }
 
-        Bounds planeBounds = planeCalibration.PlaneBounds;
-        Vector3 planeCenter = planeCalibration.PlaneTransform.position;
-
-        float usableWidth = planeBounds.size.x - (tablePadding * 2);
-        float usableDepth = planeBounds.size.z - (tablePadding * 2);
-
-        worldReference.GetWorldPlaneBounds();
-
-        Vector3 planeBottomLeft = worldReference.BottomLeftCorner;
-        Vector3 planeTopRight = worldReference.TopRightCorner;
-
-        float planeWidth = Vector3.Distance(
-            new Vector3(planeBottomLeft.x, 0, 0),
-            new Vector3(planeTopRight.x, 0, 0)
-        );
-        float planeDepth = Vector3.Distance(
-            new Vector3(0, 0, planeBottomLeft.z),
-            new Vector3(0, 0, planeTopRight.z)
-        );
-
-        float scaleX = usableWidth / planeWidth;
-        float scaleZ = usableDepth / planeDepth;
-
-        worldReference.transform.localScale = new Vector3(scaleX/_reversedWorldScale, 1f/_reversedWorldScale, scaleZ/_reversedWorldScale);
-
-        worldReference.transform.position = new Vector3(
-            planeCenter.x,
-            planeCenter.y + verticalOffset,
-            planeCenter.z
-        );
-
-        worldReference.transform.rotation = planeCalibration.PlaneTransform.rotation;
-
-        Debug.Log($"[FitWorldToTable] Fitted world: Scale({scaleX:F2}, {scaleZ:F2})");
+        worldReference.transform.position = worldPlacementReference.transform.position;
+        worldReference.transform.rotation = worldPlacementReference.transform.rotation;
+        worldReference.transform.localScale = worldPlacementReference.transform.localScale / 100;
 
         if (rebuildNavMesh)
         {
             DisableNavMeshAgents();
-            StartCoroutine(RebuildNavMesh());
+            // StartCoroutine(RebuildNavMesh());
+            // StartCoroutine(EnableNavMesh());
+            // worldReference.NavMeshSurface.enabled = true;
         }
     }
 
@@ -145,6 +80,12 @@ public class FitWorldToTable : MonoBehaviour
         {
             agent.enabled = false;
         }
+    }
+
+    private IEnumerator EnableNavMesh()
+    {
+        yield return new WaitForSeconds(navMeshRebuildDelay);
+        worldReference.NavMeshSurface.enabled = true;
     }
 
     private IEnumerator RebuildNavMesh()
