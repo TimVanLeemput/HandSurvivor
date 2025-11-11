@@ -341,7 +341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8053992450279494741}
-  - component: {fileID: 3981047790356205103}
+  - component: {fileID: 3030547901479642258}
   m_Layer: 6
   m_Name: Pos4
   m_TagString: Untagged
@@ -364,7 +364,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7207965468808450911}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3981047790356205103
+--- !u!114 &3030547901479642258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -373,10 +373,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5896558752359802216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feb6ebfdb7a58cd408f0ba3f10330e3c, type: 3}
+  m_Script: {fileID: 11500000, guid: e53f3a4220e822e4cb608b083cde1f43, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FollowClosestPointOfCollider
-  Reference: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::TargetClosestEnnemy
+  Reference: {fileID: 5418604756502555117}
   Target: {fileID: 0}
   IsActive: 1
 --- !u!1 &6674329989974726022
