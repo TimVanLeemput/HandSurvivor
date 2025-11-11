@@ -56,6 +56,23 @@ public class SceneLoader : MonoBehaviour
 
         StartCoroutine(LoadSceneAsync());
     }
+    
+    public void LoadScene(string sceneName)
+    {
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogError("[SceneLoader] No scene to load!");
+            return;
+        }
+
+        if (isSceneLoaded)
+        {
+            Debug.LogWarning("[SceneLoader] Scene already loaded!");
+            return;
+        }
+
+        StartCoroutine(LoadSceneAsync());
+    }
 
     public void SetSceneToLoad(string sceneName, bool loadImmediately = false)
     {

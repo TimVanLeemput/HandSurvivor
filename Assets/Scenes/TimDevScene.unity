@@ -1433,6 +1433,7 @@ Transform:
   m_Children:
   - {fileID: 597767974}
   - {fileID: 768899696}
+  - {fileID: 662411496}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &169223507
@@ -1669,12 +1670,12 @@ GameObject:
   - component: {fileID: 180883579}
   - component: {fileID: 180883578}
   m_Layer: 0
-  m_Name: Start
+  m_Name: OnStart-PressWorldLockButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &180883578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1690,9 +1691,9 @@ MonoBehaviour:
   onStart:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1718815559}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
+      - m_Target: {fileID: 1888434045}
+        m_TargetAssemblyTypeName: EventWrapperDebug, Assembly-CSharp
+        m_MethodName: TriggerWhenSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4891,7 +4892,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &662411496
 Transform:
   m_ObjectHideFlags: 0
@@ -4900,14 +4901,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 662411495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1325242701}
   - {fileID: 375759048}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 152491492}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &665266393
 GameObject:
@@ -7207,7 +7208,6 @@ Transform:
   - {fileID: 665266394}
   - {fileID: 59439916}
   - {fileID: 1644359564}
-  - {fileID: 1521246077}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &872705180 stripped
@@ -7403,6 +7403,8 @@ Transform:
   - {fileID: 1409274498}
   - {fileID: 433322505}
   - {fileID: 48645113}
+  - {fileID: 1521246077}
+  - {fileID: 1718815560}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &966854268
@@ -20021,7 +20023,7 @@ GameObject:
   - component: {fileID: 1521246076}
   - component: {fileID: 1521246078}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: DenisManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20034,7 +20036,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1521246075}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a80a26733fbaf3844bff773dd676af70, type: 3}
   m_Name: 
@@ -20062,7 +20064,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 852988756}
+  m_Father: {fileID: 932785278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1521246078
 MonoBehaviour:
@@ -20786,7 +20788,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f899e0437e20883469989541ff0f6b9c, type: 2}
+  - {fileID: 2100000, guid: 6e22c93fa3eb62c4dbf55502d61dcd3b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20872,6 +20874,10 @@ PrefabInstance:
     - target: {fileID: 5937148703916929476, guid: 563c9944f3a56bf41af35ca0163a08f0, type: 3}
       propertyPath: m_Name
       value: Troll
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937148703916929476, guid: 563c9944f3a56bf41af35ca0163a08f0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21576,7 +21582,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 932785278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1739208416
 GameObject:
@@ -22013,6 +22019,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactor: {fileID: 1878723443}
   _hand: {fileID: 1878723444}
+--- !u!114 &1888434045 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1428493402212084180, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+  m_PrefabInstance: {fileID: 1150961496}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51814a915859965449e4dd07de6a0396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventWrapperDebug
 --- !u!1001 &1903270525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28861,10 +28878,8 @@ SceneRoots:
   - {fileID: 932785278}
   - {fileID: 429550578}
   - {fileID: 1739208417}
-  - {fileID: 662411496}
   - {fileID: 401334303}
-  - {fileID: 1718815560}
   - {fileID: 119629038}
   - {fileID: 1178353169}
-  - {fileID: 152491492}
   - {fileID: 852988756}
+  - {fileID: 152491492}
