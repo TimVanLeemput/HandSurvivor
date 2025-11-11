@@ -1,0 +1,11 @@
+{
+    "asset": "fe8a62d4628900d44911dc960bb16263",
+    "fileName": "019a7308-8dbf-765b-aacb-dbe8e2d90802_Preview.png",
+    "prompt": "Lighting bolt",
+    "negativePrompt": "",
+    "model": "44ec3749-963a-44b1-aa54-dc19f6ed8ab2",
+    "modelName": "Unity Texture2D",
+    "customSeed": 1476117578,
+    "w3CTraceId": "5bf54642394b6806b72ace02c94200c5",
+    "refinementMode": "Generation"
+}

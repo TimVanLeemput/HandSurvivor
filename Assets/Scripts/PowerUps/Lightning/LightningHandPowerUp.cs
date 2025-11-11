@@ -16,27 +16,45 @@ public class LightningHandPowerUp : PowerUpBase
     [SerializeField] private OVRSkeleton.BoneId ringFingerTip = OVRSkeleton.BoneId.Hand_RingTip;
     [SerializeField] private OVRSkeleton.BoneId pinkyFingerTip = OVRSkeleton.BoneId.Hand_PinkyTip;
 
-    public FollowTransform ThumbTarget = null;
-    public FollowTransform IndexTarget = null;
-    public FollowTransform MiddleTarget = null;
-    public FollowTransform RingTarget = null;
-    public FollowTransform PinkyTarget = null;
+    public FollowTransform ThumbFollowTransform = null;
+    public FollowTransform IndexFollowTransform = null;
+    public FollowTransform MiddleFollowTransform = null;
+    public FollowTransform RingFollowTransform = null;
+    public FollowTransform PinkyFollowTransform = null;
 
-    public List<FollowTransform> AllLightningTargets =>
+    public List<FollowTransform> AllLightningFollowTransform =>
         new List<FollowTransform>
         {
-            ThumbTarget,
-            IndexTarget,
-            MiddleTarget,
-            RingTarget,
-            PinkyTarget
+            ThumbFollowTransform,
+            IndexFollowTransform,
+            MiddleFollowTransform,
+            RingFollowTransform,
+            PinkyFollowTransform
+        };
+    public List<OVRSkeleton.BoneId> AllLightningTargetBoneIds =>
+        new List<OVRSkeleton.BoneId>
+        {
+            thumbFingerTip,
+            indexFingerTip,
+            middleFingerTip,
+            ringFingerTip,
+            pinkyFingerTip
         };
 
 
     protected void Start()
     {
-        // Find the target hand and skeleton
         FindTargetHand();
+        InitializeAllFollowTransformTargets();
+    }
+
+    private void InitializeAllFollowTransformTargets()
+    {
+        int length = AllLightningFollowTransform.Count;
+        for (int i = 0; i < length; i++)
+        {
+            AllLightningFollowTransform[i].Target = GetFingerTipTransform(AllLightningTargetBoneIds[i]);
+        }
     }
 
     private void FindTargetHand()
@@ -49,7 +67,32 @@ public class LightningHandPowerUp : PowerUpBase
             targetSkeleton = handComponents.Skeleton;
         }
     }
+    
+    private Transform GetFingerTipTransform(OVRSkeleton.BoneId fingerTipBone)
+    {
+        if (targetSkeleton == null)
+        {
+            return null;
+        }
 
+        if (targetSkeleton.Bones == null || targetSkeleton.Bones.Count == 0)
+        {
+            Debug.LogWarning("[LaserPowerUp] Skeleton not initialized yet");
+            return null;
+        }
+
+        foreach (OVRBone bone in targetSkeleton.Bones)
+        {
+            if (bone.Id == fingerTipBone)
+            {
+                return bone.Transform;
+            }
+        }
+
+        Debug.LogWarning($"[LaserPowerUp] Could not find bone: {fingerTipBone}");
+        return null;
+    }
+    
     protected override void OnActivated() 
     {
     }
