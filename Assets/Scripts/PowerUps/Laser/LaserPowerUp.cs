@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine;
+using HandSurvivor.Utilities;
 
 namespace HandSurvivor.PowerUps
 {
@@ -56,57 +57,19 @@ namespace HandSurvivor.PowerUps
 
         protected void Start()
         {
-
             // Find the target hand and skeleton
             FindTargetHand();
         }
 
         private void FindTargetHand()
         {
-            // Determine which hand to use based on HandSelectionManager
-            HandType targetHandType = useOffHand
-                ? HandSelectionManager.GetOffHand()
-                : HandSelectionManager.GetMainHand();
+            TargetHandFinder.HandComponents handComponents = TargetHandFinder.FindHand(useOffHand);
 
-            Debug.Log($"[LaserPowerUp] Looking for {(useOffHand ? "OFF" : "MAIN")} hand, which is: {targetHandType}");
-
-            // Find all OVRHand components in scene
-            OVRHand[] hands = FindObjectsByType<OVRHand>(FindObjectsSortMode.None);
-            Debug.Log($"[LaserPowerUp] Found {hands.Length} OVRHand(s) in scene");
-
-            foreach (OVRHand hand in hands)
+            if (handComponents.IsValid)
             {
-                // Get skeleton to check hand type
-                OVRSkeleton skeleton = hand.GetComponent<OVRSkeleton>();
-                if (skeleton == null)
-                {
-                    Debug.LogWarning($"[LaserPowerUp] OVRHand found but no OVRSkeleton attached!");
-                    continue;
-                }
-
-                // Check skeleton type - support both OVR and OpenXR skeleton types
-                OVRSkeleton.SkeletonType skelType = skeleton.GetSkeletonType();
-                bool isRightHand = (skelType == OVRSkeleton.SkeletonType.HandRight ||
-                                   skelType == OVRSkeleton.SkeletonType.XRHandRight);
-                bool isLeftHand = (skelType == OVRSkeleton.SkeletonType.HandLeft ||
-                                  skelType == OVRSkeleton.SkeletonType.XRHandLeft);
-
-                Debug.Log($"[LaserPowerUp] Checking hand - SkeletonType: {skelType}, IsRight: {isRightHand}, IsLeft: {isLeftHand}");
-
-                // Match against our target hand type
-                bool isMatch = (targetHandType == HandType.Right && isRightHand) ||
-                              (targetHandType == HandType.Left && isLeftHand);
-
-                if (isMatch)
-                {
-                    targetHand = hand;
-                    targetSkeleton = skeleton;
-                    Debug.Log($"[LaserPowerUp] ✓ MATCHED! Using {targetHandType} hand for laser");
-                    return;
-                }
+                targetHand = handComponents.Hand;
+                targetSkeleton = handComponents.Skeleton;
             }
-
-            Debug.LogError($"[LaserPowerUp] Could not find {targetHandType} hand ({(useOffHand ? "OFF-hand" : "MAIN-hand")}) OVRHand in scene!");
         }
 
         protected override void Update()
