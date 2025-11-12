@@ -1895,7 +1895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _planeSurface: {fileID: 178538257}
-  _radius: 0.29
+  _radius: 0.05
 --- !u!114 &178538257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2566,6 +2566,7 @@ GameObject:
   - component: {fileID: 227641034}
   - component: {fileID: 227641036}
   - component: {fileID: 227641037}
+  - component: {fileID: 227641038}
   m_Layer: 0
   m_Name: IndexPokeInteractable
   m_TagString: Untagged
@@ -2603,7 +2604,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317e663e2bb60ea408fe22b908b59295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactorFilters: []
+  _interactorFilters:
+  - {fileID: 227641038}
   _maxInteractors: -1
   _maxSelectingInteractors: -1
   _data: {fileID: 0}
@@ -2930,6 +2932,18 @@ ParentConstraint:
   m_Sources:
   - sourceTransform: {fileID: 1196219617}
     weight: 1
+--- !u!114 &227641038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227641031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f906ace1cc7dd3c4aad25440cafa8046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThumbOnlyInteractorFilter
 --- !u!1001 &229612633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3248,7 +3262,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1654248809}
-  - {fileID: 1631274082}
   - {fileID: 1214185849}
   - {fileID: 375771352}
   - {fileID: 2057521733}
@@ -6150,7 +6163,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5791971434937401796, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
   m_PrefabInstance: {fileID: 1049481783}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372030115}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 998a5646185efb9488265f3a2f35a99a, type: 3}
@@ -10430,7 +10443,6 @@ Transform:
   - {fileID: 48645113}
   - {fileID: 1521246077}
   - {fileID: 1718815560}
-  - {fileID: 1597403874}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &939425807
@@ -11097,32 +11109,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3227576055291106479, guid: 54174b38e2f4ade4cb930958ddf2e0a8, type: 3}
   m_PrefabInstance: {fileID: 1023250707}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1034122987 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2599066417050191483, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
-  m_PrefabInstance: {fileID: 1049481783}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &1034122989
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034122987}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.0058372305
-  m_Center: {x: -0.02161518, y: -0.00000015259468, z: -0.000000034118568}
 --- !u!1 &1041273508
 GameObject:
   m_ObjectHideFlags: 0
@@ -11842,7 +11828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1915642696617413225, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_Name
-      value: HandPokeInteractor-index
+      value: HandPokeInteractor-Index
       objectReference: {fileID: 0}
     - target: {fileID: 1915642696617413225, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_Layer
@@ -11850,7 +11836,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1915642696617413225, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1946738181484752141, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_Layer
@@ -13812,6 +13798,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7035171567789597976, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: _interactorsB.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7035171567789597976, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: '_interactorsB.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1292274495}
     - target: {fileID: 7043090017765517742, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -14238,7 +14232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7314701222590882796, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7330063371967873405, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_Layer
@@ -14364,6 +14358,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7638631306052818818, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: _interactors.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7638631306052818818, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: '_interactors.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1292274495}
     - target: {fileID: 7645392496108492649, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -14914,21 +14916,18 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 1292274494}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6454309082557847902, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 1915642696617413225, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1372030118}
+      addedObject: {fileID: 1961980397}
     - targetCorrespondingSourceObject: {fileID: 2190969008732595378, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1878723446}
     - targetCorrespondingSourceObject: {fileID: 6952842979278334695, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       insertIndex: -1
       addedObject: {fileID: 722475741}
-    - targetCorrespondingSourceObject: {fileID: 2599066417050191483, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 4365779061849936954, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1034122989}
-    - targetCorrespondingSourceObject: {fileID: 422971874114519281, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1861215426}
+      addedObject: {fileID: 2028824305}
   m_SourcePrefab: {fileID: 100100000, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
 --- !u!114 &1049481784 stripped
 MonoBehaviour:
@@ -18124,8 +18123,9 @@ GameObject:
   - component: {fileID: 1214185853}
   - component: {fileID: 1214185852}
   - component: {fileID: 1214185851}
+  - component: {fileID: 1214185855}
   m_Layer: 0
-  m_Name: IndexPokeInteractable
+  m_Name: ThumbPokeInteractable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18161,7 +18161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317e663e2bb60ea408fe22b908b59295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactorFilters: []
+  _interactorFilters:
+  - {fileID: 1214185855}
   _maxInteractors: -1
   _maxSelectingInteractors: -1
   _data: {fileID: 0}
@@ -18488,6 +18489,22 @@ MonoBehaviour:
   _whenSelectingInteractorViewRemoved:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1214185855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214185848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45151424d34f18f469cc0c8790ad2ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PokeInteractableHandFilter
+  _pokeInteractable: {fileID: 1214185850}
+  _handFilterType: 1
+  _gameObjectWithPokeInteractorFilters:
+  - {fileID: 1292274493}
 --- !u!1001 &1214884682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18992,6 +19009,7 @@ GameObject:
   - component: {fileID: 1292274496}
   - component: {fileID: 1292274495}
   - component: {fileID: 1292274497}
+  - component: {fileID: 1292274498}
   m_Layer: 6
   m_Name: HandPokeInteractor-Thumb
   m_TagString: Untagged
@@ -19066,6 +19084,18 @@ MonoBehaviour:
   _includeChildrenAsDependents: 1
   _gameObjects: []
   _monoBehaviours: []
+--- !u!114 &1292274498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292274493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f906ace1cc7dd3c4aad25440cafa8046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PokeInteractorFilter
 --- !u!1001 &1297652758
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19228,7 +19258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1320551970
 Transform:
   m_ObjectHideFlags: 0
@@ -19781,23 +19811,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925ef87c5bafc37469a2f7ec825dee4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1372030115 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6454309082557847902, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
-  m_PrefabInstance: {fileID: 1049481783}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1372030118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1372030115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b62963772d10444083d92ed2d9b320e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HandPokeInteractorController
 --- !u!1001 &1382516633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26050,7 +26063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1496273065
 Transform:
   m_ObjectHideFlags: 0
@@ -26192,7 +26205,7 @@ MonoBehaviour:
   _handJointId: 8
   _localPositionOffset: {x: 0.017, y: 0, z: 0}
   _rotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  _jointId: 5
+  _jointId: 4
   _posOffset: {x: 0, y: 0, z: 0.017}
   _rotOffset: {x: 0, y: 0, z: 0, w: 1}
   _useLegacyOrientation: 1
@@ -27392,46 +27405,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2469419288333147178, guid: 563c9944f3a56bf41af35ca0163a08f0, type: 3}
   m_PrefabInstance: {fileID: 1589790028}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1597403873
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1597403874}
-  - component: {fileID: 1597403875}
-  m_Layer: 0
-  m_Name: AudioListener
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1597403874
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597403873}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5549, y: 1.80829, z: -0.39634}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 932785278}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &1597403875
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597403873}
-  m_Enabled: 1
 --- !u!114 &1600527153 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1253009949506663789, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
@@ -27730,205 +27703,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1585254527}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1631274081
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1631274082}
-  - component: {fileID: 1631274085}
-  - component: {fileID: 1631274084}
-  - component: {fileID: 1631274083}
-  - component: {fileID: 1631274088}
-  - component: {fileID: 1631274089}
-  m_Layer: 0
-  m_Name: Collider-IfThumb&IsMainHand->ActivatePokeInteractable
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1631274082
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631274081}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.19556928, z: 0.00015035272}
-  m_LocalScale: {x: 0.07834386, y: 0.045089994, z: 0.08341649}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 244612651}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1631274083
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631274081}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1631274084
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631274081}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials: []
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1631274085
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631274081}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1773428102 &1631274088
-ParentConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631274081}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_TranslationAtRest: {x: 0, y: 0.19556928, z: 0.00015035272}
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffsets:
-  - {x: -0.00015035272, y: 0.19556928, z: 0}
-  m_RotationOffsets:
-  - {x: 0, y: -90, z: 0}
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 0
-  m_Sources:
-  - sourceTransform: {fileID: 2057521733}
-    weight: 1
---- !u!114 &1631274089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631274081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 730564c6ccbf80a4e8183d8ab2e26cc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ColliderTriggerEvents
-  onTriggerEnter:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1654248805}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  onTriggerStay:
-    m_PersistentCalls:
-      m_Calls: []
-  onTriggerExit:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1654248805}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  enableDebug: 1
-  checkHand: 1
-  handFilter: 1
-  checkComponent: 0
-  requiredComponentName: 
-  checkTag: 0
-  requiredTag: 
-  checkLayer: 0
-  allowedLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  checkGameObjectName: 1
-  requiredGameObjectName: XRHand_ThumbTip
 --- !u!1 &1635043129
 GameObject:
   m_ObjectHideFlags: 0
@@ -28154,7 +27928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1654248806
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29068,6 +28842,7 @@ GameObject:
   - component: {fileID: 1769543021}
   - component: {fileID: 1769543020}
   - component: {fileID: 1769543022}
+  - component: {fileID: 1769543023}
   m_Layer: 6
   m_Name: HandPokeInteractor-Thumb
   m_TagString: Untagged
@@ -29142,6 +28917,18 @@ MonoBehaviour:
   _includeChildrenAsDependents: 1
   _gameObjects: []
   _monoBehaviours: []
+--- !u!114 &1769543023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769543018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f906ace1cc7dd3c4aad25440cafa8046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PokeInteractorFilter
 --- !u!1001 &1815325234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29461,7 +29248,7 @@ MonoBehaviour:
   _handJointId: 8
   _localPositionOffset: {x: 0.017, y: 0, z: 0}
   _rotationOffset: {x: 0, y: 0, z: 0, w: 1}
-  _jointId: 5
+  _jointId: 4
   _posOffset: {x: 0, y: 0, z: 0.017}
   _rotOffset: {x: 0, y: 0, z: 0, w: 1}
   _useLegacyOrientation: 1
@@ -29469,32 +29256,6 @@ MonoBehaviour:
   _freezeRotationX: 0
   _freezeRotationY: 0
   _freezeRotationZ: 0
---- !u!1 &1861215424 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 422971874114519281, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
-  m_PrefabInstance: {fileID: 1049481783}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &1861215426
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1861215424}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.0058372305
-  m_Center: {x: -0.02161518, y: -0.00000015259468, z: -0.000000034118568}
 --- !u!1 &1878723441 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2190969008732595378, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
@@ -30488,6 +30249,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3155541424590152940, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
   m_PrefabInstance: {fileID: 1049481783}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1961980392 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1915642696617413225, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+  m_PrefabInstance: {fileID: 1049481783}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1961980397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961980392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f906ace1cc7dd3c4aad25440cafa8046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PokeInteractorFilter
 --- !u!1001 &1973763019
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31059,6 +30837,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2469419288333147178, guid: 1680cfbdf2e80d3488a36759a33179aa, type: 3}
   m_PrefabInstance: {fileID: 2010043921}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2028824300 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4365779061849936954, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+  m_PrefabInstance: {fileID: 1049481783}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2028824305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028824300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f906ace1cc7dd3c4aad25440cafa8046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PokeInteractorFilter
 --- !u!4 &2057521733 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4374118822969782853, guid: cab58c7385c9fd448af308bb76674dca, type: 3}
