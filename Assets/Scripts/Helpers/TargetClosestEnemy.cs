@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class TargetClosestEnnemy : MonoBehaviour
+public class TargetClosestEnemy : MonoBehaviour
 {
     public Transform Reference;
-    public Ennemy Target;
+    public Enemy Target;
     public int DPS = 100;
-    private Ennemy previousTarget;
+    private Enemy previousTarget;
 
     public bool IsActive;
 
@@ -26,14 +26,14 @@ public class TargetClosestEnnemy : MonoBehaviour
         }
     }
 
-    private Ennemy FindClosestUntargetedEnemy()
+    private Enemy FindClosestUntargetedEnemy()
     {
         var enemies = WavesManager.Instance.CurrentEnnemies;
 
         if (enemies == null || enemies.Count == 0)
             return null;
 
-        Ennemy closest = null;
+        Enemy closest = null;
         float minDistanceSqr = float.MaxValue;
         Vector3 referencePos = Reference != null ? Reference.position : transform.position;
 

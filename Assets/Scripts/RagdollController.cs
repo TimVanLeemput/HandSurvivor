@@ -51,6 +51,6 @@ public class RagdollController : MonoBehaviour
         nevMeshAgent.isStopped = true;
         SetRagdoll(true);
 
-        animator.GetComponent<Ennemy>().Die();
+        animator.GetComponent<Enemy>().Die();
     }
 }

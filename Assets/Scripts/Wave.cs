@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "Wave", menuName = "Wave")]
 public class Wave : ScriptableObject
 {
-    public int EnnemiesNumber = 50;
+    [FormerlySerializedAs("EnnemiesNumber")] public int EnemiesNumber = 50;
     [Tooltip("Per second")]
     public float SpawnFequency;
 }

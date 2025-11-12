@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50203a6332ea5124ca7c251cd4bb41b2, type: 3}
-  m_Name: EnnemyPool1
+  m_Name: EnemyPool1
   m_EditorClassIdentifier: Assembly-CSharp::EnnemyPool
-  Ennemies:
+  Enemies:
+  - {fileID: 5937148703916929476, guid: 563c9944f3a56bf41af35ca0163a08f0, type: 3}
   - {fileID: 5937148703916929476, guid: 1680cfbdf2e80d3488a36759a33179aa, type: 3}

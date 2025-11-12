@@ -203,10 +203,10 @@ namespace HandSurvivor.PowerUps
         private void DealDamage(RaycastHit hit)
         {
             // Try to find Enemy component
-            Ennemy enemy = hit.collider.GetComponent<Ennemy>();
+            Enemy enemy = hit.collider.GetComponent<Enemy>();
             if (enemy == null)
             {
-                enemy = hit.collider.transform.parent.GetComponent<Ennemy>();
+                enemy = hit.collider.transform.parent.GetComponent<Enemy>();
             }
 
             if (enemy != null)
@@ -217,7 +217,7 @@ namespace HandSurvivor.PowerUps
             }
             else
             {
-                Debug.LogWarning($"[LaserBeam] Hit object '{hit.collider.name}' has no Ennemy component");
+                Debug.LogWarning($"[LaserBeam] Hit object '{hit.collider.name}' has no Enemy component");
             }
         }
 

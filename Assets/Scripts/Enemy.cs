@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Ennemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public int HP = 100;
     public int damage = 10;

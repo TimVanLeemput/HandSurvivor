@@ -1863,6 +1863,7 @@ GameObject:
   - component: {fileID: 734269234885022106}
   - component: {fileID: 3331563071012163498}
   - component: {fileID: 6531751460780166153}
+  - component: {fileID: -6662065853433138690}
   m_Layer: 7
   m_Name: Troll
   m_TagString: Untagged
@@ -1992,11 +1993,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ennemy
   HP: 200
   damage: 20
-  speed: 0.05
+  speed: 5
   XPAmount: 10
   canTakeDamage: 1
   isTargeted: 0
   deathAnimator: {fileID: 3450729963628584247}
+--- !u!114 &-6662065853433138690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5937148703916929476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd46b362174a364d9748d796ffc2689, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyNavMeshSync
+  miniatureTransform: {fileID: 0}
+  animator: {fileID: 0}
+  miniatureAnimator: {fileID: 0}
 --- !u!1 &5938912929453818172
 GameObject:
   m_ObjectHideFlags: 0

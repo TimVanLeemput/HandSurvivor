@@ -3,20 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class WavesManager : MonoBehaviour
 {
     public static WavesManager Instance;
     
-    public EnnemyPool Ennemies;
-    public List<Transform> EnnemiesSpawnPoints;
+    [FormerlySerializedAs("Ennemies")] public EnemyPool enemies;
+    [FormerlySerializedAs("EnnemiesSpawnPoints")] public List<Transform> EnemiesSpawnPoints;
 
     public List<Wave> Waves;
 
-    public Transform EnnemiesParent;
+    [FormerlySerializedAs("EnnemiesParent")] public Transform EnemiesParent;
 
-    public List<Ennemy> CurrentEnnemies;
+    public List<Enemy> CurrentEnnemies;
 
     private int _currentWaveIndex = 0;
 
@@ -33,23 +34,25 @@ public class WavesManager : MonoBehaviour
     public IEnumerator StartWave(Wave wave)
     {
         int ennemiesSpawned = 0;
-        while (ennemiesSpawned < wave.EnnemiesNumber)
+        while (ennemiesSpawned < wave.EnemiesNumber)
         {
-            Transform spawnPoint = EnnemiesSpawnPoints[Random.Range(0, EnnemiesSpawnPoints.Count)];
+            Transform spawnPoint = EnemiesSpawnPoints[Random.Range(0, EnemiesSpawnPoints.Count)];
         
             GameObject go = Instantiate(
-                Ennemies.Ennemies[Random.Range(0, Ennemies.Ennemies.Count)],
+                enemies.Enemies[Random.Range(0, enemies.Enemies.Count)],
                 spawnPoint.position,
                 spawnPoint.rotation,
-                EnnemiesParent
+                EnemiesParent
             );
             
             var graphAgent = go.GetComponent<BehaviorGraphAgent>();
             graphAgent.SetVariableValue("Target", Nexus.Instance.gameObject);
-            graphAgent.SetVariableValue("Speed", go.GetComponent<Ennemy>().speed);
+            graphAgent.SetVariableValue("Speed", go.GetComponent<Enemy>().speed);
             
-            CurrentEnnemies.Add(go.GetComponent<Ennemy>());
+            CurrentEnnemies.Add(go.GetComponent<Enemy>());
 
+            EnemiesNavMeshSyncManager.Instance.SpawnMiniatureEnemy(go);
+            
             ennemiesSpawned++;
             yield return new WaitForSeconds(1 / wave.SpawnFequency);
         }

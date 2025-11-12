@@ -51,11 +51,11 @@ public class RagdollController_Medium : MonoBehaviour
         nevMeshAgent.enabled = false;
         nevMeshAgent.isStopped = true;
         SetRagdoll(true);
-        animator.GetComponent<Ennemy>().DropXP();
+        animator.GetComponent<Enemy>().DropXP();
     }
 
     public void OnRelease()
     {
-        animator.GetComponent<Ennemy>().Die(false);
+        animator.GetComponent<Enemy>().Die(false);
     }
 }
