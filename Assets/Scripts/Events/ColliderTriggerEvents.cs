@@ -1,3 +1,4 @@
+using HandSurvivor;
 using UnityEngine;
 using UnityEngine.Events;
 using HandSurvivor.Utilities;
@@ -9,6 +10,9 @@ public class ColliderTriggerEvents : MonoBehaviour
     public UnityEvent onTriggerEnter;
     public UnityEvent<Collider> onTriggerStay;
     public UnityEvent<Collider> onTriggerExit;
+
+    [Header("Debug")]
+    [SerializeField] private bool enableDebug = false;
 
     [Header("Hand Filtering")]
     [SerializeField] private bool checkHand = false;
@@ -26,9 +30,9 @@ public class ColliderTriggerEvents : MonoBehaviour
     [SerializeField] private bool checkLayer = false;
     [SerializeField] private LayerMask allowedLayers;
 
-    [Header("Finger Bone Filtering")]
-    [SerializeField] private bool checkFingerBone = false;
-    [SerializeField] private OVRSkeleton.BoneId requiredBone;
+    [Header("GameObject Name Filtering")]
+    [SerializeField] private bool checkGameObjectName = false;
+    [SerializeField] private string requiredGameObjectName = "";
 
     public enum HandFilter
     {
@@ -37,48 +41,112 @@ public class ColliderTriggerEvents : MonoBehaviour
         OffHand
     }
 
+    private void Start()
+    {
+        if (enableDebug)
+        {
+            Debug.Log($"[ColliderTriggerEvents] START - Settings:\n" +
+                     $"  checkHand: {checkHand} | handFilter: {handFilter}\n" +
+                     $"  checkComponent: {checkComponent} | requiredComponent: {requiredComponentName}\n" +
+                     $"  checkTag: {checkTag} | requiredTag: {requiredTag}\n" +
+                     $"  checkLayer: {checkLayer} | allowedLayers: {allowedLayers.value}\n" +
+                     $"  checkGameObjectName: {checkGameObjectName} | requiredGameObjectName: {requiredGameObjectName}", gameObject);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (ShouldTrigger(other))
+        if (enableDebug) Debug.Log($"[ColliderTriggerEvents] ENTER triggered by {other.gameObject.name}", other.gameObject);
+
+        if (ShouldTrigger(other, "ENTER"))
         {
+            if (enableDebug) Debug.Log($"[ColliderTriggerEvents] ✓ ENTER event invoked for {other.gameObject.name}", other.gameObject);
             onTriggerEnter?.Invoke();
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (ShouldTrigger(other))
+        if (enableDebug) Debug.Log($"[ColliderTriggerEvents] STAY triggered by {other.gameObject.name}", other.gameObject);
+
+        if (ShouldTrigger(other, "STAY"))
         {
+            if (enableDebug) Debug.Log($"[ColliderTriggerEvents] ✓ STAY event invoked for {other.gameObject.name}", other.gameObject);
             onTriggerStay?.Invoke(other);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (ShouldTrigger(other))
+        if (enableDebug) Debug.Log($"[ColliderTriggerEvents] EXIT triggered by {other.gameObject.name}", other.gameObject);
+
+        if (ShouldTrigger(other, "EXIT"))
         {
+            if (enableDebug) Debug.Log($"[ColliderTriggerEvents] ✓ EXIT event invoked for {other.gameObject.name}", other.gameObject);
             onTriggerExit?.Invoke(other);
         }
     }
 
-    protected virtual bool ShouldTrigger(Collider other)
+    protected virtual bool ShouldTrigger(Collider other, string eventType)
     {
-        if (checkHand && !CheckHandFilter(other.gameObject))
-            return false;
+        if (enableDebug)
+        {
+            Debug.Log($"[ColliderTriggerEvents] [{eventType}] Checking filters for {other.gameObject.name}:\n" +
+                     $"  Hand Check: {checkHand} | Component Check: {checkComponent} | Tag Check: {checkTag} | Layer Check: {checkLayer} | GameObject Name Check: {checkGameObjectName}", other.gameObject);
+        }
 
-        if (checkComponent && !CheckComponent(other.gameObject))
-            return false;
+        if (checkHand)
+        {
+            bool handResult = CheckHandFilter(other.gameObject);
+            if (enableDebug)
+            {
+                HandType? handType = TargetHandFinder.GetHandTypeFromObject(other.gameObject);
+                Debug.Log($"[ColliderTriggerEvents] [{eventType}] Hand filter ({handFilter}): {(handResult ? "✓ PASS" : "✗ FAIL")} | Detected hand: {(handType.HasValue ? handType.Value.ToString() : "None")}", other.gameObject);
+            }
+            if (!handResult) return false;
+        }
 
-        if (checkTag && !CheckTagFilter(other.gameObject))
-            return false;
+        if (checkComponent)
+        {
+            bool componentResult = CheckComponent(other.gameObject);
+            if (enableDebug)
+                Debug.Log($"[ColliderTriggerEvents] [{eventType}] Component filter ({requiredComponentName}): {(componentResult ? "✓ PASS" : "✗ FAIL")}", other.gameObject);
+            if (!componentResult) return false;
+        }
 
-        if (checkLayer && !CheckLayerFilter(other.gameObject))
-            return false;
+        if (checkTag)
+        {
+            bool tagResult = CheckTagFilter(other.gameObject);
+            if (enableDebug)
+                Debug.Log($"[ColliderTriggerEvents] [{eventType}] Tag filter ({requiredTag}): {(tagResult ? "✓ PASS" : "✗ FAIL")} | Current tag: {other.gameObject.tag}", other.gameObject);
+            if (!tagResult) return false;
+        }
 
-        if (checkFingerBone && !CheckFingerBone(other.gameObject))
-            return false;
+        if (checkLayer)
+        {
+            bool layerResult = CheckLayerFilter(other.gameObject);
+            if (enableDebug)
+                Debug.Log($"[ColliderTriggerEvents] [{eventType}] Layer filter: {(layerResult ? "✓ PASS" : "✗ FAIL")} | Current layer: {LayerMask.LayerToName(other.gameObject.layer)} ({other.gameObject.layer})", other.gameObject);
+            if (!layerResult) return false;
+        }
+
+        if (checkGameObjectName)
+        {
+            bool nameResult = CheckGameObjectName(other.gameObject);
+            if (enableDebug)
+                Debug.Log($"[ColliderTriggerEvents] [{eventType}] GameObject name filter ({requiredGameObjectName}): {(nameResult ? "✓ PASS" : "✗ FAIL")} | Current name: {other.gameObject.name}", other.gameObject);
+            if (!nameResult) return false;
+        }
+
+        if (enableDebug)
+            Debug.Log($"[ColliderTriggerEvents] [{eventType}] ✓ ALL FILTERS PASSED for {other.gameObject.name}", other.gameObject);
 
         return true;
+    }
+
+    protected virtual bool ShouldTrigger(Collider other)
+    {
+        return ShouldTrigger(other, "UNKNOWN");
     }
 
     private bool CheckHandFilter(GameObject obj)
@@ -118,12 +186,11 @@ public class ColliderTriggerEvents : MonoBehaviour
         return ((1 << obj.layer) & allowedLayers) != 0;
     }
 
-    private bool CheckFingerBone(GameObject obj)
+    private bool CheckGameObjectName(GameObject obj)
     {
-        OVRBone bone = obj.GetComponent<OVRBone>();
-        if (bone == null)
-            return false;
+        if (string.IsNullOrEmpty(requiredGameObjectName))
+            return true;
 
-        return bone.Id == requiredBone;
+        return obj.name.Contains(requiredGameObjectName);
     }
 }
