@@ -11,13 +11,19 @@ public class EventWrapperDebug : MonoBehaviour
     }
 
     [ButtonMethod]
-    private void TriggerWhenSelect()
+    public void TriggerWhenHover()
+    {
+        _interactableUnityEventWrapper.WhenHover.Invoke();
+    }
+    
+    [ButtonMethod]
+    public void TriggerWhenSelect()
     {
         _interactableUnityEventWrapper.WhenSelect.Invoke();
     }
     
     [ButtonMethod]
-    private void TriggerWhenUnselect()
+    public void TriggerWhenUnselect()
     {
         _interactableUnityEventWrapper.WhenUnselect.Invoke();
     }
