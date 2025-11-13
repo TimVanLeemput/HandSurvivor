@@ -19,7 +19,10 @@ MonoBehaviour:
   ActiveSkillType: 1
   duration: 2
   cooldown: 5
+  damage: 100
+  minCooldownMultiplier: 0.25
+  maxUpgradedRepeatRate: 0.5
   pickupVFX: {fileID: 0}
   activationVFX: {fileID: 0}
   pickupSound: {fileID: 8300000, guid: 8e145fe681cc3494bbe0d9dee7471fe8, type: 3}
-  activationSound: {fileID: 8300000, guid: a15c5c9b1c115664a9d6c40ff9e0290a, type: 3}
+  activationSound: {fileID: 8300000, guid: f5c25123f5f25b54a9a570762417c870, type: 3}

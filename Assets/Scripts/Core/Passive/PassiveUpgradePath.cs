@@ -10,13 +10,22 @@ namespace HandSurvivor.Core.Passive
     /// </summary>
     public class PassiveUpgradePath : MonoBehaviour
     {
-        [Header("Configuration")]
-        [SerializeField] private int maxCustomBehaviorLevel = 5;
-        [Tooltip("Current passive level for this skill")]
-        [SerializeField,ReadOnly] private int currentLevel = 1;
+        [Header("Configuration")] [SerializeField]
+        private int maxCustomBehaviorLevel = 5;
 
-        [Tooltip("Specific passive upgrade that triggers this path (leave null for any upgrade)")]
-        [SerializeField] private PassiveUpgradeData targetPassiveUpgrade;
+        [Tooltip("Current passive level for this skill")] [SerializeField, ReadOnly]
+        private int currentLevel = 1;
+
+        [Tooltip("Specific passive upgrade that triggers this path (leave null for any upgrade)")] [SerializeField]
+        private PassiveUpgradeData targetPassiveUpgrade;
+
+        [Tooltip("Active skill data reference (for calculating max levels)")] [SerializeField]
+        private HandSurvivor.ActiveSkills.ActiveSkillData activeSkillData;
+
+        [Header("Calculated Info")]
+        [Tooltip("Calculated max levels needed to reach min multiplier (based on passive upgrade value)")]
+        [SerializeField, ReadOnly]
+        private int calculatedMaxLevels = 0;
 
         [SerializeField] private LevelBehavior[] levelBehaviors;
 
@@ -47,7 +56,8 @@ namespace HandSurvivor.Core.Passive
             else
             {
                 // Beyond max custom level - only damage scaling applies
-                Debug.Log($"[PassiveUpgradePath] Level {currentLevel} - Custom behaviors maxed, damage scaling continues");
+                Debug.Log(
+                    $"[PassiveUpgradePath] Level {currentLevel} - Custom behaviors maxed, damage scaling continues");
             }
         }
 
@@ -125,7 +135,67 @@ namespace HandSurvivor.Core.Passive
 
             if (levelBehaviors != null && levelBehaviors.Length > maxCustomBehaviorLevel)
             {
-                Debug.LogWarning($"[PassiveUpgradePath] {levelBehaviors.Length} behaviors defined but max level is {maxCustomBehaviorLevel}");
+                Debug.LogWarning(
+                    $"[PassiveUpgradePath] {levelBehaviors.Length} behaviors defined but max level is {maxCustomBehaviorLevel}");
+            }
+        }
+
+        /// <summary>
+        /// Calculate how many levels are needed to reach the minimum cooldown/size multiplier
+        /// Called from editor script button
+        /// </summary>
+        public void CalculateMaxLevelsEditor()
+        {
+            Debug.Log(" Max Levels being calculated!");
+
+            if (targetPassiveUpgrade == null || activeSkillData == null)
+            {
+                calculatedMaxLevels = 0;
+                Debug.Log(" [PassiveUpgradePath] Invalid target upgrade or active skill data");
+
+                return;
+            }
+
+            // Only calculate for Cooldown and Size types
+            if (targetPassiveUpgrade.type != PassiveType.CooldownReduction &&
+                targetPassiveUpgrade.type != PassiveType.SizeIncrease)
+            {
+                calculatedMaxLevels = 0;
+                Debug.Log("Only CooldownReduction and SizeIncrease types are supported for this calculation");
+                return;
+            }
+
+            // Calculate for cooldown reduction
+            if (targetPassiveUpgrade.type == PassiveType.CooldownReduction)
+            {
+                float minMultiplier = activeSkillData.minCooldownMultiplier;
+                float upgradeValuePercent = targetPassiveUpgrade.value / 100f;
+
+                if (upgradeValuePercent <= 0f)
+                {
+                    calculatedMaxLevels = 0;
+                    Debug.Log($" [PassiveUpgradePath] Invalid upgrade value: {targetPassiveUpgrade.value}");
+
+                    return;
+                }
+                Debug.Log(" [PassiveUpgradePath] Calculating max levels for CooldownReduction");
+                
+
+                // Starting from 1.0, how many upgrades to reach minMultiplier?
+                // 1.0 - (upgradeValue * levels) = minMultiplier
+                // levels = (1.0 - minMultiplier) / upgradeValue
+                float levelsNeeded = (1f - minMultiplier) / upgradeValuePercent;
+                Debug.Log($" [PassiveUpgradePath] Levels needed: {levelsNeeded}");
+                calculatedMaxLevels = Mathf.CeilToInt(levelsNeeded);
+                Debug.Log($" [PassiveUpgradePath] Max levels calculated: {calculatedMaxLevels}");
+            }
+            // For size, there's no hard limit, so we use a different calculation
+            else if (targetPassiveUpgrade.type == PassiveType.SizeIncrease)
+            {
+                // For size, use the maxCustomBehaviorLevel as the meaningful max
+                calculatedMaxLevels = maxCustomBehaviorLevel;
+                Debug.Log(
+                    $"[PassiveUpgradePath] Max levels calculated for SizeIncrease: calculcated : {calculatedMaxLevels}    ");
             }
         }
     }

@@ -114,16 +114,15 @@ namespace HandSurvivor.ActiveSkills
                     continue;
                 }
 
-                if (!skill.IsOnCooldown && !skill.IsActive)
+                // Use CanActivate() to determine if skill should fire
+                // (handles Duration skills that can overlap)
+                if (skill.CanActivate())
                 {
-                    if (skill.CanActivate())
-                    {
-                        skill.TryActivate();
+                    skill.TryActivate();
 
-                        if (enableDebugLogs)
-                        {
-                            Debug.Log($"[AutoCastManager] Auto-activated: {skill.Data.displayName}");
-                        }
+                    if (enableDebugLogs)
+                    {
+                        Debug.Log($"[AutoCastManager] Auto-activated: {skill.Data.displayName}");
                     }
                 }
             }
