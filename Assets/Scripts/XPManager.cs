@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class XPManager : MonoBehaviour
 {
@@ -6,10 +7,14 @@ public class XPManager : MonoBehaviour
     public GameObject XPPrefab;
     public Transform XPParent;
 
+    [Header("Level System")]
     public int Level = 1;
     public int XPIncreasePerLevel = 100;
     private int CurrentXPForLevel = 1000;
     private int CurrentXP = 0;
+
+    [Header("Events")]
+    public UnityEvent<int> OnLevelUp;
 
     private void Awake()
     {
@@ -31,6 +36,8 @@ public class XPManager : MonoBehaviour
     public void LevelUp()
     {
         Level++;
+        OnLevelUp?.Invoke(Level);
+        Debug.Log($"[XPManager] Level Up! Now level {Level}");
     }
 
     public void DropXP(int xpAmount, Vector3 position)

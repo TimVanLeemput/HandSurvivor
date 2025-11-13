@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6808de61f1f2c2448691504b69465a0, type: 3}
+  m_Name: MainSkillPool
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.LevelUp.SkillPoolData
+  activeSkillPrefabs:
+  - {fileID: 5258929736210494127, guid: 2615700098a10a44a984ec1c9bd65325, type: 3}
+  passiveUpgrades:
+  - {fileID: 11400000, guid: ef98a9545ed22204ab5b45677917b8f9, type: 2}
+  - {fileID: 11400000, guid: 600e61cb25439b44a9de420bf475e160, type: 2}
+  - {fileID: 11400000, guid: 80ab1a24ed6a2ca498ea8a46f2ffbfaa, type: 2}
