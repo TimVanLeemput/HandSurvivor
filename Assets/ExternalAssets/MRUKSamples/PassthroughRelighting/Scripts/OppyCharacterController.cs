@@ -20,12 +20,12 @@ namespace Meta.XR.MRUtilityKitSamples.PassthroughRelighting
         [SerializeField] private Transform movementFrameOfReference;
 
         /// <summary>
-        ///     The vertical speed that Oppy will have if the jump button is pressed
+        ///     The vertical speed that Oppy will have if the jump Button is pressed
         /// </summary>
         [SerializeField] private float jumpSpeed = 4;
 
         /// <summary>
-        ///     The vertical acceleration applied to Oppy if the jump button is kept pressed
+        ///     The vertical acceleration applied to Oppy if the jump Button is kept pressed
         /// </summary>
         [SerializeField] private float keepPressedJumpAcceleration = 1;
 

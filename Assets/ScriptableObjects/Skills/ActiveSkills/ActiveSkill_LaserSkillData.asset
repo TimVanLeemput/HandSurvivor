@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073efa8bb3c24a9419ba449351b2792b, type: 3}
+  m_Name: ActiveSkill_LaserSkillData
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.ActiveSkillData
+  activeSkillId: laser_skill
+  displayName: Laser Finger
+  description: Fire laser from finger when making gun pose
+  skillImage: {fileID: 21300000, guid: b450d0b398880cb458f83d1a01b399ca, type: 3}
+  ActiveSkillType: 1
+  duration: 5
+  cooldown: 10
+  pickupVFX: {fileID: 0}
+  activationVFX: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 8e145fe681cc3494bbe0d9dee7471fe8, type: 3}
+  activationSound: {fileID: 8300000, guid: 37b598180e6b18d44af9b1336c7b1f62, type: 3}

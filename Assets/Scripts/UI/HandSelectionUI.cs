@@ -21,17 +21,17 @@ public class HandSelectionUI : MonoBehaviour
     [SerializeField] [Tooltip("Optional text to display current selection")]
     public TextMeshProUGUI SelectionText;
 
-    [SerializeField] [Tooltip("Optional text for left button label")]
+    [SerializeField] [Tooltip("Optional text for left Button label")]
     public TextMeshProUGUI LeftHandLabel;
 
-    [SerializeField] [Tooltip("Optional text for right button label")]
+    [SerializeField] [Tooltip("Optional text for right Button label")]
     public TextMeshProUGUI RightHandLabel;
 
 //
-    [Header("Visual Feedback")] [SerializeField] [Tooltip("Color for selected button")]
+    [Header("Visual Feedback")] [SerializeField] [Tooltip("Color for selected Button")]
     private Color selectedColor = new Color(0.2f, 0.8f, 0.2f, 1f);
 
-    [SerializeField] [Tooltip("Color for unselected button")]
+    [SerializeField] [Tooltip("Color for unselected Button")]
     private Color unselectedColor = new Color(0.6f, 0.6f, 0.6f, 1f);
 
     [SerializeField] [Tooltip("Show hand role descriptions")]
@@ -45,7 +45,7 @@ public class HandSelectionUI : MonoBehaviour
 
     private void Start()
     {
-        // Setup button listeners
+        // Setup Button listeners
         if (LeftHandButton != null)
         {
             LeftHandButton.onClick.AddListener(OnLeftHandSelected);
@@ -88,7 +88,7 @@ public class HandSelectionUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when left hand button is clicked
+    /// Called when left hand Button is clicked
     /// </summary>
     [ButtonMethod]
     private void OnLeftHandSelected()
@@ -103,7 +103,7 @@ public class HandSelectionUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when right hand button is clicked
+    /// Called when right hand Button is clicked
     /// </summary>
     [ButtonMethod]
     private void OnRightHandSelected()
@@ -133,7 +133,7 @@ public class HandSelectionUI : MonoBehaviour
         HandType mainHand = HandSelectionManager.Instance.MainHand;
         HandType offHand = HandSelectionManager.Instance.OffHand;
 
-        // Update button colors
+        // Update Button colors
         if (LeftHandButton != null)
         {
             ColorBlock colors = LeftHandButton.colors;
@@ -191,7 +191,7 @@ public class HandSelectionUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Public method to swap hands (can be called from button)
+    /// Public method to swap hands (can be called from Button)
     /// </summary>
     public void SwapHands()
     {

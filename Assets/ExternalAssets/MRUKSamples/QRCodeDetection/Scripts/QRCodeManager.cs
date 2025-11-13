@@ -70,7 +70,7 @@ namespace Meta.XR.MRUtilityKitSamples.QRCodeDetection
             var callbacks = new UnityEngine.Android.PermissionCallbacks();
             callbacks.PermissionGranted += perm => Log($"{perm} granted");
 
-            var msgDenied = $"{ScenePermission} denied. Please press the 'Request Permission' button again.";
+            var msgDenied = $"{ScenePermission} denied. Please press the 'Request Permission' Button again.";
             var msgDeniedPermanently = $"{ScenePermission} permanently denied. To enable:\n" +
                                        $"    1. Uninstall and reinstall the app, OR\n" +
                                        $"    2. Manually grant permission in device Settings > Privacy & Safety > App Permissions.";
