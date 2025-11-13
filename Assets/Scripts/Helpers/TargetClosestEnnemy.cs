@@ -1,13 +1,23 @@
+using HandSurvivor.ActiveSkills;
 using UnityEngine;
 
 public class TargetClosestEnnemy : MonoBehaviour
 {
     public Transform Reference;
     public Ennemy Target;
-    public int DPS = 100;
     private Ennemy previousTarget;
+    private ActiveSkillBase activeSkill;
 
     public bool IsActive;
+
+    private void Start()
+    {
+        activeSkill = GetComponentInParent<ActiveSkillBase>();
+        if (activeSkill == null)
+        {
+            Debug.LogError("[TargetClosestEnnemy] No ActiveSkillBase found in parent");
+        }
+    }
 
     private void Update()
     {
@@ -20,10 +30,20 @@ public class TargetClosestEnnemy : MonoBehaviour
         if (Target != null)
         {
             Target.isTargeted = true;
-            Target.TakeDamage(Mathf.RoundToInt(DPS * Time.deltaTime));
+            int damagePerFrame = Mathf.RoundToInt(GetModifiedDPS() * Time.deltaTime);
+            Target.TakeDamage(damagePerFrame);
             transform.position = Target.transform.position;
             previousTarget = Target;
         }
+    }
+
+    private float GetModifiedDPS()
+    {
+        if (activeSkill != null && activeSkill.Data != null)
+        {
+            return activeSkill.GetModifiedDamage(activeSkill.Data.damage);
+        }
+        return 100f;
     }
 
     private Ennemy FindClosestUntargetedEnemy()

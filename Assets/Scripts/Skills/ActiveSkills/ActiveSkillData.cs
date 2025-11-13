@@ -34,6 +34,10 @@ namespace HandSurvivor.ActiveSkills
         [Tooltip("Cooldown in seconds before can be used again")]
         public float cooldown = 0f;
 
+        [Header("Stats")]
+        [Tooltip("Raw damage value (usage depends on skill type)")]
+        public int damage = 100;
+
         [Header("VFX/Audio")]
         [Tooltip("Particle effect on pickup")]
         public GameObject pickupVFX;

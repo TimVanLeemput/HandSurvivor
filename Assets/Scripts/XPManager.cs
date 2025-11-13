@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,8 +11,8 @@ public class XPManager : MonoBehaviour
     [Header("Level System")]
     public int Level = 1;
     public int XPIncreasePerLevel = 100;
-    private int CurrentXPForLevel = 1000;
-    private int CurrentXP = 0;
+    [SerializeField,ReadOnly] private int CurrentXPForLevel = 1000;
+    [SerializeField,ReadOnly] private int CurrentXP = 0;
 
     [Header("Events")]
     public UnityEvent<int> OnLevelUp;
@@ -45,5 +46,12 @@ public class XPManager : MonoBehaviour
         GameObject go = Instantiate(XPPrefab, XPParent);
         go.transform.position = position;
         go.GetComponent<XPDroplet>().XPAmount = xpAmount;
+    }
+    
+    public void DropXP(Transform transform)
+    {
+        GameObject go = Instantiate(XPPrefab, XPParent);
+        go.transform.position = transform.position;
+        go.GetComponent<XPDroplet>().XPAmount = CurrentXPForLevel;
     }
 }
