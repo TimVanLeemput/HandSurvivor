@@ -29927,6 +29927,7 @@ GameObject:
   - component: {fileID: 1601091067}
   - component: {fileID: 1601091066}
   - component: {fileID: 1601091068}
+  - component: {fileID: 1601091069}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -29989,6 +29990,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlotTester
   laserSkillPrefab: {fileID: 5258929736210494127, guid: 2615700098a10a44a984ec1c9bd65325, type: 3}
+--- !u!114 &1601091069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601091065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04221b800ea97fb428d3a95d60b72eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PassiveTester
+  testPassive: {fileID: 11400000, guid: ef98a9545ed22204ab5b45677917b8f9, type: 2}
 --- !u!1 &1604735598
 GameObject:
   m_ObjectHideFlags: 0
