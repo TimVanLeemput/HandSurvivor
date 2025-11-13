@@ -15,16 +15,28 @@ namespace HandSurvivor.Core.Passive
         [Tooltip("Current passive level for this skill")]
         [SerializeField,ReadOnly] private int currentLevel = 1;
 
+        [Tooltip("Specific passive upgrade that triggers this path (leave null for any upgrade)")]
+        [SerializeField] private PassiveUpgradeData targetPassiveUpgrade;
+
         [SerializeField] private LevelBehavior[] levelBehaviors;
 
         public int CurrentLevel => currentLevel;
         public int MaxCustomBehaviorLevel => maxCustomBehaviorLevel;
+        public PassiveUpgradeData TargetPassiveUpgrade => targetPassiveUpgrade;
 
         /// <summary>
         /// Apply passive upgrade - increments level and triggers behavior changes
         /// </summary>
-        public void ApplyPassiveUpgrade()
+        /// <param name="appliedUpgrade">The passive upgrade that was applied (null = accept any)</param>
+        public void ApplyPassiveUpgrade(PassiveUpgradeData appliedUpgrade = null)
         {
+            // Check if this path should respond to the applied upgrade
+            if (targetPassiveUpgrade != null && appliedUpgrade != targetPassiveUpgrade)
+            {
+                // This path only responds to a specific upgrade, and this isn't it
+                return;
+            }
+
             currentLevel++;
 
             // Apply custom behavior if within defined range

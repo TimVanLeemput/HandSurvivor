@@ -19,6 +19,7 @@ namespace HandSurvivor.Core.Passive
         [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI descriptionText;
         [SerializeField] private TextMeshProUGUI levelText;
+        [SerializeField] private TextMeshProUGUI totalBonusText;
         [SerializeField] private GameObject newIndicator;
 
         [Header("Display Settings")]
@@ -96,6 +97,9 @@ namespace HandSurvivor.Core.Passive
             // Update level display
             UpdateLevelDisplay();
 
+            // Update total bonus display
+            UpdateTotalBonusDisplay();
+
             // Update new indicator
             UpdateNewIndicator();
         }
@@ -123,6 +127,35 @@ namespace HandSurvivor.Core.Passive
                 {
                     levelText.text = "";
                     levelText.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update the total bonus display (accumulated value)
+        /// </summary>
+        public void UpdateTotalBonusDisplay()
+        {
+            if (totalBonusText == null || upgradeData == null)
+            {
+                return;
+            }
+
+            if (PassiveUpgradeManager.Instance != null)
+            {
+                int stackCount = PassiveUpgradeManager.Instance.GetUpgradeStackCount(upgradeData.upgradeId);
+                float totalBonus = upgradeData.value * stackCount;
+
+                if (stackCount > 0)
+                {
+                    string sign = upgradeData.type == PassiveType.CooldownReduction ? "-" : "+";
+                    totalBonusText.text = $"{sign}{totalBonus:F0}%";
+                    totalBonusText.gameObject.SetActive(true);
+                }
+                else
+                {
+                    totalBonusText.text = "";
+                    totalBonusText.gameObject.SetActive(false);
                 }
             }
         }
@@ -187,6 +220,7 @@ namespace HandSurvivor.Core.Passive
             }
 
             UpdateLevelDisplay();
+            UpdateTotalBonusDisplay();
             UpdateNewIndicator();
 
             Debug.Log($"[PassiveUpgradeUI] Selected upgrade: {upgradeData.displayName}");

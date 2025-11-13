@@ -94,7 +94,7 @@ namespace HandSurvivor.Core.Passive
                 // Apply upgrade path level progression
                 if (skill.UpgradePath != null)
                 {
-                    skill.UpgradePath.ApplyPassiveUpgrade();
+                    skill.UpgradePath.ApplyPassiveUpgrade(upgrade);
                 }
 
                 if (showDebugLogs)
@@ -123,7 +123,7 @@ namespace HandSurvivor.Core.Passive
                 // Apply upgrade path level progression
                 if (skill.UpgradePath != null)
                 {
-                    skill.UpgradePath.ApplyPassiveUpgrade();
+                    skill.UpgradePath.ApplyPassiveUpgrade(upgrade);
                 }
 
                 if (showDebugLogs)
@@ -152,7 +152,7 @@ namespace HandSurvivor.Core.Passive
                 // Apply upgrade path level progression
                 if (skill.UpgradePath != null)
                 {
-                    skill.UpgradePath.ApplyPassiveUpgrade();
+                    skill.UpgradePath.ApplyPassiveUpgrade(upgrade);
                 }
 
                 if (showDebugLogs)
