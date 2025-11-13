@@ -163,9 +163,9 @@ namespace HandSurvivor.Core.LevelUp
         {
             if (!isPaused)
             {
-                Time.timeScale = 0f;
-                isPaused = true;
-                Debug.Log("[LevelUpManager] Game paused");
+                // Time.timeScale = 0f;
+                // isPaused = true;
+                // Debug.Log("[LevelUpManager] Game paused");
             }
         }
 

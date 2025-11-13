@@ -1,6 +1,7 @@
 using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
+using HandSurvivor.Core.Passive;
 
 namespace HandSurvivor.ActiveSkills
 {
@@ -27,6 +28,11 @@ namespace HandSurvivor.ActiveSkills
         protected float activationTime = 0f;
         protected float cooldownEndTime = 0f;
 
+        protected AudioSource activationAudioSource;
+
+        [Header("Passive System")]
+        protected PassiveUpgradePath upgradePath;
+
         [Header("Passive Multipliers")]
         protected float cooldownMultiplier = 1f;
         protected float damageMultiplier = 1f;
@@ -41,6 +47,12 @@ namespace HandSurvivor.ActiveSkills
         public float CooldownMultiplier => cooldownMultiplier;
         public float DamageMultiplier => damageMultiplier;
         public float SizeMultiplier => sizeMultiplier;
+        public PassiveUpgradePath UpgradePath => upgradePath;
+
+        protected virtual void Awake()
+        {
+            upgradePath = GetComponent<PassiveUpgradePath>();
+        }
 
 
         protected virtual void Update()
@@ -192,7 +204,23 @@ namespace HandSurvivor.ActiveSkills
 
             if (data.activationSound != null)
             {
-                AudioSource.PlayClipAtPoint(data.activationSound, transform.position);
+                // Stop previous audio if still playing
+                if (activationAudioSource != null && activationAudioSource.isPlaying)
+                {
+                    activationAudioSource.Stop();
+                    Destroy(activationAudioSource.gameObject);
+                }
+
+                // Create temporary GameObject with AudioSource for looping
+                GameObject audioObject = new GameObject($"{data.displayName}_ActivationAudio");
+                audioObject.transform.position = transform.position;
+                activationAudioSource = audioObject.AddComponent<AudioSource>();
+                activationAudioSource.clip = data.activationSound;
+                activationAudioSource.loop = true;
+                activationAudioSource.Play();
+
+                // Destroy audio after skill duration
+                Destroy(audioObject, GetModifiedDuration());
             }
         }
 

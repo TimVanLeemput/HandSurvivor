@@ -91,6 +91,12 @@ namespace HandSurvivor.Core.Passive
             {
                 skill.ApplyCooldownMultiplier(reductionPercent);
 
+                // Apply upgrade path level progression
+                if (skill.UpgradePath != null)
+                {
+                    skill.UpgradePath.ApplyPassiveUpgrade();
+                }
+
                 if (showDebugLogs)
                 {
                     Debug.Log($"[PassiveUpgradeManager] Applied -{upgrade.value}% cooldown to {skill.Data.displayName}");
@@ -114,6 +120,12 @@ namespace HandSurvivor.Core.Passive
             {
                 skill.ApplyDamageMultiplier(increasePercent);
 
+                // Apply upgrade path level progression
+                if (skill.UpgradePath != null)
+                {
+                    skill.UpgradePath.ApplyPassiveUpgrade();
+                }
+
                 if (showDebugLogs)
                 {
                     Debug.Log($"[PassiveUpgradeManager] Applied +{upgrade.value}% damage to {skill.Data.displayName}");
@@ -136,6 +148,12 @@ namespace HandSurvivor.Core.Passive
             foreach (ActiveSkillBase skill in targetSkills)
             {
                 skill.ApplySizeMultiplier(increasePercent);
+
+                // Apply upgrade path level progression
+                if (skill.UpgradePath != null)
+                {
+                    skill.UpgradePath.ApplyPassiveUpgrade();
+                }
 
                 if (showDebugLogs)
                 {
