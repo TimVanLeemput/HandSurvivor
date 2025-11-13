@@ -3,7 +3,7 @@ using UnityEngine.Events;
 namespace HandSurvivor.ActiveSkills
 {
     /// <summary>
-    /// Interface for different active skill activation methods (hand pose, button, voice, etc.)
+    /// Interface for different active skill activation methods (hand pose, Button, voice, etc.)
     /// </summary>
     public interface IActiveSkillActivator
     {

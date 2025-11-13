@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073efa8bb3c24a9419ba449351b2792b, type: 3}
-  m_Name: ActiveSkill_LaserSkillData
+  m_Name: ActiveSkill_LightningHandSkillData
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.ActiveSkillData
-  activeSkillId: laser_skill
-  displayName: Laser Finger
-  description: Fire laser from finger when making gun pose
-  skillImage: {fileID: 21300000, guid: b450d0b398880cb458f83d1a01b399ca, type: 3}
+  activeSkillId: lightninghand_skill
+  displayName: Lightning Hand
+  description: Shoot lightning out of your hand
+  skillImage: {fileID: 21300000, guid: b56a4634f7ef03f4396eafe46d62f72d, type: 3}
   ActiveSkillType: 1
-  duration: 5
-  cooldown: 10
+  duration: 2
+  cooldown: 5
   pickupVFX: {fileID: 0}
   activationVFX: {fileID: 0}
   pickupSound: {fileID: 8300000, guid: 8e145fe681cc3494bbe0d9dee7471fe8, type: 3}
-  activationSound: {fileID: 8300000, guid: 37b598180e6b18d44af9b1336c7b1f62, type: 3}
+  activationSound: {fileID: 8300000, guid: a15c5c9b1c115664a9d6c40ff9e0290a, type: 3}

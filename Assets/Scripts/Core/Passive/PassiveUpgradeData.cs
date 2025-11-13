@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace HandSurvivor.Core.Passive
 {
@@ -24,7 +25,7 @@ namespace HandSurvivor.Core.Passive
         public string description;
 
         [Tooltip("Icon for UI display")]
-        public Sprite icon;
+        public Sprite passiveImage;
 
         [Header("Upgrade Properties")]
         [Tooltip("Type of upgrade")]

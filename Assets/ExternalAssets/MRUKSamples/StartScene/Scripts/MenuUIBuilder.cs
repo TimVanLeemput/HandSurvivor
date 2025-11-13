@@ -143,11 +143,11 @@ namespace Meta.XR.MRUtilityKitSamples.StartScene
 
 
         /// <summary>
-        /// Adds a button to the procedural UI that will execute the OnClick delegate passed as a parameter.
+        /// Adds a Button to the procedural UI that will execute the OnClick delegate passed as a parameter.
         /// </summary>
-        /// <param name="label">The text to be displayed on the button.</param>
-        /// <param name="handler">The delegate to execute when clicking the button.</param>
-        /// <returns>The RectTransform of the newly created button.</returns>
+        /// <param name="label">The text to be displayed on the Button.</param>
+        /// <param name="handler">The delegate to execute when clicking the Button.</param>
+        /// <returns>The RectTransform of the newly created Button.</returns>
         private RectTransform AddButton(string label, _onClick handler = null)
         {
             var buttonRT = Instantiate(_buttonPrefab).GetComponent<RectTransform>();

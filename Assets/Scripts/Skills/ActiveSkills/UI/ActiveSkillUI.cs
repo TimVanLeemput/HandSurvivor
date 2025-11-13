@@ -169,9 +169,9 @@ namespace HandSurvivor.ActiveSkills.UI
             }
 
             // Set icon
-            if (iconImage != null && activeSkill.Data.icon != null)
+            if (iconImage != null && activeSkill.Data.skillImage != null)
             {
-                iconImage.sprite = activeSkill.Data.icon;
+                iconImage.sprite = activeSkill.Data.skillImage;
             }
 
             // Set name

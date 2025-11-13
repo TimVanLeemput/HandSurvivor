@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace HandSurvivor.ActiveSkills
 {
@@ -21,7 +22,7 @@ namespace HandSurvivor.ActiveSkills
         public string description;
 
         [Tooltip("Icon for UI display")]
-        public Sprite icon;
+        public Sprite skillImage;
 
         [Header("Behavior")]
         [Tooltip("How this active skill behaves")]

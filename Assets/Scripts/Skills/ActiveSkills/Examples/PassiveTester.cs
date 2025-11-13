@@ -8,14 +8,14 @@ public class PassiveTester : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        // if (Input.GetKeyDown(KeyCode.P))
         {
-            ApplyTestPassive();
+            // ApplyTestPassive();
         }
 
-        if (Input.GetKeyDown(KeyCode.I))
+        // if (Input.GetKeyDown(KeyCode.I))
         {
-            ShowSkillStats();
+            // ShowSkillStats();
         }
     }
 

@@ -165,8 +165,8 @@ namespace HandSurvivor.ActiveSkills.UI
                      "1. Assign LaseractiveSkill prefab\n" +
                      "2. Assign SpecialBeamCannon prefab (optional)\n" +
                      "3. Assign ActiveSkillUIManager reference\n" +
-                     "4. Click 'Add Laser Power Up' button\n" +
-                     "5. Click 'Activate First Power Up' button\n" +
+                     "4. Click 'Add Laser Power Up' Button\n" +
+                     "5. Click 'Activate First Power Up' Button\n" +
                      "6. Watch UI show duration countdown!");
         }
 #endif

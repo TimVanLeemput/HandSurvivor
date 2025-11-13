@@ -1,7 +1,6 @@
 using MyBox;
 using UnityEngine;
 using HandSurvivor.Utilities;
-using HandSurvivor.ActiveSkills.HandShapes;
 
 namespace HandSurvivor.ActiveSkills
 {
@@ -21,10 +20,6 @@ namespace HandSurvivor.ActiveSkills
         [SerializeField] private bool useOffHand = true;
         [Tooltip("Which finger tip to shoot from")]
         [SerializeField] private OVRSkeleton.BoneId fingerTipBone = OVRSkeleton.BoneId.Hand_IndexTip;
-
-        [Header("Hand Shape Control")]
-        [SerializeField] private HandShapeActivator handShapeActivator;
-        [SerializeField] private bool requirePoseForFiring = true;
 
         private LaserBeam laserBeam;
         private Transform fingerTipTransform;
@@ -64,17 +59,6 @@ namespace HandSurvivor.ActiveSkills
         protected void Start()
         {
             FindTargetHand();
-
-            if (handShapeActivator == null)
-            {
-                handShapeActivator = GetComponent<HandShapeActivator>();
-
-                if (handShapeActivator == null && requirePoseForFiring)
-                {
-                    handShapeActivator = gameObject.AddComponent<HandShapeActivator>();
-                    Debug.Log("[LaserActiveSkill] Created HandShapeActivator component");
-                }
-            }
         }
 
         private void FindTargetHand()
@@ -98,26 +82,21 @@ namespace HandSurvivor.ActiveSkills
             }
 
             UpdateFingerTipTransform();
+        }
 
-            if (requirePoseForFiring && handShapeActivator != null)
+        public void OnPoseDetected()
+        {
+            if (isActive && !wasLaserFiring)
             {
-                bool isPoseActive = handShapeActivator.IsPoseActive;
-
-                if (isPoseActive && !wasLaserFiring)
-                {
-                    StartFiring();
-                }
-                else if (!isPoseActive && wasLaserFiring)
-                {
-                    StopFiring();
-                }
+                StartFiring();
             }
-            else
+        }
+
+        public void OnPoseLost()
+        {
+            if (wasLaserFiring)
             {
-                if (!wasLaserFiring)
-                {
-                    StartFiring();
-                }
+                StopFiring();
             }
         }
 

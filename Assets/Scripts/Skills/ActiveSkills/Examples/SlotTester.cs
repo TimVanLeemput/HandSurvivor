@@ -7,14 +7,14 @@ public class SlotTester : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        // if (Input.GetKeyDown(KeyCode.A))
         {
-            AddSkillToSlot();
+            // AddSkillToSlot();
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        // if (Input.GetKeyDown(KeyCode.S))
         {
-            ShowSlotStatus();
+            // ShowSlotStatus();
         }
     }
 
