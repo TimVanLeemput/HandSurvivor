@@ -37,6 +37,9 @@ namespace HandSurvivor.Core.Passive
         [Tooltip("Upgrade value (e.g., 10 = +10% or -10%)")]
         public float value = 10f;
 
+        [Tooltip("Should trigger OnMaxPassiveReached event when hitting max upgrade (for Cooldown/Size only)")]
+        public bool triggersMaxEvent = false;
+
         public string GetFormattedDescription()
         {
             return description.Replace("{value}", value.ToString("F0"));

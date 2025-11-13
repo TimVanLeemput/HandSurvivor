@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 3639838813235046822}
   - component: {fileID: -302334039574293665}
   - component: {fileID: 3473521734602494220}
+  - component: {fileID: 1189870441490153943}
   m_Layer: 0
   m_Name: LightningHandSkillPrefab
   m_TagString: Untagged
@@ -119,6 +120,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnMaxPassiveReached:
+    m_PersistentCalls:
+      m_Calls: []
   useOffHand: 1
   thumbFingerTip: 19
   indexFingerTip: 20
@@ -144,6 +148,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.Passive.PassiveUpgradePath
   maxCustomBehaviorLevel: 5
   currentLevel: 1
+  targetPassiveUpgrade: {fileID: 11400000, guid: 600e61cb25439b44a9de420bf475e160, type: 2}
+  activeSkillData: {fileID: 11400000, guid: 7c92ec5d18f20564eba728bcd60a357c, type: 2}
+  calculatedMaxLevels: 0
   levelBehaviors:
   - description: Activate Arc 1
     onLevelReached:
@@ -180,6 +187,24 @@ MonoBehaviour:
     objectsToEnable:
     - {fileID: 2380729093485139682}
     objectsToDisable: []
+--- !u!114 &1189870441490153943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5258929736210494127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3792657c132d9d47a36172b14cf5d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.Passive.PassiveUpgradePath
+  maxCustomBehaviorLevel: 5
+  currentLevel: 1
+  targetPassiveUpgrade: {fileID: 11400000, guid: ef98a9545ed22204ab5b45677917b8f9, type: 2}
+  activeSkillData: {fileID: 11400000, guid: 7c92ec5d18f20564eba728bcd60a357c, type: 2}
+  calculatedMaxLevels: 8
+  levelBehaviors: []
 --- !u!1001 &1442898831280669942
 PrefabInstance:
   m_ObjectHideFlags: 0

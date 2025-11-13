@@ -94,7 +94,7 @@ namespace HandSurvivor.Core.Passive
                 // Apply upgrade path level progression
                 if (skill.UpgradePath != null)
                 {
-                    skill.UpgradePath.ApplyPassiveUpgrade();
+                    skill.UpgradePath.ApplyPassiveUpgrade(upgrade);
                 }
 
                 if (showDebugLogs)
@@ -123,7 +123,7 @@ namespace HandSurvivor.Core.Passive
                 // Apply upgrade path level progression
                 if (skill.UpgradePath != null)
                 {
-                    skill.UpgradePath.ApplyPassiveUpgrade();
+                    skill.UpgradePath.ApplyPassiveUpgrade(upgrade);
                 }
 
                 if (showDebugLogs)
@@ -152,7 +152,14 @@ namespace HandSurvivor.Core.Passive
                 // Apply upgrade path level progression
                 if (skill.UpgradePath != null)
                 {
-                    skill.UpgradePath.ApplyPassiveUpgrade();
+                    skill.UpgradePath.ApplyPassiveUpgrade(upgrade);
+
+                    // Trigger max event if this upgrade is configured to do so and we've maxed the path
+                    if (upgrade.triggersMaxEvent &&
+                        skill.UpgradePath.CurrentLevel >= skill.UpgradePath.MaxCustomBehaviorLevel)
+                    {
+                        skill.TriggerMaxPassiveReached();
+                    }
                 }
 
                 if (showDebugLogs)

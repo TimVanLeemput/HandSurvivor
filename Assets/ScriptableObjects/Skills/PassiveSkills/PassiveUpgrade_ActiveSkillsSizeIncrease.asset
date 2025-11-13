@@ -15,7 +15,7 @@ MonoBehaviour:
   upgradeId: ActiveSkillsSizeIncrease
   displayName: Size/Radius +15%
   description: Increases sizes and radius of active skills by {value}%
-  icon: {fileID: 21300000, guid: f6b8b85cbdc82ce439a41ae3d56d57ee, type: 3}
+  passiveImage: {fileID: 21300000, guid: a2563f2b8dbc4044b9a50537d3a29962, type: 3}
   type: 2
   targetSkillId: 
   value: 15

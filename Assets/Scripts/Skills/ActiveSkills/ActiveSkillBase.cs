@@ -22,6 +22,7 @@ namespace HandSurvivor.ActiveSkills
         public UnityEvent OnActivate;
         public UnityEvent OnDeactivate;
         public UnityEvent OnExpire;
+        public UnityEvent OnMaxPassiveReached;
 
         protected bool isActive = false;
         protected bool isOnCooldown = false;
@@ -68,7 +69,10 @@ namespace HandSurvivor.ActiveSkills
             {
                 if (Time.time >= activationTime + GetModifiedDuration())
                 {
-                    Deactivate();
+                    // Duration expired - deactivate visual state but don't restart cooldown
+                    isActive = false;
+                    OnDeactivate?.Invoke();
+                    OnDeactivated();
                     OnExpired();
                 }
             }
@@ -105,12 +109,15 @@ namespace HandSurvivor.ActiveSkills
             if (isOnCooldown)
                 return false;
 
+            // OneTime skills cannot be reactivated while active
             if (data.ActiveSkillType == ActiveSkillType.OneTime && isActive)
                 return false;
 
+            // Toggle skills cannot be reactivated while active (must deactivate first)
             if (data.ActiveSkillType == ActiveSkillType.Toggle && isActive)
                 return false;
 
+            // Duration skills CAN be reactivated even while active (allows overlapping/stacking)
             return true;
         }
 
@@ -121,6 +128,13 @@ namespace HandSurvivor.ActiveSkills
         {
             isActive = true;
             activationTime = Time.time;
+
+            // Start cooldown immediately on activation
+            if (data.cooldown > 0f)
+            {
+                isOnCooldown = true;
+                cooldownEndTime = Time.time + GetModifiedCooldown();
+            }
 
             OnActivate?.Invoke();
             PlayActivationEffects();
@@ -226,7 +240,17 @@ namespace HandSurvivor.ActiveSkills
 
         public void ApplyCooldownMultiplier(float reduction)
         {
-            cooldownMultiplier = Mathf.Max(0.1f, cooldownMultiplier - reduction);
+            float minClamp = data != null ? data.minCooldownMultiplier : 0.1f;
+            float previousMultiplier = cooldownMultiplier;
+            cooldownMultiplier = Mathf.Max(minClamp, cooldownMultiplier - reduction);
+
+            // Check if we just hit the minimum cooldown for the first time
+            if (previousMultiplier > minClamp && cooldownMultiplier <= minClamp)
+            {
+                OnMaxPassiveReached?.Invoke();
+                Debug.Log($"[{Data.displayName}] MAX COOLDOWN REACHED - Event fired!");
+            }
+
             Debug.Log($"[{Data.displayName}] Cooldown multiplier: {cooldownMultiplier:F2}");
         }
 
@@ -242,9 +266,26 @@ namespace HandSurvivor.ActiveSkills
             Debug.Log($"[{Data.displayName}] Size multiplier: {sizeMultiplier:F2}");
         }
 
+        /// <summary>
+        /// Manually trigger max passive reached event (for size or other non-clamped stats)
+        /// </summary>
+        public void TriggerMaxPassiveReached()
+        {
+            OnMaxPassiveReached?.Invoke();
+            Debug.Log($"[{Data.displayName}] MAX PASSIVE REACHED - Event fired!");
+        }
+
         public float GetModifiedCooldown()
         {
-            return data.cooldown * cooldownMultiplier;
+            float baseCooldown = data.cooldown * cooldownMultiplier;
+
+            // Check if we've hit minimum cooldown and have a max upgraded repeat rate
+            if (data.maxUpgradedRepeatRate > 0f && cooldownMultiplier <= data.minCooldownMultiplier)
+            {
+                return data.maxUpgradedRepeatRate;
+            }
+
+            return baseCooldown;
         }
 
         public float GetModifiedDuration()

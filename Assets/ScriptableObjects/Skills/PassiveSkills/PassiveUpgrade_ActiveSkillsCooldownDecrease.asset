@@ -15,7 +15,8 @@ MonoBehaviour:
   upgradeId: ActiveSkillsCooldownDecrease
   displayName: Cooldown -10%
   description: Reduces cooldowns by {value}%
-  icon: {fileID: 21300000, guid: b56a4634f7ef03f4396eafe46d62f72d, type: 3}
+  passiveImage: {fileID: 21300000, guid: bbe833a9207e7fa41bbd3ce71ad09605, type: 3}
   type: 0
   targetSkillId: 
   value: 10
+  triggersMaxEvent: 1

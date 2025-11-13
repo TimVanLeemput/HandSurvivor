@@ -38,6 +38,13 @@ namespace HandSurvivor.ActiveSkills
         [Tooltip("Raw damage value (usage depends on skill type)")]
         public int damage = 100;
 
+        [Tooltip("Minimum cooldown multiplier (0.01 = 1% of base cooldown, prevents infinite spam)")]
+        [Range(0.01f, 1f)]
+        public float minCooldownMultiplier = 0.1f;
+
+        [Tooltip("Repeat rate when min cooldown is hit (seconds between activations, 0 = use min cooldown)")]
+        public float maxUpgradedRepeatRate = 0f;
+
         [Header("VFX/Audio")]
         [Tooltip("Particle effect on pickup")]
         public GameObject pickupVFX;
