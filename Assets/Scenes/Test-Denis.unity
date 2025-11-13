@@ -2852,6 +2852,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VR
       objectReference: {fileID: 0}
+    - target: {fileID: 110478864337419961, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1035159215501031094, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6137,6 +6141,11 @@ MonoBehaviour:
   XPParent: {fileID: 1475173783}
   Level: 1
   XPIncreasePerLevel: 100
+  CurrentXPForLevel: 1000
+  CurrentXP: 0
+  OnLevelUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1521246079
 MonoBehaviour:
   m_ObjectHideFlags: 0

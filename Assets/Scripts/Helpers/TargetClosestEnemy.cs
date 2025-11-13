@@ -6,7 +6,7 @@ public class TargetClosestEnemy : MonoBehaviour
     public Transform Reference;
     public Enemy Target;
     public int DPS = 100;
-    private Ennemy previousTarget;
+    private Enemy previousTarget;
     private ActiveSkillBase activeSkill;
 
     public bool IsActive;
