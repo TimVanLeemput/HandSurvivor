@@ -8,7 +8,7 @@ public class FitWorldToTable : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private WorldPlacementReference worldPlacementReference;
-
+    
     private WorldReference worldReference;
 
     private void Start()
@@ -70,5 +70,9 @@ public class FitWorldToTable : MonoBehaviour
     public void RefitWorld()
     {
         FitWorld();
+    }
+
+    public void CallFindAndFitWorld()
+    {
     }
 }

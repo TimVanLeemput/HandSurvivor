@@ -52945,6 +52945,7 @@ GameObject:
   - component: {fileID: 2798980019918713541}
   - component: {fileID: 5281328124151624540}
   - component: {fileID: 7445402260830407261}
+  - component: {fileID: 6706260317017974320}
   m_Layer: 0
   m_Name: OVRCameraRig
   m_TagString: Player
@@ -53089,6 +53090,22 @@ MonoBehaviour:
   - <Keyboard>/leftAlt
   - <Keyboard>/rightAlt
   - <Keyboard>/f2
+--- !u!114 &6706260317017974320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6965546600224379257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8e1d778abf442e4bec449c360e9e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.VR::OVRScreenFade
+  fadeTime: 2
+  fadeColor: {r: 0.01, g: 0.01, b: 0.01, a: 1}
+  fadeOnStart: 1
+  renderQueue: 5000
 --- !u!1 &6971666011556792242
 GameObject:
   m_ObjectHideFlags: 0
