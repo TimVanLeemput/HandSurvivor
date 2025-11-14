@@ -1979,7 +1979,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
       - m_Target: {fileID: 545785024}
         m_TargetAssemblyTypeName: XPManager, Assembly-CSharp
         m_MethodName: LevelUp
@@ -1992,6 +1992,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 0
+      - m_Target: {fileID: 1718815559}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &180883579
 Transform:
   m_ObjectHideFlags: 0
@@ -4454,8 +4466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64895592ecb974540bfa5cf1262d0cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FitWorldToTable
-  rebuildNavMesh: 0
-  navMeshRebuildDelay: 0.1
   sceneLoader: {fileID: 1718815559}
   worldPlacementReference: {fileID: 1325242710}
 --- !u!4 &401334303
@@ -7246,7 +7256,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 560713486}
-  - component: {fileID: 560713487}
   m_Layer: 0
   m_Name: CustomVRManager
   m_TagString: Untagged
@@ -7270,18 +7279,6 @@ Transform:
   - {fileID: 1409274498}
   m_Father: {fileID: 932785278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &560713487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 560713485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d9cc1fe933fe034aaabf71e8f2c5b54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CustomVRManager
 --- !u!1 &569024182
 GameObject:
   m_ObjectHideFlags: 0
@@ -7910,7 +7907,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.016666668
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
@@ -11202,7 +11199,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &852988756
 Transform:
   m_ObjectHideFlags: 0
@@ -12330,6 +12327,10 @@ PrefabInstance:
     - target: {fileID: 110478864337419961, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_Name
       value: VR
+      objectReference: {fileID: 0}
+    - target: {fileID: 110478864337419961, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7563554515575242704, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17620,7 +17621,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.016666668
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: b6db4d9c07639924c87b57582c8f3e6f, type: 2}
   m_BuildHeightMesh: 0
@@ -23654,7 +23655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1521246076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23662,20 +23663,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1521246075}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a80a26733fbaf3844bff773dd676af70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WavesManager
-  Ennemies: {fileID: 11400000, guid: 2e47e6213061fd34bb9808a377f89500, type: 2}
-  EnnemiesSpawnPoints:
+  enemies: {fileID: 11400000, guid: 2e47e6213061fd34bb9808a377f89500, type: 2}
+  EnemiesSpawnPoints:
   - {fileID: 1204848612}
   - {fileID: 1645535156}
   - {fileID: 269232212}
   - {fileID: 1941375227}
   Waves:
   - {fileID: 11400000, guid: 35a123a76ae5e1c43a1122be083e23f2, type: 2}
-  EnnemiesParent: {fileID: 1408872140}
+  EnemiesParent: {fileID: 1408872140}
   CurrentEnnemies: []
 --- !u!4 &1521246077
 Transform:
@@ -25981,7 +25982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
   sceneToLoad: Test-Denis
-  loadOnPlaceLocked: 1
+  loadOnPlaceLocked: 0
   loadDelay: 0.5
   OnSceneLoaded:
     m_PersistentCalls:
@@ -27272,8 +27273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64895592ecb974540bfa5cf1262d0cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FitWorldToTable
-  rebuildNavMesh: 1
-  navMeshRebuildDelay: 0.1
   sceneLoader: {fileID: 1718815559}
   worldPlacementReference: {fileID: 0}
 --- !u!1001 &1917109939
@@ -29274,12 +29273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83675d1e09f87940a25db4f770fe69d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldReference
-  WorldPlaneRenderer: {fileID: 4807544585253401395}
-  NavMeshSurface: {fileID: 0}
-  TopLeftCorner: {x: 0, y: 0, z: 0}
-  TopRightCorner: {x: 0, y: 0, z: 0}
-  BottomLeftCorner: {x: 0, y: 0, z: 0}
-  BottomRightCorner: {x: 0, y: 0, z: 0}
 --- !u!1001 &817759339834839381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32218,7 +32211,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.016666668
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
@@ -33006,7 +32999,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.016666668
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: b6db4d9c07639924c87b57582c8f3e6f, type: 2}
   m_BuildHeightMesh: 0
