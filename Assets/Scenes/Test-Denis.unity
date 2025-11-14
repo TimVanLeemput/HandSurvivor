@@ -6094,6 +6094,7 @@ GameObject:
   - component: {fileID: 1521246076}
   - component: {fileID: 1521246078}
   - component: {fileID: 1521246079}
+  - component: {fileID: 1521246080}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -6172,6 +6173,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesNavMeshSyncManager
   miniatureEnemiesParent: {fileID: 1408872140}
+--- !u!114 &1521246080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521246075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 939400d368f15a741bba6b70ba19694a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.LevelUp.LevelUpManager
+  skillPool: {fileID: 11400000, guid: c1487416c8e753040bcbb2a13e4706ee, type: 2}
+  choiceCount: 3
 --- !u!1001 &1557314201
 PrefabInstance:
   m_ObjectHideFlags: 0
