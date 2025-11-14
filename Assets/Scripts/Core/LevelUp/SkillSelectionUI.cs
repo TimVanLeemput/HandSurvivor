@@ -10,6 +10,8 @@ namespace HandSurvivor.Core.LevelUp
 {
     public class SkillSelectionUI : MonoBehaviour
     {
+        public static SkillSelectionUI Instance { get; private set; }
+
         [Header("UI References")] [SerializeField]
         private GameObject selectionPanel;
 
@@ -28,6 +30,17 @@ namespace HandSurvivor.Core.LevelUp
 
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             if (selectionPanel != null)
             {
                 selectionPanel.SetActive(false);

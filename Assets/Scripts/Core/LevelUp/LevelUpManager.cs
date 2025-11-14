@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HandSurvivor.ActiveSkills;
@@ -11,7 +12,6 @@ namespace HandSurvivor.Core.LevelUp
 
         [Header("References")]
         [SerializeField] private SkillPoolData skillPool;
-        [SerializeField] private SkillSelectionUI selectionUI;
 
         [Header("Settings")]
         [SerializeField] private int choiceCount = 3;
@@ -33,13 +33,31 @@ namespace HandSurvivor.Core.LevelUp
 
         private void Start()
         {
+            StartCoroutine(InitializeWithRetry());
+        }
+
+        private IEnumerator InitializeWithRetry()
+        {
+            float timeout = 5f;
+            float elapsed = 0f;
+
+            while (elapsed < timeout)
+            {
+                if (XPManager.Instance != null && SkillSelectionUI.Instance != null)
+                {
+                    break;
+                }
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+            }
+
             if (XPManager.Instance != null)
             {
                 XPManager.Instance.OnLevelUp.AddListener(OnPlayerLevelUp);
             }
             else
             {
-                Debug.LogError("[LevelUpManager] XPManager.Instance is null!",gameObject);
+                Debug.LogError("[LevelUpManager] XPManager.Instance is null after 5 second timeout!",gameObject);
             }
 
             if (skillPool == null)
@@ -47,9 +65,9 @@ namespace HandSurvivor.Core.LevelUp
                 Debug.LogError("[LevelUpManager] SkillPool not assigned!",gameObject);
             }
 
-            if (selectionUI == null)
+            if (SkillSelectionUI.Instance == null)
             {
-                Debug.LogError("[LevelUpManager] SkillSelectionUI not assigned!",gameObject);
+                Debug.LogError("[LevelUpManager] SkillSelectionUI.Instance is null after 5 second timeout!",gameObject);
             }
         }
 
@@ -86,6 +104,12 @@ namespace HandSurvivor.Core.LevelUp
 
         private void ShowActiveSkillSelection()
         {
+            if (SkillSelectionUI.Instance == null)
+            {
+                Debug.LogError("[LevelUpManager] SkillSelectionUI.Instance is null!");
+                return;
+            }
+
             List<GameObject> randomSkills = skillPool.GetRandomActiveSkills(choiceCount);
 
             if (randomSkills.Count == 0)
@@ -105,11 +129,17 @@ namespace HandSurvivor.Core.LevelUp
             }
 
             PauseGame();
-            selectionUI.ShowActiveSkillSelection(skillDataList, randomSkills, OnActiveSkillSelected);
+            SkillSelectionUI.Instance.ShowActiveSkillSelection(skillDataList, randomSkills, OnActiveSkillSelected);
         }
 
         private void ShowPassiveUpgradeSelection()
         {
+            if (SkillSelectionUI.Instance == null)
+            {
+                Debug.LogError("[LevelUpManager] SkillSelectionUI.Instance is null!");
+                return;
+            }
+
             List<PassiveUpgradeData> randomUpgrades = skillPool.GetRandomPassiveUpgrades(choiceCount);
 
             if (randomUpgrades.Count == 0)
@@ -119,7 +149,7 @@ namespace HandSurvivor.Core.LevelUp
             }
 
             PauseGame();
-            selectionUI.ShowPassiveUpgradeSelection(randomUpgrades, OnPassiveUpgradeSelected);
+            SkillSelectionUI.Instance.ShowPassiveUpgradeSelection(randomUpgrades, OnPassiveUpgradeSelected);
         }
 
         private void OnActiveSkillSelected(GameObject skillPrefab)

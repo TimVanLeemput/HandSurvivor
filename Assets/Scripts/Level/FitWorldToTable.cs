@@ -45,7 +45,7 @@ public class FitWorldToTable : MonoBehaviour
 
         if (refs.Length == 0)
         {
-            Debug.LogError("[FitWorldToTable] No WorldReference found!");
+            Debug.LogWarning("[FitWorldToTable] No WorldReference found!");
             yield break;
         }
 

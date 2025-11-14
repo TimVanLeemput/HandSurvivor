@@ -1195,14 +1195,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Level.SceneLoaderManager
   scenesToLoad:
+  - sceneAsset: {fileID: 102900000, guid: e248e566f5896644caa24333fb211484, type: 3}
+    scenePath: Assets/Scenes/Environment.unity
   - sceneAsset: {fileID: 102900000, guid: 2634450c25fb32f4f977c27479ab86d6, type: 3}
     scenePath: Assets/Scenes/MainMenu.unity
   - sceneAsset: {fileID: 102900000, guid: d1469832cf06d7a4f9230fa14dc662eb, type: 3}
-    scenePath: Assets/Scenes/TimDevScene.unity
+    scenePath: Assets/Scenes/WorldPlacementScene.unity
+  - sceneAsset: {fileID: 102900000, guid: 9d4de55d332ad594ba156312d74cba9d, type: 3}
+    scenePath: Assets/Scenes/ActiveSkills&PassiveUpgradesUI.unity
   loadingScreenScene:
     sceneAsset: {fileID: 102900000, guid: a0ff693285811124d94eb381ecbdd49d, type: 3}
     scenePath: Assets/Scenes/LoadingScene.unity
   useLoadingScreen: 1
+  useFade: 0
   fadeOutDuration: 1
   fadeInDuration: 1
   fadeColor: {r: 0, g: 0, b: 0, a: 1}

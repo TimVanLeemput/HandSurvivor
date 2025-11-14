@@ -22,6 +22,7 @@ namespace HandSurvivor.Level
         [SerializeField] private bool useLoadingScreen = false;
 
         [Header("Fade Settings")]
+        [SerializeField] private bool useFade = true;
         [SerializeField] private float fadeOutDuration = 1f;
         [SerializeField] private float fadeInDuration = 1f;
         [SerializeField] private Color fadeColor = Color.black;
@@ -194,6 +195,71 @@ namespace HandSurvivor.Level
 
             loadedScenes.Add(sceneName);
             Debug.Log($"SceneLoaderManager: Loaded scene '{sceneName}'");
+        }
+
+        public void UnloadScene(SceneReference sceneToUnload)
+        {
+            if (sceneToUnload == null || !sceneToUnload.IsValid)
+            {
+                Debug.LogError("SceneLoaderManager: Invalid scene reference provided for unload");
+                return;
+            }
+
+            if (useFade)
+            {
+                StartCoroutine(UnloadSceneWithFadeAsync(sceneToUnload.ScenePath));
+            }
+            else
+            {
+                StartCoroutine(UnloadSceneAsync(sceneToUnload.ScenePath));
+            }
+        }
+
+        public void UnloadScenes(List<SceneReference> scenesToUnload)
+        {
+            if (scenesToUnload == null || scenesToUnload.Count == 0)
+            {
+                Debug.LogWarning("SceneLoaderManager: No scenes provided to unload");
+                return;
+            }
+
+            StartCoroutine(UnloadScenesSequence(scenesToUnload));
+        }
+
+        private IEnumerator UnloadScenesSequence(List<SceneReference> scenesToUnloadList)
+        {
+            if (useFade)
+            {
+                yield return FadeOut();
+            }
+
+            foreach (SceneReference sceneRef in scenesToUnloadList)
+            {
+                if (sceneRef == null || !sceneRef.IsValid)
+                {
+                    Debug.LogWarning("SceneLoaderManager: Invalid scene reference in unload list, skipping");
+                    continue;
+                }
+
+                yield return UnloadSceneAsync(sceneRef.ScenePath);
+            }
+
+            if (useFade)
+            {
+                yield return FadeIn();
+            }
+        }
+
+        private IEnumerator UnloadSceneWithFadeAsync(string scenePath)
+        {
+            yield return FadeOut();
+            yield return UnloadSceneAsync(scenePath);
+            yield return FadeIn();
+        }
+
+        public void UnloadScene(string scenePath)
+        {
+            StartCoroutine(UnloadSceneAsync(scenePath));
         }
 
         private IEnumerator UnloadSceneAsync(string scenePath)
