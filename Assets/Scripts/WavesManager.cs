@@ -15,7 +15,7 @@ public class WavesManager : MonoBehaviour
 
     public List<Wave> Waves;
 
-    [FormerlySerializedAs("EnnemiesParent")] public Transform EnemiesParent;
+    public Transform EnemiesParent;
 
     public List<Enemy> CurrentEnnemies;
 
@@ -44,10 +44,6 @@ public class WavesManager : MonoBehaviour
                 spawnPoint.rotation,
                 EnemiesParent
             );
-            
-            var graphAgent = go.GetComponent<BehaviorGraphAgent>();
-            graphAgent.SetVariableValue("Target", Nexus.Instance.gameObject);
-            graphAgent.SetVariableValue("Speed", go.GetComponent<Enemy>().speed);
             
             CurrentEnnemies.Add(go.GetComponent<Enemy>());
 

@@ -8,19 +8,7 @@ public class EnemyNavMeshSync : MonoBehaviour
     public Animator animator;
     public Animator miniatureAnimator;
 
-    private BlackboardVariable<Attack> attack;
-    private BehaviorGraphAgent behaviorGraphAgent;
-
-    private void Start()
-    {
-        behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
-        if (behaviorGraphAgent.BlackboardReference.GetVariable("Attack", out attack))
-        {
-            attack.Value.Event += OnAttack;
-        }
-    }
-
-    private void OnAttack()
+    public void Attack()
     {
         miniatureAnimator.SetTrigger("Attack");
     }
@@ -30,13 +18,5 @@ public class EnemyNavMeshSync : MonoBehaviour
         miniatureTransform.localPosition = transform.localPosition;
         miniatureTransform.localRotation = transform.localRotation;
         miniatureAnimator.enabled = animator.enabled;
-    }
-    
-    private void OnDestroy()
-    {
-        if (attack != null && attack.Value != null)
-        {
-            attack.Value.Event -= OnAttack;
-        }
     }
 }

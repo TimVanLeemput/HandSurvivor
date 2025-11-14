@@ -18,7 +18,6 @@ public class EnemiesNavMeshSyncManager : MonoBehaviour
     {
         GameObject miniature = Instantiate(ennemy, miniatureEnemiesParent);
         Destroy(miniature.GetComponent<NavMeshAgent>());
-        Destroy(miniature.GetComponent<BehaviorGraphAgent>());
         Destroy(miniature.GetComponent<EnemyNavMeshSync>());
         EnemyNavMeshSync sync = ennemy.GetComponent<EnemyNavMeshSync>();
         sync.animator = ennemy.GetComponent<Animator>();
