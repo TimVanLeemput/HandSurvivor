@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "com.domybest.mybox": "https://github.com/Deadcows/MyBox.git",
-    "com.meta.xr.sdk.all": "81.0.0",
+    "com.meta.xr.sdk.core": "81.0.0",
+    "com.meta.xr.sdk.interaction.ovr": "81.0.0",
+    "com.meta.xr.simulator": "81.0.0",
     "com.unity.2d.enhancers": "1.0.0",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.assistant": "1.0.0-pre.12",
