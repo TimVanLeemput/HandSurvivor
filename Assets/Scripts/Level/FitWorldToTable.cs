@@ -2,33 +2,37 @@ using System.Collections;
 using UnityEngine;
 using Unity.AI.Navigation;
 using HandSurvivor;
+using HandSurvivor.Level;
 
 public class FitWorldToTable : MonoBehaviour
 {
-    [Header("References")] [SerializeField]
-    private SceneLoader sceneLoader;
-
+    [Header("References")]
     [SerializeField] private WorldPlacementReference worldPlacementReference;
 
     private WorldReference worldReference;
 
     private void Start()
     {
-        if (sceneLoader != null)
+        if (SceneLoaderManager.Instance != null)
         {
-            sceneLoader.OnSceneLoaded.AddListener(OnSceneLoaded);
+            SceneLoaderManager.Instance.OnLoadingComplete.AddListener(OnScenesLoaded);
+        }
+        else
+        {
+            Debug.LogWarning("[FitWorldToTable] SceneLoaderManager not found, attempting immediate fit");
+            StartCoroutine(FindAndFitWorld());
         }
     }
 
     private void OnDestroy()
     {
-        if (sceneLoader != null)
+        if (SceneLoaderManager.Instance != null)
         {
-            sceneLoader.OnSceneLoaded.RemoveListener(OnSceneLoaded);
+            SceneLoaderManager.Instance.OnLoadingComplete.RemoveListener(OnScenesLoaded);
         }
     }
 
-    private void OnSceneLoaded(string sceneName)
+    private void OnScenesLoaded()
     {
         StartCoroutine(FindAndFitWorld());
     }
