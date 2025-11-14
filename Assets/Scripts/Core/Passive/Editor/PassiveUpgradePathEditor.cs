@@ -4,7 +4,7 @@ using UnityEngine;
 namespace HandSurvivor.Core.Passive
 {
     [CustomEditor(typeof(PassiveUpgradePath))]
-    public class PassiveUpgradePathEditor : Editor
+    public class PassiveUpgradePathEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {

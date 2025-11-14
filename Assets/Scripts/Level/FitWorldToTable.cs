@@ -20,7 +20,7 @@ public class FitWorldToTable : MonoBehaviour
         else
         {
             Debug.LogWarning("[FitWorldToTable] SceneLoaderManager not found, attempting immediate fit");
-            StartCoroutine(FindAndFitWorld());
+            // StartCoroutine(FindAndFitWorld());
         }
     }
 

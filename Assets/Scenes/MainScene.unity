@@ -458,6 +458,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925ef87c5bafc37469a2f7ec825dee4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1365570577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1365570580}
+  - component: {fileID: 1365570579}
+  - component: {fileID: 1365570578}
+  m_Layer: 0
+  m_Name: PointableCanvasModule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1365570578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365570577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2518c50cb3fc6a6458d4b743c2f69c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.PointableCanvasModule
+  m_SendPointerHoverToParent: 1
+  _useInitialPressPositionForDrag: 1
+  _exclusiveMode: 1
+--- !u!114 &1365570579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365570577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &1365570580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365570577}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.5642377, z: -0, w: 0.82561237}
+  m_LocalPosition: {x: 6.1011057, y: 0.5710407, z: -4.265399}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1558217171}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1468293172
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -968,6 +1031,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7563554515575242704, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1509345693}
+    - targetCorrespondingSourceObject: {fileID: 7563554515575242704, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1365570580}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
 --- !u!4 &1558217171 stripped
@@ -1131,10 +1197,12 @@ MonoBehaviour:
   scenesToLoad:
   - sceneAsset: {fileID: 102900000, guid: 2634450c25fb32f4f977c27479ab86d6, type: 3}
     scenePath: Assets/Scenes/MainMenu.unity
+  - sceneAsset: {fileID: 102900000, guid: d1469832cf06d7a4f9230fa14dc662eb, type: 3}
+    scenePath: Assets/Scenes/TimDevScene.unity
   loadingScreenScene:
-    sceneAsset: {fileID: 0}
-    scenePath: 
-  useLoadingScreen: 0
+    sceneAsset: {fileID: 102900000, guid: a0ff693285811124d94eb381ecbdd49d, type: 3}
+    scenePath: Assets/Scenes/LoadingScene.unity
+  useLoadingScreen: 1
   fadeOutDuration: 1
   fadeInDuration: 1
   fadeColor: {r: 0, g: 0, b: 0, a: 1}
