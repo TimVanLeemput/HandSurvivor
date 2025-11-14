@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 6584770333803394966}
   - component: {fileID: 7720795384948698374}
   - component: {fileID: 8210928559639831987}
-  m_Layer: 0
+  - component: {fileID: 6177721938528254674}
+  m_Layer: 9
   m_Name: XPDroplet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,4 +125,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f823b293e30fcd74aacaf0dd8efd7392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::XPDroplet
-  XPAmount: 0
+  XPAmount: 10
+--- !u!54 &6177721938528254674
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4875623832796805400}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
