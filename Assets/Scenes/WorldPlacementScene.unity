@@ -952,59 +952,6 @@ Transform:
   - {fileID: 869308896}
   m_Father: {fileID: 1325242701}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &545785022
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 545785023}
-  - component: {fileID: 545785024}
-  m_Layer: 0
-  m_Name: XPManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &545785023
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545785022}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.63547, y: 1.84768, z: -0.1812}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 932785278}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &545785024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545785022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31f70598aaf71744aacda82767ec6498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::XPManager
-  XPPrefab: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
-  XPParent: {fileID: 0}
-  Level: 1
-  XPIncreasePerLevel: 100
-  CurrentXPForLevel: 1000
-  CurrentXP: 0
-  OnLevelUp:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &662411495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,7 +1127,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1992839245}
-  - {fileID: 545785023}
   - {fileID: 433322505}
   - {fileID: 1468215008}
   - {fileID: 48645113}
@@ -1380,6 +1326,7 @@ GameObject:
   - component: {fileID: 1325242708}
   - component: {fileID: 1325242710}
   - component: {fileID: 1325242711}
+  - component: {fileID: 1325242712}
   m_Layer: 0
   m_Name: Grabbable-WorldAnchor
   m_TagString: Untagged
@@ -1537,6 +1484,38 @@ MonoBehaviour:
   transformReference: {fileID: 11400000, guid: af71baba46cc494478f193ef23557ba4, type: 2}
   setOnStart: 1
   setOnEnable: 0
+--- !u!114 &1325242712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325242700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04008f84bc2f86b46b9ead16057fb4d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GlobalBoolState
+  globalBoolStateData: {fileID: 11400000, guid: 693b71da967185042acf986718194a09, type: 2}
+  checkOnStart: 0
+  OnStateTrue:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStateFalse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1837072784}
+        m_TargetAssemblyTypeName: BoolState, Assembly-CSharp
+        m_MethodName: SetTrueAndCheck
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1356574078
 GameObject:
   m_ObjectHideFlags: 0
@@ -2365,7 +2344,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 224362151}
         m_TargetAssemblyTypeName: GrabbableController, Assembly-CSharp
-        m_MethodName: DisableGrabbing
+        m_MethodName: EnableGrabbing
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

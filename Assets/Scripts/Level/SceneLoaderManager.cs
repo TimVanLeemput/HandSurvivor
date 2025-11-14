@@ -142,7 +142,7 @@ namespace HandSurvivor.Level
 
                 if (sceneRef == null || !sceneRef.IsValid)
                 {
-                    Debug.LogWarning($"SceneLoaderManager: Scene at index {i} is invalid, skipping");
+                    Debug.LogWarning($"SceneLoaderManager: Scene at index {i} is invalid, skipping"); 
                     continue;
                 }
 
@@ -172,6 +172,12 @@ namespace HandSurvivor.Level
         private IEnumerator LoadSceneAsync(string scenePath, bool isLoadingScreen, float progressBase = 0f, float progressRange = 1f)
         {
             string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
+
+            if (SceneManager.GetSceneByName(sceneName).isLoaded)
+            {
+                Debug.LogWarning($"SceneLoaderManager: Scene '{sceneName}' is already loaded, skipping");  // WARNING - MIGHT NEED TO REMOVE IF WE WANT TO RELOAD SAME LEVEL?
+                yield break;
+            }
 
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scenePath, LoadSceneMode.Additive);
 
