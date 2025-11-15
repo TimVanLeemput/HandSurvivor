@@ -17,6 +17,8 @@ namespace HandSurvivor.ActiveSkills
         [SerializeField] private float damage = 10f;
         [SerializeField] private float damageInterval = 0.1f;
         [SerializeField] private LayerMask hitLayers = ~0;
+        [SerializeField] private string enemyTag = "Enemy";
+
 
         [Header("Visual")] [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private float beamWidth = 0.05f;
@@ -150,35 +152,33 @@ namespace HandSurvivor.ActiveSkills
 
         private void UpdateBeam()
         {
+            if (origin == null || lineRenderer == null) return;
+
             Vector3 startPos = origin.position;
             Vector3 direction = origin.forward;
-
-            // Raycast to find hit point
-            RaycastHit hit;
             Vector3 endPos;
+
+            RaycastHit hit;
             bool didHit = Physics.Raycast(startPos, direction, out hit, maxRange, hitLayers);
 
             if (didHit)
             {
-                Debug.Log($"[LaserBeam] Hit: {hit.collider.name}", hit.collider.gameObject);
+                // Check if hit object has the correct tag
                 endPos = hit.point;
 
-                // Update or spawn hit effect
+                // Spawn/update hit effect
                 if (hitEffectPrefab != null)
                 {
                     if (currentHitEffect == null)
-                    {
                         currentHitEffect = Instantiate(hitEffectPrefab);
-                    }
 
                     currentHitEffect.transform.position = hit.point;
-                    // currentHitEffect.transform.rotation = Quaternion.LookRotation(hit.normal);
                     currentHitEffect.transform.eulerAngles =
                         new Vector3(0f, currentHitEffect.transform.eulerAngles.y, 0f);
                 }
 
-                // Deal damage
-                if (Time.time >= lastDamageTime + damageInterval && hit.transform != null && hit.transform.gameObject != null)
+                // Deal damage with timing check
+                if (Time.time >= lastDamageTime + damageInterval)
                 {
                     DealDamage(hit);
                     lastDamageTime = Time.time;
@@ -188,7 +188,6 @@ namespace HandSurvivor.ActiveSkills
             {
                 endPos = startPos + direction * maxRange;
 
-                // Destroy hit effect if no longer hitting
                 if (currentHitEffect != null)
                 {
                     Destroy(currentHitEffect);
@@ -196,18 +195,15 @@ namespace HandSurvivor.ActiveSkills
                 }
             }
 
-            // Update line renderer positions
+            // Update line renderer
             lineRenderer.SetPosition(0, startPos);
             lineRenderer.SetPosition(1, endPos);
         }
 
         private void DealDamage(RaycastHit hit)
         {
-            Enemy enemy = hit.collider.GetComponent<Enemy>();
-            if (enemy == null)
-            {
-                enemy = hit.collider.transform.parent?.GetComponent<Enemy>();
-            }
+            Debug.LogWarning($"[LaserBeam] Enemy {hit.transform.gameObject.name} trying to deal damage!");
+            Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
 
             if (enemy != null)
             {

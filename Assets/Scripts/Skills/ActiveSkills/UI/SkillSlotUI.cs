@@ -149,7 +149,7 @@ namespace HandSurvivor.Skills
                 float remaining = currentSkill.RemainingCooldown;
                 float cooldownPercent = totalCooldown > 0 ? remaining / totalCooldown : 0f;
 
-                Debug.Log($"[SkillSlotUI] {currentSkill.Data.displayName} - IsOnCooldown={currentSkill.IsOnCooldown}, Remaining={remaining:F2}s, Total={totalCooldown:F2}s, Percent={cooldownPercent:F2}, FillAmount being set to {cooldownPercent:F2}");
+                // Debug.Log($"[SkillSlotUI] {currentSkill.Data.displayName} - IsOnCooldown={currentSkill.IsOnCooldown}, Remaining={remaining:F2}s, Total={totalCooldown:F2}s, Percent={cooldownPercent:F2}, FillAmount being set to {cooldownPercent:F2}");
 
                 cooldownFillImage.fillAmount = cooldownPercent;
                 isTrackingCooldown = true;
