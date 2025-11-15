@@ -33,9 +33,14 @@ namespace HandSurvivor.Skills
 
         private void Update()
         {
-            if (isTrackingCooldown)
+            // Always check cooldown state, not just when tracking
+            if (currentSkill != null)
             {
                 UpdateCooldownDisplay();
+            }
+            else
+            {
+                Debug.LogWarning("[SkillSlotUI] Update - currentSkill is NULL!");
             }
         }
 
@@ -54,11 +59,13 @@ namespace HandSurvivor.Skills
 
             if (skill != null)
             {
+                Debug.Log($"[SkillSlotUI] SetSkill called with {skill.Data.displayName} (Instance ID: {skill.GetInstanceID()})");
                 ShowSkill();
                 SubscribeToSkillEvents();
             }
             else
             {
+                Debug.Log("[SkillSlotUI] SetSkill called with NULL skill");
                 ShowEmpty();
                 isTrackingCooldown = false;
             }
@@ -138,12 +145,18 @@ namespace HandSurvivor.Skills
 
             if (currentSkill.IsOnCooldown)
             {
-                float cooldownPercent = currentSkill.RemainingCooldown / currentSkill.GetModifiedCooldown();
+                float totalCooldown = currentSkill.GetModifiedCooldown();
+                float remaining = currentSkill.RemainingCooldown;
+                float cooldownPercent = totalCooldown > 0 ? remaining / totalCooldown : 0f;
+
+                Debug.Log($"[SkillSlotUI] {currentSkill.Data.displayName} - IsOnCooldown={currentSkill.IsOnCooldown}, Remaining={remaining:F2}s, Total={totalCooldown:F2}s, Percent={cooldownPercent:F2}, FillAmount being set to {cooldownPercent:F2}");
+
                 cooldownFillImage.fillAmount = cooldownPercent;
+                isTrackingCooldown = true;
             }
             else
             {
-                // Cooldown finished - stop tracking
+                // Cooldown finished
                 cooldownFillImage.fillAmount = 0f;
                 isTrackingCooldown = false;
             }

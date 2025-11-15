@@ -1,4 +1,5 @@
 using MyBox;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace HandSurvivor.ActiveSkills
@@ -202,16 +203,24 @@ namespace HandSurvivor.ActiveSkills
 
         private void DealDamage(RaycastHit hit)
         {
-            // Try to find Enemy component
             Enemy enemy = hit.collider.GetComponent<Enemy>();
             if (enemy == null)
             {
-                enemy = hit.collider.transform.parent.GetComponent<Enemy>();
+                enemy = hit.collider.transform.parent?.GetComponent<Enemy>();
             }
 
             if (enemy != null)
             {
-                enemy.GetComponent<RagdollController>().SetRagdoll(true);
+                RagdollController ragdoll = enemy.GetComponent<RagdollController>();
+                if (ragdoll != null)
+                {
+                    ragdoll.SetRagdoll(true);
+                }
+                else
+                {
+                    Debug.LogWarning($"[LaserBeam] Enemy '{enemy.name}' has no RagdollController component!");
+                }
+
                 Debug.Log($"[LaserBeam] Damaged enemy: {enemy.name}");
                 enemy.TakeDamage((int)damage);
             }
@@ -220,6 +229,7 @@ namespace HandSurvivor.ActiveSkills
                 Debug.LogWarning($"[LaserBeam] Hit object '{hit.collider.name}' has no Enemy component");
             }
         }
+
 
         private void OnDestroy()
         {

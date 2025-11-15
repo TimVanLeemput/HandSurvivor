@@ -1,6 +1,7 @@
 using MyBox;
 using UnityEngine;
 using HandSurvivor.Utilities;
+using Oculus.Interaction.PoseDetection;
 
 namespace HandSurvivor.ActiveSkills
 {
@@ -10,22 +11,38 @@ namespace HandSurvivor.ActiveSkills
     /// </summary>
     public class LaserActiveSkill : ActiveSkillBase
     {
-        [Header("Laser Configuration")]
-        [SerializeField] private GameObject laserBeamPrefab;
+        private enum LaserState
+        {
+            Idle, // Not slotted or inactive
+            Primed, // Slotted, ready to fire (sparkles active)
+            Firing, // Laser active (pose detected)
+            CoolingDown // Post-fire cooldown (no sparkles, can't fire)
+        }
+
+        [Header("Laser Configuration")] [SerializeField]
+        private GameObject laserBeamPrefab;
+
         [SerializeField] private float laserDamage = 15f;
         [SerializeField] private float laserRange = 50f;
         [SerializeField] private Color laserColor = Color.red;
 
-        [Header("Hand Tracking")]
-        [SerializeField] private bool useOffHand = true;
-        [Tooltip("Which finger tip to shoot from")]
-        [SerializeField] private OVRSkeleton.BoneId fingerTipBone = OVRSkeleton.BoneId.Hand_IndexTip;
+        [Header("Hand Tracking")] [SerializeField]
+        private bool useOffHand = true;
+
+        [Tooltip("Which finger tip to shoot from")] [SerializeField]
+        private OVRSkeleton.BoneId fingerTipBone = OVRSkeleton.BoneId.Hand_IndexTip;
+
+        [Header("Primed State")] [SerializeField]
+        private GameObject primedParticlesPrefab;
 
         private LaserBeam laserBeam;
         private Transform fingerTipTransform;
         private OVRHand targetHand;
         private OVRSkeleton targetSkeleton;
         private bool wasLaserFiring = false;
+
+        private LaserState currentState = LaserState.Idle;
+        private GameObject primedParticlesInstance;
 
         protected void Awake()
         {
@@ -59,6 +76,7 @@ namespace HandSurvivor.ActiveSkills
         protected void Start()
         {
             FindTargetHand();
+            SetupHandShapeListener();
         }
 
         private void FindTargetHand()
@@ -72,37 +90,110 @@ namespace HandSurvivor.ActiveSkills
             }
         }
 
+        private void SetupHandShapeListener()
+        {
+            if (HandShapeManager.Instance == null)
+            {
+                Debug.LogWarning("[LaserActiveSkill] No HandShapeManager assigned!");
+                return;
+            }
+
+            HandShapeManager.Instance.OnFingerGun.AddListener(OnFingerGunDetected);
+            Debug.Log("[LaserActiveSkill] Listening to HandShapeManager OnFingerGun event");
+        }
+
         protected override void Update()
         {
-            base.Update();
-
-            if (!isActive)
+            // Handle our custom cooldown logic separately from base
+            // Check cooldown expiry for CoolingDown state
+            if (currentState == LaserState.CoolingDown && isOnCooldown)
             {
-                return;
+                if (Time.time >= cooldownEndTime)
+                {
+                    Debug.Log($"[LaserActiveSkill] Cooldown expired at {Time.time} (end time was {cooldownEndTime})");
+                    isOnCooldown = false;
+                    EnterPrimedState(); // Return to primed state when cooldown completes
+                }
+            }
+
+            // Duration tracking for Firing state only (how long laser can fire)
+            if (currentState == LaserState.Firing && Time.time >= activationTime + GetModifiedDuration())
+            {
+                // Laser duration expired while firing - transition to cooling down
+                Debug.Log($"[LaserActiveSkill] Duration expired at {Time.time}");
+                OnDeactivate?.Invoke();
+                EnterCoolingDownState();
+                OnExpired();
             }
 
             UpdateFingerTipTransform();
         }
 
-        public void OnPoseDetected()
+        public void OnFingerGunDetected()
         {
-            if (isActive && !wasLaserFiring)
+            Debug.Log($"[LaserActiveSkill] OnFingerGunDetected - currentState={currentState}");
+
+            // Fire if in Primed state
+            if (currentState == LaserState.Primed)
             {
-                StartFiring();
+                Debug.Log("[LaserActiveSkill] Primed state detected - calling EnterFiringState");
+                EnterFiringState();
+            }
+            else
+            {
+                Debug.Log($"[LaserActiveSkill] Cannot fire - not in Primed state");
             }
         }
 
-        public void OnPoseLost()
+        protected override void Activate()
         {
-            if (wasLaserFiring)
+            // If already primed or in any state other than Idle/CoolingDown, do nothing
+            if (currentState == LaserState.Primed || currentState == LaserState.Firing)
             {
-                StopFiring();
+                Debug.Log($"[LaserActiveSkill] Activate() blocked - already in {currentState} state");
+                return;
             }
+
+            // Only allow activation from CoolingDown if cooldown has completed
+            if (currentState == LaserState.CoolingDown && isOnCooldown)
+            {
+                Debug.Log($"[LaserActiveSkill] Activate() blocked - still on cooldown");
+                return;
+            }
+
+            Debug.Log($"[LaserActiveSkill] Activate() called from {currentState} state");
+
+            // Override base activation to NOT start cooldown
+            // Instead, enter Primed state
+            isActive = true;
+            activationTime = Time.time;
+
+            OnActivate?.Invoke();
+            // Don't play activation sound here - only play when primed first time (in Pickup) or when laser fires
+            OnActivated();
+        }
+
+        public override bool CanActivate()
+        {
+            // Prevent re-activation if already primed or firing
+            if (currentState == LaserState.Primed || currentState == LaserState.Firing)
+            {
+                return false;
+            }
+
+            // Prevent activation during cooldown
+            if (isOnCooldown)
+            {
+                return false;
+            }
+
+            // Idle or CoolingDown with cooldown complete can activate
+            return true;
         }
 
         protected override void OnActivated()
         {
-            Debug.Log("[LaserActiveSkill] Laser window started!");
+            Debug.Log("[LaserActiveSkill] Entering Primed state!");
 
             if (laserBeam == null)
             {
@@ -131,13 +222,15 @@ namespace HandSurvivor.ActiveSkills
             }
 
             wasLaserFiring = false;
+            EnterPrimedState();
         }
 
         protected override void OnDeactivated()
         {
-            Debug.Log("[LaserActiveSkill] Laser window ended");
+            Debug.Log("[LaserActiveSkill] Laser duration expired");
 
-            StopFiring();
+            // When duration expires, enter cooling down state
+            EnterCoolingDownState();
             fingerTipTransform = null;
         }
 
@@ -167,7 +260,6 @@ namespace HandSurvivor.ActiveSkills
         private void stoplaser()
         {
             laserBeam.StopLaser();
-
         }
 
         private Transform GetFingerTipTransform()
@@ -215,5 +307,105 @@ namespace HandSurvivor.ActiveSkills
                 Gizmos.DrawRay(fingerTipTransform.position, fingerTipTransform.forward * 1f);
             }
         }
+
+        #region State Management
+
+        private void EnterPrimedState()
+        {
+            // Prevent re-entering if already primed
+            if (currentState == LaserState.Primed)
+            {
+                return;
+            }
+
+            currentState = LaserState.Primed;
+            SpawnPrimedParticles();
+            PlayActivationEffects(); // Play primed sound when entering primed state
+            Debug.Log("[LaserActiveSkill] Entered PRIMED state - sparkles active");
+        }
+
+        private void ExitPrimedState()
+        {
+            DestroyPrimedParticles();
+        }
+
+        private void EnterFiringState()
+        {
+            ExitPrimedState(); // Remove sparkles FIRST
+            currentState = LaserState.Firing;
+
+            // Set activation time for duration tracking
+            activationTime = Time.time;
+
+            StartFiring();
+            Debug.Log("[LaserActiveSkill] Entered FIRING state - laser active");
+        }
+
+        private void EnterCoolingDownState()
+        {
+            currentState = LaserState.CoolingDown;
+            StopFiring();
+
+            // Start cooldown NOW (when entering cooling down)
+            if (data != null && data.cooldown > 0f)
+            {
+                isOnCooldown = true;
+                cooldownEndTime = Time.time + GetModifiedCooldown();
+                Debug.Log(
+                    $"[LaserActiveSkill Instance {GetInstanceID()}] Cooldown started: isOnCooldown={isOnCooldown}, cooldownEndTime={cooldownEndTime}, modified cooldown={GetModifiedCooldown()}s");
+            }
+            else
+            {
+                Debug.LogWarning($"[LaserActiveSkill] Cooldown NOT started - data={data}, cooldown={data?.cooldown}");
+            }
+
+            Debug.Log(
+                $"[LaserActiveSkill Instance {GetInstanceID()}] Entered COOLING_DOWN state - waiting for cooldown");
+        }
+
+        #endregion
+
+        #region Primed Particles
+
+        private void SpawnPrimedParticles()
+        {
+            if (primedParticlesPrefab == null)
+            {
+                Debug.LogWarning("[LaserActiveSkill] No primed particles prefab assigned");
+                return;
+            }
+
+            if (fingerTipTransform == null)
+            {
+                Debug.LogWarning("[LaserActiveSkill] No finger tip transform for particles");
+                return;
+            }
+
+            // Reuse existing instance if available
+            if (primedParticlesInstance == null)
+            {
+                primedParticlesInstance = Instantiate(primedParticlesPrefab, fingerTipTransform);
+                primedParticlesInstance.transform.localPosition = Vector3.zero;
+                Debug.Log("[LaserActiveSkill] Primed particles created");
+            }
+            else
+            {
+                // Reactivate cached instance
+                primedParticlesInstance.SetActive(true);
+                Debug.Log("[LaserActiveSkill] Primed particles reactivated");
+            }
+        }
+
+        private void DestroyPrimedParticles()
+        {
+            if (primedParticlesInstance != null)
+            {
+                // Deactivate instead of destroying for reuse
+                primedParticlesInstance.SetActive(false);
+                Debug.Log("[LaserActiveSkill] Primed particles deactivated");
+            }
+        }
+
+        #endregion
     }
 }
