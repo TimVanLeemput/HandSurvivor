@@ -599,6 +599,58 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7563554515575242704, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
   m_PrefabInstance: {fileID: 1558217170}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1721494782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1721494783}
+  - component: {fileID: 1721494784}
+  m_Layer: 0
+  m_Name: DamageNumberManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1721494783
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721494782}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.13659, y: -2.13634, z: -0.94368}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1721494784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721494782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2eba3bcf80e6d24f882b1f84aa423f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.DamageNumberManager
+  damageNumberPrefab: {fileID: 7418495933469088165, guid: 0f43c67f63d474f4394fb62d05a56347, type: 3}
+  defaultPoolSize: 20
+  maxPoolSize: 50
+  lifetime: 2
+  riseSpeed: 0.1
+  fontSize: 5
+  textColor: {r: 1, g: 0.3, b: 0.2, a: 1}
+  worldScale: 0.01
 --- !u!1 &2020924423
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,3 +764,4 @@ SceneRoots:
   - {fileID: 2108804778}
   - {fileID: 48645113}
   - {fileID: 1329588030}
+  - {fileID: 1721494783}
