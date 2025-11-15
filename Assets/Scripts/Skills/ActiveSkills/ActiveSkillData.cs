@@ -57,5 +57,8 @@ namespace HandSurvivor.ActiveSkills
 
         [Tooltip("Audio clip on activation")]
         public AudioClip activationSound;
+
+        [Tooltip("Should the activation sound loop during skill duration")]
+        public bool loopActivationSound = true;
     }
 }
