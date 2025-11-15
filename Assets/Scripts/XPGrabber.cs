@@ -1,10 +1,46 @@
 using System.Collections;
 using UnityEngine;
+using HandSurvivor.Core.Passive;
+using HandSurvivor.Upgrades;
+using MyBox;
 
-public class XPGrabber : MonoBehaviour
+public class XPGrabber : MonoBehaviour, IUpgradeable
 {
+    [Header("Base Properties")]
+    [SerializeField] private float baseRadius = 1f;
     [SerializeField] private float collectDuration = 0.4f;
-    
+    private int _xPGrabberInverseScaleMultiplier = 10;
+
+    [Header("Debug Visualization")]
+    [SerializeField] private bool showDebugSphere = false;
+
+    [Header("Upgrade Tracking")]
+    [SerializeField,ReadOnly]private float rangeMultiplier = 1f;
+    private SphereCollider sphereCollider;
+    private MeshFilter debugMeshFilter;
+    private MeshRenderer debugMeshRenderer;
+
+    private void Awake()
+    {
+        sphereCollider = GetComponent<SphereCollider>();
+        if (sphereCollider != null)
+        {
+            // Store initial radius as base
+            baseRadius = sphereCollider.radius;
+        }
+
+        // Get debug visualization components
+        debugMeshFilter = GetComponent<MeshFilter>();
+        debugMeshRenderer = GetComponent<MeshRenderer>();
+
+        UpdateDebugVisualization();
+    }
+
+    private void OnValidate()
+    {
+        // UpdateDebugVisualization();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         StartCoroutine(CollectCoroutine(other));
@@ -44,4 +80,56 @@ public class XPGrabber : MonoBehaviour
         yield return null;
         Destroy(droplet.gameObject);
     }
+
+    #region IUpgradeable Implementation
+
+    public string GetUpgradeableId()
+    {
+        return "xp_grabber";
+    }
+
+    public void ApplyPassiveUpgrade(PassiveUpgradeData upgrade)
+    {
+        if (upgrade.type == PassiveType.RangeIncrease)
+        {
+            float increasePercent = upgrade.value / 100f;
+            rangeMultiplier += increasePercent;
+            UpdateRadius();
+
+            Debug.Log($"[XPGrabber] Range increased by {upgrade.value}%. New multiplier: {rangeMultiplier:F2}, New radius: {sphereCollider.radius:F2}");
+        }
+        else
+        {
+            Debug.LogWarning($"[XPGrabber] Passive type '{upgrade.type}' not supported. Only RangeIncrease is valid.");
+        }
+    }
+
+    private void UpdateRadius()
+    {
+        if (sphereCollider != null)
+        {
+            sphereCollider.radius = baseRadius * rangeMultiplier;
+        }
+
+        UpdateDebugVisualization();
+    }
+
+    private void UpdateDebugVisualization()
+    {
+        if (debugMeshRenderer != null)
+        {
+            debugMeshRenderer.enabled = showDebugSphere;
+        }
+
+        // Update scale to match radius (sphere primitive has diameter of 1, so scale = diameter = radius * 2)
+        if (showDebugSphere)
+        {
+            float currentRadius = (baseRadius * rangeMultiplier)/_xPGrabberInverseScaleMultiplier;
+            float diameter = currentRadius * 2f;
+            transform.localScale = new Vector3(diameter, diameter, diameter);
+        }
+    }
+
+
+    #endregion
 }

@@ -24,5 +24,6 @@ MonoBehaviour:
   maxUpgradedRepeatRate: 0.5
   pickupVFX: {fileID: 0}
   activationVFX: {fileID: 0}
-  pickupSound: {fileID: 8300000, guid: 8e145fe681cc3494bbe0d9dee7471fe8, type: 3}
-  activationSound: {fileID: 8300000, guid: f5c25123f5f25b54a9a570762417c870, type: 3}
+  pickupSound: {fileID: 0}
+  activationSound: {fileID: 8300000, guid: 93a976f3d7e6b82439a2e6c0197132fa, type: 3}
+  loopActivationSound: 0

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 718d60313c72bd14183d652db7c84756, type: 3}
+  m_Name: PassiveUpgrade_XPGrabberRangeIncrease
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.Passive.PassiveUpgradeData
+  upgradeId: XPGrabberRangeIncrease
+  displayName: XP Magnet Range +20%
+  description: Increases XP collection range by {value}%
+  passiveImage: {fileID: 21300000, guid: 08c71e4e0565fe4469d1e0a593047156, type: 3}
+  type: 3
+  targetSkillId: xp_grabber
+  value: 20
+  triggersMaxEvent: 0

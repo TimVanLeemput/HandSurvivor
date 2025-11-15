@@ -14,14 +14,18 @@ public class EnemiesNavMeshSyncManager : MonoBehaviour
         Instance = this;
     }
 
-    public void SpawnMiniatureEnemy(GameObject ennemy)
+    public GameObject SpawnMiniatureEnemy(GameObject enemy)
     {
-        GameObject miniature = Instantiate(ennemy, miniatureEnemiesParent);
+        GameObject miniature = Instantiate(enemy, miniatureEnemiesParent);
         Destroy(miniature.GetComponent<NavMeshAgent>());
         Destroy(miniature.GetComponent<EnemyNavMeshSync>());
-        EnemyNavMeshSync sync = ennemy.GetComponent<EnemyNavMeshSync>();
-        sync.animator = ennemy.GetComponent<Animator>();
+        EnemyNavMeshSync sync = enemy.GetComponent<EnemyNavMeshSync>();
+        sync.animator = enemy.GetComponent<Animator>();
         sync.miniatureAnimator = miniature.GetComponent<Animator>();
         sync.miniatureTransform = miniature.transform;
+        InvisibleEnemyRef invisibleEnemyRef = miniature.AddComponent<InvisibleEnemyRef>();
+        invisibleEnemyRef.Ref = enemy.GetComponent<Enemy>();
+
+        return miniature;
     }
 }

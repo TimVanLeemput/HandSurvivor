@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a30c03c53eb56be41b46c1663ad374a8, type: 3}
+  m_Name: BoneIdMapper
+  m_EditorClassIdentifier: Assembly-CSharp::BoneIdMapper
+  boneMappings:
+  - ovrBoneId: -1
+    handJointId: -1
+  - ovrBoneId: 0
+    handJointId: -1
+  - ovrBoneId: 1
+    handJointId: -1
+  - ovrBoneId: 2
+    handJointId: -1
+  - ovrBoneId: 3
+    handJointId: 3
+  - ovrBoneId: 4
+    handJointId: -1
+  - ovrBoneId: 5
+    handJointId: -1
+  - ovrBoneId: 6
+    handJointId: 8
+  - ovrBoneId: 7
+    handJointId: 9
+  - ovrBoneId: 8
+    handJointId: 12
+  - ovrBoneId: 9
+    handJointId: -1
+  - ovrBoneId: 10
+    handJointId: -1
+  - ovrBoneId: 11
+    handJointId: 17
+  - ovrBoneId: 12
+    handJointId: 18
+  - ovrBoneId: 13
+    handJointId: -1
+  - ovrBoneId: 14
+    handJointId: -1
+  - ovrBoneId: 15
+    handJointId: 22
+  - ovrBoneId: 16
+    handJointId: -1
+  - ovrBoneId: 17
+    handJointId: -1
+  - ovrBoneId: 18
+    handJointId: -1
+  - ovrBoneId: 19
+    handJointId: -1
+  - ovrBoneId: 20
+    handJointId: 15
+  - ovrBoneId: 21
+    handJointId: -1
+  - ovrBoneId: 22
+    handJointId: -1
+  - ovrBoneId: 23
+    handJointId: -1
+  - ovrBoneId: 24
+    handJointId: -1
+  - ovrBoneId: 25
+    handJointId: -1
+  - ovrBoneId: 26
+    handJointId: -1
+  - ovrBoneId: 27
+    handJointId: -1
+  - ovrBoneId: 28
+    handJointId: -1
+  - ovrBoneId: 29
+    handJointId: -1
+  - ovrBoneId: 30
+    handJointId: -1
+  - ovrBoneId: 31
+    handJointId: -1
+  - ovrBoneId: 32
+    handJointId: -1
+  - ovrBoneId: 33
+    handJointId: -1
+  - ovrBoneId: 34
+    handJointId: -1
+  - ovrBoneId: 35
+    handJointId: -1
+  - ovrBoneId: 36
+    handJointId: -1
+  - ovrBoneId: 37
+    handJointId: -1
+  - ovrBoneId: 38
+    handJointId: -1
+  - ovrBoneId: 39
+    handJointId: -1
+  - ovrBoneId: 40
+    handJointId: -1
+  - ovrBoneId: 41
+    handJointId: -1
+  - ovrBoneId: 42
+    handJointId: -1
+  - ovrBoneId: 43
+    handJointId: -1
+  - ovrBoneId: 44
+    handJointId: -1
+  - ovrBoneId: 45
+    handJointId: -1
+  - ovrBoneId: 46
+    handJointId: -1
+  - ovrBoneId: 47
+    handJointId: -1
+  - ovrBoneId: 48
+    handJointId: -1
+  - ovrBoneId: 49
+    handJointId: -1
+  - ovrBoneId: 50
+    handJointId: -1
+  - ovrBoneId: 51
+    handJointId: -1
+  - ovrBoneId: 52
+    handJointId: -1
+  - ovrBoneId: 53
+    handJointId: -1
+  - ovrBoneId: 54
+    handJointId: -1
+  - ovrBoneId: 55
+    handJointId: -1
+  - ovrBoneId: 56
+    handJointId: -1
+  - ovrBoneId: 57
+    handJointId: -1
+  - ovrBoneId: 58
+    handJointId: -1
+  - ovrBoneId: 59
+    handJointId: -1
+  - ovrBoneId: 60
+    handJointId: -1
+  - ovrBoneId: 61
+    handJointId: -1
+  - ovrBoneId: 62
+    handJointId: -1
+  - ovrBoneId: 63
+    handJointId: -1
+  - ovrBoneId: 64
+    handJointId: -1
+  - ovrBoneId: 65
+    handJointId: -1
+  - ovrBoneId: 66
+    handJointId: -1
+  - ovrBoneId: 67
+    handJointId: -1
+  - ovrBoneId: 68
+    handJointId: -1
+  - ovrBoneId: 69
+    handJointId: -1
+  - ovrBoneId: 70
+    handJointId: -1
+  - ovrBoneId: 71
+    handJointId: -1
+  - ovrBoneId: 72
+    handJointId: -1
+  - ovrBoneId: 73
+    handJointId: -1
+  - ovrBoneId: 74
+    handJointId: -1
+  - ovrBoneId: 75
+    handJointId: -1
+  - ovrBoneId: 76
+    handJointId: -1
+  - ovrBoneId: 77
+    handJointId: -1
+  - ovrBoneId: 78
+    handJointId: -1
+  - ovrBoneId: 79
+    handJointId: -1
+  - ovrBoneId: 80
+    handJointId: -1
+  - ovrBoneId: 81
+    handJointId: -1
+  - ovrBoneId: 82
+    handJointId: -1
+  - ovrBoneId: 83
+    handJointId: -1
+  - ovrBoneId: 84
+    handJointId: -1

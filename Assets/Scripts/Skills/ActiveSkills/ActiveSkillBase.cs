@@ -2,6 +2,7 @@ using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
 using HandSurvivor.Core.Passive;
+using HandSurvivor.Upgrades;
 
 namespace HandSurvivor.ActiveSkills
 {
@@ -9,7 +10,7 @@ namespace HandSurvivor.ActiveSkills
     /// Abstract base class for all active skills
     /// Extend this to create new active skill types
     /// </summary>
-    public abstract class ActiveSkillBase : MonoBehaviour
+    public abstract class ActiveSkillBase : MonoBehaviour, IUpgradeable
     {
         [Header("Configuration")]
         [SerializeField] protected ActiveSkillData data;
@@ -30,6 +31,7 @@ namespace HandSurvivor.ActiveSkills
         protected float cooldownEndTime = 0f;
 
         protected AudioSource activationAudioSource;
+        protected GameObject audioObject;
 
         [Header("Passive System")]
         protected PassiveUpgradePath upgradePath;
@@ -218,23 +220,25 @@ namespace HandSurvivor.ActiveSkills
 
             if (data.activationSound != null)
             {
-                // Stop previous audio if still playing
-                if (activationAudioSource != null && activationAudioSource.isPlaying)
+                // Create audio GameObject on first use
+                if (audioObject == null)
                 {
-                    activationAudioSource.Stop();
-                    Destroy(activationAudioSource.gameObject);
+                    audioObject = new GameObject($"{data.displayName}_ActivationAudio");
+                    audioObject.transform.SetParent(transform);
+                    activationAudioSource = audioObject.AddComponent<AudioSource>();
                 }
 
-                // Create temporary GameObject with AudioSource for looping
-                GameObject audioObject = new GameObject($"{data.displayName}_ActivationAudio");
-                audioObject.transform.position = transform.position;
-                activationAudioSource = audioObject.AddComponent<AudioSource>();
-                activationAudioSource.clip = data.activationSound;
-                activationAudioSource.loop = true;
-                activationAudioSource.Play();
+                // Stop previous audio if still playing
+                if (activationAudioSource.isPlaying)
+                {
+                    activationAudioSource.Stop();
+                }
 
-                // Destroy audio after skill duration
-                Destroy(audioObject, GetModifiedDuration());
+                // Configure and play
+                audioObject.transform.position = transform.position;
+                activationAudioSource.clip = data.activationSound;
+                activationAudioSource.loop = data.loopActivationSound;
+                activationAudioSource.Play();
             }
         }
 
@@ -302,5 +306,44 @@ namespace HandSurvivor.ActiveSkills
         {
             return baseSize * sizeMultiplier;
         }
+
+        #region IUpgradeable Implementation
+
+        public string GetUpgradeableId()
+        {
+            return data != null ? data.activeSkillId : string.Empty;
+        }
+
+        public void ApplyPassiveUpgrade(PassiveUpgradeData upgrade)
+        {
+            // Route to existing multiplier methods
+            switch (upgrade.type)
+            {
+                case PassiveType.CooldownReduction:
+                    ApplyCooldownMultiplier(upgrade.value / 100f);
+                    break;
+
+                case PassiveType.DamageIncrease:
+                    ApplyDamageMultiplier(upgrade.value / 100f);
+                    break;
+
+                case PassiveType.SizeIncrease:
+                    ApplySizeMultiplier(upgrade.value / 100f);
+                    break;
+
+                case PassiveType.RangeIncrease:
+                    // ActiveSkills don't typically have range, but can be extended in derived classes
+                    Debug.LogWarning($"[{Data.displayName}] RangeIncrease not supported for ActiveSkills by default");
+                    break;
+            }
+
+            // Apply to passive upgrade path if it exists
+            if (upgradePath != null)
+            {
+                upgradePath.ApplyPassiveUpgrade(upgrade);
+            }
+        }
+
+        #endregion
     }
 }
