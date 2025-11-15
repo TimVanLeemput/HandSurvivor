@@ -28,6 +28,10 @@ namespace HandSurvivor.ActiveSkills
         [SerializeField] private AudioClip beamSound;
         [SerializeField] private bool loopBeamSound = true;
 
+        [Header("Debug")]
+        [SerializeField] private bool showDebugBox = false;
+        [SerializeField] private bool showDebugBoxInVR = false;
+
         private Transform origin;
         private AudioSource audioSource;
         private float lastDamageTime = 0f;
@@ -160,36 +164,57 @@ namespace HandSurvivor.ActiveSkills
             Vector3 direction = origin.forward;
             Vector3 endPos;
 
-            // Use BoxCast with size matching the line renderer width
+            // Use BoxCastAll with size matching the line renderer width to hit multiple targets
             Vector3 boxHalfExtents = new Vector3(beamWidth * 0.5f, beamWidth * 0.5f, 0.01f);
-            RaycastHit hit;
-            bool didHit = Physics.BoxCast(startPos, boxHalfExtents, direction, out hit, origin.rotation, maxRange, hitLayers);
+            RaycastHit[] hits = Physics.BoxCastAll(startPos, boxHalfExtents, direction, origin.rotation, maxRange, hitLayers);
+
+            // Find closest hit for visual feedback
+            RaycastHit closestHit = default;
+            float closestDistance = maxRange;
+            bool didHit = false;
+
+            if (hits.Length > 0)
+            {
+                // Sort by distance to find closest
+                System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+                closestHit = hits[0];
+                closestDistance = closestHit.distance;
+                didHit = true;
+            }
 
             // Debug visualization
-            float debugDistance = didHit ? hit.distance : maxRange;
-            DebugDrawBoxCast(startPos, boxHalfExtents, direction, origin.rotation, debugDistance, didHit ? Color.red : Color.green);
-            UpdateDebugBoxVisual(startPos, boxHalfExtents, direction, origin.rotation, debugDistance);
+            if (showDebugBox)
+            {
+                DebugDrawBoxCast(startPos, boxHalfExtents, direction, origin.rotation, closestDistance, didHit ? Color.red : Color.green);
+            }
+            if (showDebugBoxInVR)
+            {
+                UpdateDebugBoxVisual(startPos, boxHalfExtents, direction, origin.rotation, closestDistance);
+            }
 
             if (didHit)
             {
-                // Check if hit object has the correct tag
-                endPos = hit.point;
+                // Use closest hit for beam endpoint
+                endPos = closestHit.point;
 
-                // Spawn/update hit effect
+                // Spawn/update hit effect at closest hit
                 if (hitEffectPrefab != null)
                 {
                     if (currentHitEffect == null)
                         currentHitEffect = Instantiate(hitEffectPrefab);
 
-                    currentHitEffect.transform.position = hit.point;
+                    currentHitEffect.transform.position = closestHit.point;
                     currentHitEffect.transform.eulerAngles =
                         new Vector3(0f, currentHitEffect.transform.eulerAngles.y, 0f);
                 }
 
-                // Deal damage with timing check
+                // Deal damage to ALL hits with timing check
                 if (Time.time >= lastDamageTime + damageInterval)
                 {
-                    DealDamage(hit);
+                    foreach (RaycastHit hit in hits)
+                    {
+                        DealDamage(hit);
+                    }
                     lastDamageTime = Time.time;
                 }
             }
@@ -313,6 +338,12 @@ namespace HandSurvivor.ActiveSkills
         {
             if (debugBoxVisual == null) return;
 
+            if (!showDebugBoxInVR || !IsActive)
+            {
+                debugBoxVisual.SetActive(false);
+                return;
+            }
+
             // Position box at midpoint of cast
             Vector3 centerPoint = startPos + direction * (distance * 0.5f);
             debugBoxVisual.transform.position = centerPoint;
@@ -323,7 +354,7 @@ namespace HandSurvivor.ActiveSkills
             fullExtents.z = distance; // Length of the cast
             debugBoxVisual.transform.localScale = fullExtents;
 
-            debugBoxVisual.SetActive(IsActive);
+            debugBoxVisual.SetActive(true);
         }
 
         /// <summary>
