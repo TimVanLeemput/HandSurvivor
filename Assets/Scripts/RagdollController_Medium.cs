@@ -16,8 +16,6 @@ public class RagdollController_Medium : MonoBehaviour
             animator = GetComponent<Animator>();
         if (animator == null)
             animator = GetComponentInParent<Animator>();
-        if (nevMeshAgent == null)
-            nevMeshAgent = GetComponentInParent<NavMeshAgent>();
 
         // Récupère tous les rigidbodies du personnage
         ragdollBodies = GetComponentsInChildren<Rigidbody>();
@@ -48,8 +46,7 @@ public class RagdollController_Medium : MonoBehaviour
 
     public void OnGrab()
     {
-        nevMeshAgent.enabled = false;
-        nevMeshAgent.isStopped = true;
+        Destroy(animator.GetComponent<InvisibleEnemyRef>().Ref.gameObject);
         SetRagdoll(true);
         animator.GetComponent<Enemy>().DropXP();
     }

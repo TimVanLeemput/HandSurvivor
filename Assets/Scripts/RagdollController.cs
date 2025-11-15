@@ -40,6 +40,7 @@ public class RagdollController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (isRagdoll) return;
+        Destroy(animator.GetComponent<InvisibleEnemyRef>().Ref.gameObject);
 
         Rigidbody rb = collision.rigidbody;
         Vector3 direction = collision.contacts[0].normal * -1f; // direction d'impact
