@@ -14,6 +14,7 @@ public class UFOAttractor : MonoBehaviour
     private IEnumerator AttractCoroutine(Collider other)
     {
         Enemy enemy = FindEnemyInParents(other.transform);
+        if (enemy == null) yield break;
         Destroy(enemy.GetComponent<InvisibleEnemyRef>().Ref.gameObject);
         Transform enemyTransform = enemy.transform;
         enemy.GetComponentInChildren<RagdollController>()?.SetRagdoll(true);

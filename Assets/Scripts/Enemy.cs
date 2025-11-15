@@ -45,6 +45,12 @@ public class Enemy : MonoBehaviour
 
         _animator.SetTrigger("Attack");
         gameObject.GetComponent<EnemyNavMeshSync>().Attack();
+        
+        while (true)
+        {
+            transform.LookAt(_nexusTransform);
+            yield return new WaitForSeconds(1);
+        }
     }
 
     private void TargetNexus()
@@ -94,7 +100,6 @@ public class Enemy : MonoBehaviour
 
     public void Die(bool dropXP = true)
     {
-        GetComponent<NavMeshAgent>().isStopped = true;
         if (dropXP)
             XPManager.Instance.DropXP(XPAmount, transform.position);
         StartCoroutine(DeathCoroutine());
@@ -117,6 +122,8 @@ public class Enemy : MonoBehaviour
             yield return null;
         }
 
+        if (GetComponent<InvisibleEnemyRef>().Ref != null)
+            Destroy(GetComponent<InvisibleEnemyRef>().Ref.gameObject);
         WavesManager.Instance.CurrentEnnemies.Remove(this);
         Destroy(gameObject);
     }
