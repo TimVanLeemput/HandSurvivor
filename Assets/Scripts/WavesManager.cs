@@ -45,12 +45,24 @@ public class WavesManager : MonoBehaviour
                 EnemiesParent
             );
             
-            CurrentEnnemies.Add(go.GetComponent<Enemy>());
+            SetLayerRecursively(go, LayerMask.NameToLayer("Invisible"));
 
-            EnemiesNavMeshSyncManager.Instance.SpawnMiniatureEnemy(go);
+            GameObject miniatureGo = EnemiesNavMeshSyncManager.Instance.SpawnMiniatureEnemy(go);
+            CurrentEnnemies.Add(miniatureGo.GetComponent<Enemy>());
+            SetLayerRecursively(miniatureGo, LayerMask.NameToLayer("Enemy"));
             
             ennemiesSpawned++;
             yield return new WaitForSeconds(1 / wave.SpawnFequency);
+        }
+    }
+    
+    private void SetLayerRecursively(GameObject go, int layer)
+    {
+        go.layer = layer;
+
+        foreach (Transform child in go.transform)
+        {
+            SetLayerRecursively(child.gameObject, layer);
         }
     }
 }
