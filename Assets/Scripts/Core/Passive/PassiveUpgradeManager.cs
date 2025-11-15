@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using HandSurvivor.ActiveSkills;
+using HandSurvivor.Upgrades;
 
 namespace HandSurvivor.Core.Passive
 {
@@ -53,148 +55,53 @@ namespace HandSurvivor.Core.Passive
                 Debug.Log($"[PassiveUpgradeManager] Applying upgrade: {upgrade.displayName} (Stack: {stackCount})");
             }
 
-            switch (upgrade.type)
+            // Get all upgradeable targets (both ActiveSkills and basic abilities)
+            List<IUpgradeable> targets = GetUpgradeableTargets(upgrade.targetSkillId);
+
+            if (targets.Count == 0)
             {
-                case PassiveType.CooldownReduction:
-                    ApplyCooldownReduction(upgrade);
-                    break;
+                Debug.LogWarning($"[PassiveUpgradeManager] No upgradeable targets found for: {upgrade.targetSkillId}");
+                return;
+            }
 
-                case PassiveType.DamageIncrease:
-                    ApplyDamageIncrease(upgrade);
-                    break;
-
-                case PassiveType.SizeIncrease:
-                    ApplySizeIncrease(upgrade);
-                    break;
-
-                default:
-                    Debug.LogWarning($"[PassiveUpgradeManager] Unknown passive type: {upgrade.type}");
-                    break;
+            // Apply upgrade to each target
+            foreach (IUpgradeable target in targets)
+            {
+                target.ApplyPassiveUpgrade(upgrade);
             }
 
             OnUpgradeApplied?.Invoke(upgrade);
         }
 
-        private void ApplyCooldownReduction(PassiveUpgradeData upgrade)
+        /// <summary>
+        /// Gets all IUpgradeable components (both ActiveSkills and basic abilities)
+        /// </summary>
+        private List<IUpgradeable> GetUpgradeableTargets(string targetSkillId)
         {
-            float reductionPercent = upgrade.value / 100f;
+            List<IUpgradeable> targets = new List<IUpgradeable>();
 
-            List<ActiveSkillBase> targetSkills = GetTargetSkills(upgrade.targetSkillId);
-
-            if (targetSkills.Count == 0)
-            {
-                Debug.LogWarning($"[PassiveUpgradeManager] No skills found for cooldown reduction: {upgrade.targetSkillId}");
-                return;
-            }
-
-            foreach (ActiveSkillBase skill in targetSkills)
-            {
-                skill.ApplyCooldownMultiplier(reductionPercent);
-
-                // Apply upgrade path level progression
-                if (skill.UpgradePath != null)
-                {
-                    skill.UpgradePath.ApplyPassiveUpgrade(upgrade);
-                }
-
-                if (showDebugLogs)
-                {
-                    Debug.Log($"[PassiveUpgradeManager] Applied -{upgrade.value}% cooldown to {skill.Data.displayName}");
-                }
-            }
-        }
-
-        private void ApplyDamageIncrease(PassiveUpgradeData upgrade)
-        {
-            float increasePercent = upgrade.value / 100f;
-
-            List<ActiveSkillBase> targetSkills = GetTargetSkills(upgrade.targetSkillId);
-
-            if (targetSkills.Count == 0)
-            {
-                Debug.LogWarning($"[PassiveUpgradeManager] No skills found for damage increase: {upgrade.targetSkillId}");
-                return;
-            }
-
-            foreach (ActiveSkillBase skill in targetSkills)
-            {
-                skill.ApplyDamageMultiplier(increasePercent);
-
-                // Apply upgrade path level progression
-                if (skill.UpgradePath != null)
-                {
-                    skill.UpgradePath.ApplyPassiveUpgrade(upgrade);
-                }
-
-                if (showDebugLogs)
-                {
-                    Debug.Log($"[PassiveUpgradeManager] Applied +{upgrade.value}% damage to {skill.Data.displayName}");
-                }
-            }
-        }
-
-        private void ApplySizeIncrease(PassiveUpgradeData upgrade)
-        {
-            float increasePercent = upgrade.value / 100f;
-
-            List<ActiveSkillBase> targetSkills = GetTargetSkills(upgrade.targetSkillId);
-
-            if (targetSkills.Count == 0)
-            {
-                Debug.LogWarning($"[PassiveUpgradeManager] No skills found for size increase: {upgrade.targetSkillId}");
-                return;
-            }
-
-            foreach (ActiveSkillBase skill in targetSkills)
-            {
-                skill.ApplySizeMultiplier(increasePercent);
-
-                // Apply upgrade path level progression
-                if (skill.UpgradePath != null)
-                {
-                    skill.UpgradePath.ApplyPassiveUpgrade(upgrade);
-
-                    // Trigger max event if this upgrade is configured to do so and we've maxed the path
-                    if (upgrade.triggersMaxEvent &&
-                        skill.UpgradePath.CurrentLevel >= skill.UpgradePath.MaxCustomBehaviorLevel)
-                    {
-                        skill.TriggerMaxPassiveReached();
-                    }
-                }
-
-                if (showDebugLogs)
-                {
-                    Debug.Log($"[PassiveUpgradeManager] Applied +{upgrade.value}% size to {skill.Data.displayName}");
-                }
-            }
-        }
-
-        private List<ActiveSkillBase> GetTargetSkills(string targetSkillId)
-        {
-            List<ActiveSkillBase> targetSkills = new List<ActiveSkillBase>();
-
-            if (ActiveSkillSlotManager.Instance == null)
-            {
-                Debug.LogError("[PassiveUpgradeManager] ActiveSkillSlotManager.Instance is null!");
-                return targetSkills;
-            }
-
-            List<ActiveSkillBase> allSkills = ActiveSkillSlotManager.Instance.GetSlottedSkills();
+            // Get all MonoBehaviours that implement IUpgradeable (includes ActiveSkills and basic abilities)
+            MonoBehaviour[] allMonoBehaviours = FindObjectsOfType<MonoBehaviour>();
+            IUpgradeable[] allUpgradeables = allMonoBehaviours.OfType<IUpgradeable>().ToArray();
 
             if (string.IsNullOrEmpty(targetSkillId))
             {
-                return allSkills;
+                // Global upgrade - apply to all upgradeables
+                targets.AddRange(allUpgradeables);
             }
-
-            foreach (ActiveSkillBase skill in allSkills)
+            else
             {
-                if (skill != null && skill.Data.activeSkillId == targetSkillId)
+                // Targeted upgrade - filter by upgradeableId
+                foreach (IUpgradeable upgradeable in allUpgradeables)
                 {
-                    targetSkills.Add(skill);
+                    if (upgradeable.GetUpgradeableId() == targetSkillId)
+                    {
+                        targets.Add(upgradeable);
+                    }
                 }
             }
 
-            return targetSkills;
+            return targets;
         }
 
         public int GetUpgradeStackCount(string upgradeId)

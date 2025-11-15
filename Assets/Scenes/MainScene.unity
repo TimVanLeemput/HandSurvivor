@@ -596,6 +596,10 @@ PrefabInstance:
       propertyPath: attachJointId
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6975453636852950892, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: showDebugSphere
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7563554515575242704, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.92717

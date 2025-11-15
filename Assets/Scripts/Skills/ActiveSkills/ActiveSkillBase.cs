@@ -2,6 +2,7 @@ using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
 using HandSurvivor.Core.Passive;
+using HandSurvivor.Upgrades;
 
 namespace HandSurvivor.ActiveSkills
 {
@@ -9,7 +10,7 @@ namespace HandSurvivor.ActiveSkills
     /// Abstract base class for all active skills
     /// Extend this to create new active skill types
     /// </summary>
-    public abstract class ActiveSkillBase : MonoBehaviour
+    public abstract class ActiveSkillBase : MonoBehaviour, IUpgradeable
     {
         [Header("Configuration")]
         [SerializeField] protected ActiveSkillData data;
@@ -305,5 +306,44 @@ namespace HandSurvivor.ActiveSkills
         {
             return baseSize * sizeMultiplier;
         }
+
+        #region IUpgradeable Implementation
+
+        public string GetUpgradeableId()
+        {
+            return data != null ? data.activeSkillId : string.Empty;
+        }
+
+        public void ApplyPassiveUpgrade(PassiveUpgradeData upgrade)
+        {
+            // Route to existing multiplier methods
+            switch (upgrade.type)
+            {
+                case PassiveType.CooldownReduction:
+                    ApplyCooldownMultiplier(upgrade.value / 100f);
+                    break;
+
+                case PassiveType.DamageIncrease:
+                    ApplyDamageMultiplier(upgrade.value / 100f);
+                    break;
+
+                case PassiveType.SizeIncrease:
+                    ApplySizeMultiplier(upgrade.value / 100f);
+                    break;
+
+                case PassiveType.RangeIncrease:
+                    // ActiveSkills don't typically have range, but can be extended in derived classes
+                    Debug.LogWarning($"[{Data.displayName}] RangeIncrease not supported for ActiveSkills by default");
+                    break;
+            }
+
+            // Apply to passive upgrade path if it exists
+            if (upgradePath != null)
+            {
+                upgradePath.ApplyPassiveUpgrade(upgrade);
+            }
+        }
+
+        #endregion
     }
 }
