@@ -30,6 +30,7 @@ namespace HandSurvivor.ActiveSkills
         protected float cooldownEndTime = 0f;
 
         protected AudioSource activationAudioSource;
+        protected GameObject audioObject;
 
         [Header("Passive System")]
         protected PassiveUpgradePath upgradePath;
@@ -218,23 +219,25 @@ namespace HandSurvivor.ActiveSkills
 
             if (data.activationSound != null)
             {
-                // Stop previous audio if still playing
-                if (activationAudioSource != null && activationAudioSource.isPlaying)
+                // Create audio GameObject on first use
+                if (audioObject == null)
                 {
-                    activationAudioSource.Stop();
-                    Destroy(activationAudioSource.gameObject);
+                    audioObject = new GameObject($"{data.displayName}_ActivationAudio");
+                    audioObject.transform.SetParent(transform);
+                    activationAudioSource = audioObject.AddComponent<AudioSource>();
                 }
 
-                // Create temporary GameObject with AudioSource for looping
-                GameObject audioObject = new GameObject($"{data.displayName}_ActivationAudio");
-                audioObject.transform.position = transform.position;
-                activationAudioSource = audioObject.AddComponent<AudioSource>();
-                activationAudioSource.clip = data.activationSound;
-                activationAudioSource.loop = true;
-                activationAudioSource.Play();
+                // Stop previous audio if still playing
+                if (activationAudioSource.isPlaying)
+                {
+                    activationAudioSource.Stop();
+                }
 
-                // Destroy audio after skill duration
-                Destroy(audioObject, GetModifiedDuration());
+                // Configure and play
+                audioObject.transform.position = transform.position;
+                activationAudioSource.clip = data.activationSound;
+                activationAudioSource.loop = data.loopActivationSound;
+                activationAudioSource.Play();
             }
         }
 

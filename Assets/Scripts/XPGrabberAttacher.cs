@@ -9,6 +9,7 @@ public class XPGrabberAttacher : MonoBehaviour
 {
     [Header("XP Grabber Setup")]
     [SerializeField] private GameObject xpGrabberObject;
+    [SerializeField] private OVRSkeleton.BoneId attachBoneId = OVRSkeleton.BoneId.Hand_WristRoot;
     [SerializeField] private float attachDelay = 0.5f;
 
     private void Start()
@@ -33,11 +34,28 @@ public class XPGrabberAttacher : MonoBehaviour
             return;
         }
 
-        // Attach existing grabber to off-hand
-        xpGrabberObject.transform.SetParent(offHand.Hand.transform);
+        // Get bone transform from OVRSkeleton by searching for matching BoneId
+        Transform targetTransform = null;
+        foreach (OVRBone bone in offHand.Skeleton.Bones)
+        {
+            if (bone.Id == attachBoneId)
+            {
+                targetTransform = bone.Transform;
+                break;
+            }
+        }
+
+        if (targetTransform == null)
+        {
+            Debug.LogWarning($"[XPGrabberAttacher] Bone {attachBoneId} not found in skeleton, falling back to hand root");
+            targetTransform = offHand.Hand.transform;
+        }
+
+        // Attach existing grabber to the target transform
+        xpGrabberObject.transform.SetParent(targetTransform);
         xpGrabberObject.transform.localPosition = Vector3.zero;
         xpGrabberObject.transform.localRotation = Quaternion.identity;
 
-        Debug.Log($"[XPGrabberAttacher] Successfully attached XP Grabber to off-hand ({offHand.HandType})", xpGrabberObject);
+        Debug.Log($"[XPGrabberAttacher] Successfully attached XP Grabber to off-hand ({offHand.HandType}) bone: {attachBoneId}", xpGrabberObject);
     }
 }
