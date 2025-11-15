@@ -18,14 +18,17 @@ EditorBuildSettings:
     path: Assets/Scenes/ActiveSkills&PassiveUpgradesUI.unity
     guid: 9d4de55d332ad594ba156312d74cba9d
   - enabled: 1
-    path: Assets/Scenes/Test-Denis.unity
-    guid: c2540cf26a13e0448b5461158a683952
+    path: Assets/Scenes/Environment.unity
+    guid: e248e566f5896644caa24333fb211484
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: a0ff693285811124d94eb381ecbdd49d
   - enabled: 1
-    path: Assets/Scenes/Environment.unity
-    guid: e248e566f5896644caa24333fb211484
+    path: Assets/Scenes/Test-Denis.unity
+    guid: c2540cf26a13e0448b5461158a683952
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level-2.unity
+    guid: 185f4bb9def75744e88ed45b34a4316d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f0da6e8a8966946a1957582435ef1f8b, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 99f9c9493070a9d4c979a8fec7c5a8d3, type: 2}
