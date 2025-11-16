@@ -201,17 +201,6 @@ namespace HandSurvivor.ActiveSkills
             // Fire events
             OnPickedUp?.Invoke();
 
-            // Play pickup effects (from ActiveSkillData)
-            if (activeSkillData.pickupVFX != null)
-            {
-                Instantiate(activeSkillData.pickupVFX, transform.position, Quaternion.identity);
-            }
-
-            if (activeSkillData.pickupSound != null)
-            {
-                AudioSource.PlayClipAtPoint(activeSkillData.pickupSound, transform.position);
-            }
-
             Debug.Log($"[CollectibleActiveSkill] Picked up: {activeSkillData.displayName}");
 
             // Destroy the collectible

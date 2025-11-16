@@ -86,7 +86,6 @@ namespace HandSurvivor.ActiveSkills
         public virtual void Pickup()
         {
             OnPickup?.Invoke();
-            PlayPickupEffects();
 
             // Add to inventory
             ActiveSkillInventory.Instance.AddActiveSkill(this);
@@ -198,26 +197,9 @@ namespace HandSurvivor.ActiveSkills
             OnExpire?.Invoke();
         }
 
-        protected virtual void PlayPickupEffects()
-        {
-            if (data.pickupVFX != null)
-            {
-                Instantiate(data.pickupVFX, transform.position, Quaternion.identity);
-            }
-
-            if (data.pickupSound != null)
-            {
-                AudioSource.PlayClipAtPoint(data.pickupSound, transform.position);
-            }
-        }
 
         protected virtual void PlayActivationEffects()
         {
-            if (data.activationVFX != null)
-            {
-                Instantiate(data.activationVFX, transform.position, Quaternion.identity);
-            }
-
             if (data.activationSound != null)
             {
                 // Create audio GameObject on first use

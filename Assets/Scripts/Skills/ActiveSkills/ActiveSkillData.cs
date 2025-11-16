@@ -45,20 +45,13 @@ namespace HandSurvivor.ActiveSkills
         [Tooltip("Repeat rate when min cooldown is hit (seconds between activations, 0 = use min cooldown)")]
         public float maxUpgradedRepeatRate = 0f;
 
-        [Header("VFX/Audio")]
-        [Tooltip("Particle effect on pickup")]
-        public GameObject pickupVFX;
-
-        [Tooltip("Particle effect on activation")]
-        public GameObject activationVFX;
-
-        [Tooltip("Audio clip on pickup")]
-        public AudioClip pickupSound;
-
         [Tooltip("Audio clip on activation")]
         public AudioClip activationSound;
 
         [Tooltip("Should the activation sound loop during skill duration")]
         public bool loopActivationSound = true;
-    }
+        
+        [Header("Comments")]
+        [TextArea]
+        public string comments;    }
 }
