@@ -16,6 +16,7 @@ public class XPManager : MonoBehaviour
 
     [Header("Events")]
     public UnityEvent<int> OnLevelUp;
+    public UnityEvent<int> OnXPAdded;
 
     private void Awake()
     {
@@ -32,6 +33,7 @@ public class XPManager : MonoBehaviour
             CurrentXP = over;
             LevelUp();
         }
+        OnXPAdded?.Invoke(amount);
     }
 
     public void LevelUp()

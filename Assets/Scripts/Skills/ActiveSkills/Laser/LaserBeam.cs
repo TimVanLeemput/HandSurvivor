@@ -21,6 +21,11 @@ namespace HandSurvivor.ActiveSkills
         [Header("Visual")] [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private float beamWidth = 0.05f;
 
+        [Header("Retraction")]
+        [SerializeField] private float retractionDuration = 0.25f;
+        [Tooltip("How long the laser will stay active before starting retraction")]
+        [SerializeField] private float activeDuration = 2f;
+
         [Header("Effects")] [SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private GameObject muzzleEffectPrefab;
         [SerializeField] private ParticleSystem beamOriginParticles;
@@ -39,6 +44,8 @@ namespace HandSurvivor.ActiveSkills
         private GameObject currentHitEffect;
         private GameObject currentMuzzleEffect;
         private GameObject debugBoxVisual;
+        private float laserStartTime;
+        private ParticleSystem.MainModule particlesMainModule;
 
         public bool IsActive { get; private set; }
 
@@ -78,11 +85,13 @@ namespace HandSurvivor.ActiveSkills
             origin = originTransform;
             IsActive = true;
             lineRenderer.enabled = true;
+            laserStartTime = Time.time;
 
             // Enable beam origin particles
             if (beamOriginParticles != null)
             {
                 beamOriginParticles.gameObject.SetActive(true);
+                particlesMainModule = beamOriginParticles.main;
             }
 
             // Spawn muzzle effect
@@ -167,20 +176,39 @@ namespace HandSurvivor.ActiveSkills
             Vector3 direction = origin.forward;
             Vector3 endPos;
 
-            // Update beam origin particles position
+            // Calculate retraction factor (1.0 = full length, 0.0 = fully retracted)
+            float timeSinceStart = Time.time - laserStartTime;
+            float retractionFactor = 1f;
+            float particleAlpha = 1f;
+
+            if (timeSinceStart >= activeDuration)
+            {
+                float retractionTime = timeSinceStart - activeDuration;
+                retractionFactor = 1f - Mathf.Clamp01(retractionTime / retractionDuration);
+                particleAlpha = retractionFactor;
+            }
+
+            // Update beam origin particles position and alpha
             if (beamOriginParticles != null)
             {
                 beamOriginParticles.transform.position = startPos;
                 beamOriginParticles.transform.rotation = origin.rotation;
+
+                Color startColor = particlesMainModule.startColor.color;
+                startColor.a = particleAlpha;
+                particlesMainModule.startColor = startColor;
             }
+
+            // Apply retraction factor to max range
+            float effectiveRange = maxRange * retractionFactor;
 
             // Use BoxCastAll with size matching the line renderer width to hit multiple targets
             Vector3 boxHalfExtents = new Vector3(beamWidth * 0.5f, beamWidth * 0.5f, 0.01f);
-            RaycastHit[] hits = Physics.BoxCastAll(startPos, boxHalfExtents, direction, origin.rotation, maxRange, hitLayers);
+            RaycastHit[] hits = Physics.BoxCastAll(startPos, boxHalfExtents, direction, origin.rotation, effectiveRange, hitLayers);
 
             // Find closest hit for visual feedback
             RaycastHit closestHit = default;
-            float closestDistance = maxRange;
+            float closestDistance = effectiveRange;
             bool didHit = false;
 
             if (hits.Length > 0)
@@ -230,7 +258,7 @@ namespace HandSurvivor.ActiveSkills
             }
             else
             {
-                endPos = startPos + direction * maxRange;
+                endPos = startPos + direction * effectiveRange;
 
                 if (currentHitEffect != null)
                 {
