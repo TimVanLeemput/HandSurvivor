@@ -38,10 +38,6 @@ namespace HandSurvivor.Skills
             {
                 UpdateCooldownDisplay();
             }
-            else
-            {
-                Debug.LogWarning("[SkillSlotUI] Update - currentSkill is NULL!");
-            }
         }
 
         /// <summary>

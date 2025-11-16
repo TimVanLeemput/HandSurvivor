@@ -25,7 +25,35 @@ public class EnemiesNavMeshSyncManager : MonoBehaviour
         sync.miniatureTransform = miniature.transform;
         InvisibleEnemyRef invisibleEnemyRef = miniature.AddComponent<InvisibleEnemyRef>();
         invisibleEnemyRef.Ref = enemy.GetComponent<Enemy>();
+        RemoveAllPhysicsComponents(enemy);
+        if (enemy.GetComponentInChildren<RagdollController>() != null)
+            Destroy(enemy.GetComponentInChildren<RagdollController>());
+        if(enemy.GetComponentInChildren<RagdollController_Medium>() != null)
+            Destroy(enemy.GetComponentInChildren<RagdollController_Medium>());
 
         return miniature;
+    }
+    
+    public static void RemoveAllPhysicsComponents(GameObject root)
+    {
+        if (root == null) return;
+
+        var colliders = root.GetComponentsInChildren<Collider>(includeInactive: true);
+        foreach (var col in colliders)
+        {
+            Destroy(col);
+        }
+        
+        var characterJoints = root.GetComponentsInChildren<CharacterJoint>(includeInactive: true);
+        foreach (var characterJoint in characterJoints)
+        {
+            Destroy(characterJoint);
+        }
+
+        var rigidbodies = root.GetComponentsInChildren<Rigidbody>(includeInactive: true);
+        foreach (var rb in rigidbodies)
+        {
+            Destroy(rb);
+        }
     }
 }

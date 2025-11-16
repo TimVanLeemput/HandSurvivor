@@ -30,6 +30,13 @@ public class RagdollController_Medium : MonoBehaviour
 
         foreach (var rb in ragdollBodies)
             rb.isKinematic = !active;
+        
+
+        foreach (var col in ragdollColliders)
+        {
+            if (col.gameObject == this.gameObject) continue;
+            col.enabled = active;
+        }
     }
 
     [ButtonMethod]
