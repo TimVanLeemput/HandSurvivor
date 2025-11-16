@@ -20,8 +20,6 @@ namespace HandSurvivor.ActiveSkills
 
         [Header("Visual")] [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private float beamWidth = 0.05f;
-        [SerializeField] private Color beamColor = Color.red;
-        [SerializeField] private Material beamMaterial;
 
         [Header("Effects")] [SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private GameObject muzzleEffectPrefab;
@@ -60,14 +58,6 @@ namespace HandSurvivor.ActiveSkills
             lineRenderer.startWidth = beamWidth;
             lineRenderer.endWidth = beamWidth;
             lineRenderer.positionCount = 2;
-
-            if (beamMaterial != null)
-            {
-                lineRenderer.material = beamMaterial;
-            }
-
-            lineRenderer.startColor = beamColor;
-            lineRenderer.endColor = beamColor;
 
             // Use world space for positions
             lineRenderer.useWorldSpace = true;
@@ -290,7 +280,6 @@ namespace HandSurvivor.ActiveSkills
         /// </summary>
         public void SetBeamColor(Color color)
         {
-            beamColor = color;
             lineRenderer.startColor = color;
             lineRenderer.endColor = color;
         }
