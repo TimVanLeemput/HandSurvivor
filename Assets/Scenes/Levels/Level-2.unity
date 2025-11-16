@@ -6341,7 +6341,7 @@ MonoBehaviour:
   - {fileID: 903307842}
   - {fileID: 1399010862}
   Waves:
-  - {fileID: 11400000, guid: 35a123a76ae5e1c43a1122be083e23f2, type: 2}
+  - {fileID: 11400000, guid: ccfa3a8543ca16d44b862085dfe3e6cd, type: 2}
   EnemiesParent: {fileID: 1839229050}
   CurrentEnnemies: []
 --- !u!4 &1521246077

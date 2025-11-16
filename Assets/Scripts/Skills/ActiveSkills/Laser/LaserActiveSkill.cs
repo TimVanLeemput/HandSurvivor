@@ -235,10 +235,11 @@ namespace HandSurvivor.ActiveSkills
             if (laserBeam != null && fingerTipTransform != null)
             {
                 float modifiedDamage = GetModifiedDamage(laserDamage);
+                float modifiedDuration = GetModifiedDuration();
                 laserBeam.SetDamage(modifiedDamage);
-                laserBeam.StartLaser(fingerTipTransform);
+                laserBeam.StartLaser(fingerTipTransform, modifiedDuration);
                 wasLaserFiring = true;
-                Debug.Log($"[LaserActiveSkill] Laser firing (Damage: {modifiedDamage})");
+                Debug.Log($"[LaserActiveSkill] Laser firing (Damage: {modifiedDamage}, Duration: {modifiedDuration})");
             }
         }
 

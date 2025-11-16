@@ -23,8 +23,6 @@ namespace HandSurvivor.ActiveSkills
 
         [Header("Retraction")]
         [SerializeField] private float retractionDuration = 0.25f;
-        [Tooltip("How long the laser will stay active before starting retraction")]
-        [SerializeField] private float activeDuration = 2f;
 
         [Header("Effects")] [SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private GameObject muzzleEffectPrefab;
@@ -45,6 +43,7 @@ namespace HandSurvivor.ActiveSkills
         private GameObject currentMuzzleEffect;
         private GameObject debugBoxVisual;
         private float laserStartTime;
+        private float laserDuration;
         private ParticleSystem.MainModule particlesMainModule;
 
         public bool IsActive { get; private set; }
@@ -75,7 +74,7 @@ namespace HandSurvivor.ActiveSkills
         /// Start firing the laser from the specified origin point
         /// </summary>
         [ButtonMethod]
-        public void StartLaser(Transform originTransform)
+        public void StartLaser(Transform originTransform, float duration = 2f)
         {
             if (IsActive)
             {
@@ -86,6 +85,7 @@ namespace HandSurvivor.ActiveSkills
             IsActive = true;
             lineRenderer.enabled = true;
             laserStartTime = Time.time;
+            laserDuration = duration;
 
             // Enable beam origin particles
             if (beamOriginParticles != null)
@@ -181,18 +181,21 @@ namespace HandSurvivor.ActiveSkills
             float retractionFactor = 1f;
             float particleAlpha = 1f;
 
-            if (timeSinceStart >= activeDuration)
+            // Start retraction during the last retractionDuration seconds
+            float retractionStartTime = laserDuration - retractionDuration;
+            if (timeSinceStart >= retractionStartTime)
             {
-                float retractionTime = timeSinceStart - activeDuration;
+                float retractionTime = timeSinceStart - retractionStartTime;
                 retractionFactor = 1f - Mathf.Clamp01(retractionTime / retractionDuration);
                 particleAlpha = retractionFactor;
             }
 
-            // Update beam origin particles position and alpha
+            // Update beam origin particles position, alpha, and scale
             if (beamOriginParticles != null)
             {
                 beamOriginParticles.transform.position = startPos;
                 beamOriginParticles.transform.rotation = origin.rotation;
+                beamOriginParticles.transform.localScale = Vector3.one * particleAlpha;
 
                 Color startColor = particlesMainModule.startColor.color;
                 startColor.a = particleAlpha;
