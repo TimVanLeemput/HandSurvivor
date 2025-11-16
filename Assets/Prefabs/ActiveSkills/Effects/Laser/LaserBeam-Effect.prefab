@@ -27,10 +27,11 @@ Transform:
   m_GameObject: {fileID: 7768875096541566223}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -534.32837, y: 0, z: -1073.4539}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3031801408350508390}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4343126109629533475
@@ -55,6 +56,7 @@ MonoBehaviour:
   beamWidth: 0.05
   hitEffectPrefab: {fileID: 3652897219425112887, guid: b2cdb5ff928d3d344a29a3e825808b53, type: 3}
   muzzleEffectPrefab: {fileID: 0}
+  beamOriginParticles: {fileID: 4863440314386883166}
   beamSound: {fileID: 8300000, guid: 37b598180e6b18d44af9b1336c7b1f62, type: 3}
   loopBeamSound: 0
   showDebugBox: 0
@@ -187,3 +189,70 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!1001 &2368327264015624474
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 73258828367453031}
+    m_Modifications:
+    - target: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564784871044509517, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+      propertyPath: m_Name
+      value: Particle System - LaserBeamFiring
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+--- !u!4 &3031801408350508390 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 778808584812428412, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+  m_PrefabInstance: {fileID: 2368327264015624474}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4863440314386883166 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7179745145625905988, guid: bec61a7a61e178347ac6b3e60c5c5e21, type: 3}
+  m_PrefabInstance: {fileID: 2368327264015624474}
+  m_PrefabAsset: {fileID: 0}

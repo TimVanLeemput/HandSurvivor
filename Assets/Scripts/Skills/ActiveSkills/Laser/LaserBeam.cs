@@ -23,6 +23,7 @@ namespace HandSurvivor.ActiveSkills
 
         [Header("Effects")] [SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private GameObject muzzleEffectPrefab;
+        [SerializeField] private ParticleSystem beamOriginParticles;
         [SerializeField] private AudioClip beamSound;
         [SerializeField] private bool loopBeamSound = true;
 
@@ -78,6 +79,12 @@ namespace HandSurvivor.ActiveSkills
             IsActive = true;
             lineRenderer.enabled = true;
 
+            // Enable beam origin particles
+            if (beamOriginParticles != null)
+            {
+                beamOriginParticles.gameObject.SetActive(true);
+            }
+
             // Spawn muzzle effect
             if (muzzleEffectPrefab != null && origin != null)
             {
@@ -113,6 +120,12 @@ namespace HandSurvivor.ActiveSkills
 
             IsActive = false;
             lineRenderer.enabled = false;
+
+            // Disable beam origin particles
+            if (beamOriginParticles != null)
+            {
+                beamOriginParticles.gameObject.SetActive(false);
+            }
 
             // Stop sound
             if (audioSource != null)
@@ -153,6 +166,13 @@ namespace HandSurvivor.ActiveSkills
             Vector3 startPos = origin.position;
             Vector3 direction = origin.forward;
             Vector3 endPos;
+
+            // Update beam origin particles position
+            if (beamOriginParticles != null)
+            {
+                beamOriginParticles.transform.position = startPos;
+                beamOriginParticles.transform.rotation = origin.rotation;
+            }
 
             // Use BoxCastAll with size matching the line renderer width to hit multiple targets
             Vector3 boxHalfExtents = new Vector3(beamWidth * 0.5f, beamWidth * 0.5f, 0.01f);

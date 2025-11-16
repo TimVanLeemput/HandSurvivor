@@ -62,8 +62,6 @@ MonoBehaviour:
       m_Calls: []
   laserBeamPrefab: {fileID: 7768875096541566223, guid: 05f990bb57934e04db61b3fc69d63936, type: 3}
   laserDamage: 15
-  laserRange: 10
-  laserColor: {r: 1, g: 0, b: 0, a: 1}
   useOffHand: 1
-  fingerTipBone: 8
+  fingerTipBone: 10
   primedParticlesPrefab: {fileID: 823212768247775278, guid: cf702e8ddd82ac74e8d745d7593f9f90, type: 3}
