@@ -6031,14 +6031,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a80a26733fbaf3844bff773dd676af70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WavesManager
-  enemies: {fileID: 11400000, guid: 2e47e6213061fd34bb9808a377f89500, type: 2}
   EnemiesSpawnPoints:
   - {fileID: 11414275}
   - {fileID: 1600382908}
   - {fileID: 903307842}
   - {fileID: 1399010862}
-  Waves:
-  - {fileID: 11400000, guid: 35a123a76ae5e1c43a1122be083e23f2, type: 2}
+  Level: {fileID: 11400000, guid: 98cb8df3065814142845390f9f689314, type: 2}
   EnemiesParent: {fileID: 1839229050}
   CurrentEnnemies: []
 --- !u!4 &1521246077
@@ -6068,6 +6066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31f70598aaf71744aacda82767ec6498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::XPManager
+  showDebugLogs: 1
   XPPrefab: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
   XPParent: {fileID: 1475173783}
   Level: 1
@@ -6075,6 +6074,9 @@ MonoBehaviour:
   CurrentXPForLevel: 1000
   CurrentXP: 0
   OnLevelUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnXPAdded:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1521246079
@@ -6102,6 +6104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939400d368f15a741bba6b70ba19694a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.LevelUp.LevelUpManager
+  showDebugLogs: 1
   skillPool: {fileID: 11400000, guid: c1487416c8e753040bcbb2a13e4706ee, type: 2}
   choiceCount: 3
 --- !u!1001 &1557314201
