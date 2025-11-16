@@ -568,6 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64895592ecb974540bfa5cf1262d0cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FitWorldToTable
+  showDebugLogs: 1
   worldPlacementReference: {fileID: 1325242710}
 --- !u!4 &401334303
 Transform:
@@ -578,7 +579,7 @@ Transform:
   m_GameObject: {fileID: 401334301}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.84173, y: 0, z: -0.38525}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -922,7 +923,7 @@ Transform:
   m_GameObject: {fileID: 1325242700}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.281, y: -0.574, z: 0.465}
+  m_LocalPosition: {x: 0, y: 0.758, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1058,6 +1059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83dcb59c5b5a8ff47ab0dcbd55ca9029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.SetTransformReference
+  showDebugLogs: 1
   targetTransform: {fileID: 1325242701}
   useSelfIfNull: 1
   transformReference: {fileID: 11400000, guid: af71baba46cc494478f193ef23557ba4, type: 2}
@@ -1075,6 +1077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04008f84bc2f86b46b9ead16057fb4d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GlobalBoolState
+  showDebugLogs: 1
   globalBoolStateData: {fileID: 11400000, guid: 693b71da967185042acf986718194a09, type: 2}
   checkOnStart: 0
   OnStateTrue:
@@ -1119,8 +1122,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1356574078}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000059137783, y: -0.53628826, z: -0.00000029226774, w: 0.8440349}
-  m_LocalPosition: {x: -1.5236163, y: 0.112006456, z: 1.522717}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1664,6 +1667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4d82ea4db40004b98269248bd29965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrabFreeConstraintInjector
+  showDebugLogs: 1
   _newPositionConstraints:
     ConstraintsAreRelative: 1
     XAxis:

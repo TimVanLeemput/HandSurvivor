@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class VRStartPosition : MonoBehaviour
 {
@@ -10,31 +12,65 @@ public class VRStartPosition : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(SetVRStartPosition());
+    }
+
+    private IEnumerator SetVRStartPosition()
+    {
         OVRCameraRig cameraRig = FindFirstObjectByType<OVRCameraRig>();
 
-        if (cameraRig != null)
+        if (cameraRig == null)
         {
-            Vector3 newPosition = cameraRig.transform.position;
-            newPosition.x = transform.position.x;
-            newPosition.z = transform.position.z;
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.LogWarning("VRStartPosition: OVRCameraRig not found in scene");
+            yield break;
+        }
 
-            if (overrideHeight)
+        OVRManager ovrManager = FindFirstObjectByType<OVRManager>();
+
+        if (ovrManager != null)
+        {
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"VRStartPosition: Original tracking origin = {ovrManager.trackingOriginType}");
+
+            // Switch to Stage to apply rotation
+            ovrManager.trackingOriginType = OVRManager.TrackingOrigin.Stage;
+            yield return null; // Wait one frame for tracking origin change
+        }
+
+        Vector3 newPosition = cameraRig.transform.position;
+        newPosition.x = transform.position.x;
+        newPosition.z = transform.position.z;
+
+        if (overrideHeight)
+        {
+            newPosition.y = transform.position.y;
+        }
+
+        cameraRig.transform.position = newPosition;
+
+        if (setRotation)
+        {
+            Transform trackingSpace = cameraRig.trackingSpace;
+            if (trackingSpace != null)
             {
-                newPosition.y = transform.position.y;
+                trackingSpace.rotation = transform.rotation;
             }
-
-            cameraRig.transform.position = newPosition;
-
-            if (setRotation)
+            else
             {
                 cameraRig.transform.rotation = transform.rotation;
             }
         }
-        else
-        {
-            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
 
-                Debug.LogWarning("VRStartPosition: OVRCameraRig not found in scene");
+        yield return null; // Wait one frame for rotation to apply
+
+        // Always switch back to FloorLevel
+        if (ovrManager != null)
+        {
+            ovrManager.trackingOriginType = OVRManager.TrackingOrigin.FloorLevel;
+
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"VRStartPosition: Set tracking origin to FloorLevel");
         }
     }
 }

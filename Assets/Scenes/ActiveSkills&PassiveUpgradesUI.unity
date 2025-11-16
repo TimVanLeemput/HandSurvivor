@@ -770,6 +770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45bae0ea3087eea45aa9d46117d5f822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Skills.SkillSlotsUIManager
+  showDebugLogs: 1
   skillSlotUIPrefab: {fileID: 4463707752297898696, guid: 4121e932b5b9d7640802a489c9d03abd, type: 3}
   slotsContainer: {fileID: 1425221190}
 --- !u!4 &522339856
@@ -891,6 +892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e030305eb65d4428f35cea54d30b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.LevelUp.SkillSelectionUI
+  showDebugLogs: 1
   selectionPanel: {fileID: 537795348}
   titleText: {fileID: 1803744833}
   optionsContainer: {fileID: 1147100725}
@@ -1329,17 +1331,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1506587171}
-  m_LocalRotation: {x: 0, y: 0.8065947, z: -0.5911048, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 1.855}
+  m_LocalRotation: {x: -0, y: 0.99589306, z: -0.09053773, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.6013516}
   m_LocalScale: {x: 0.0004, y: 0.00039999996, z: 0.00039999996}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1425221190}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 72.471, y: 185.767, z: 0}
+  m_LocalEulerAnglesHint: {x: 10.389, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.598, y: -0.7585}
+  m_AnchoredPosition: {x: 0.17099997, y: 1.1716869}
   m_SizeDelta: {x: 2000, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1506587176
@@ -1354,6 +1356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abe4e0ad66207354db90e45d455626d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FindVRCamera
+  showDebugLogs: 1
 --- !u!1 &1560771756
 GameObject:
   m_ObjectHideFlags: 0
@@ -1597,6 +1600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf67941377c80914692ed3d95be08804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.TransformConstraint
+  showDebugLogs: 1
   targetTransformReference: {fileID: 11400000, guid: af71baba46cc494478f193ef23557ba4, type: 2}
   applyOnStart: 1
   waitForReference: 1
@@ -1637,8 +1641,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131661202}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.076, y: -0.71250015, z: 1.707}
+  m_LocalRotation: {x: -0, y: 0.85679924, z: 0.51565015, w: 0}
+  m_LocalPosition: {x: -0.503, y: 1.324, z: -0.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1647,7 +1651,7 @@ Transform:
   - {fileID: 436174980}
   - {fileID: 66153030}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: -62.082, y: 180, z: 0}
 --- !u!1001 &8171820476109082434
 PrefabInstance:
   m_ObjectHideFlags: 0
