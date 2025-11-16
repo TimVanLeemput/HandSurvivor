@@ -20,11 +20,13 @@ namespace HandSurvivor.ActiveSkills
 
         [Header("Visual")] [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private float beamWidth = 0.05f;
-        [SerializeField] private Color beamColor = Color.red;
-        [SerializeField] private Material beamMaterial;
+
+        [Header("Retraction")]
+        [SerializeField] private float retractionDuration = 0.25f;
 
         [Header("Effects")] [SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private GameObject muzzleEffectPrefab;
+        [SerializeField] private ParticleSystem beamOriginParticles;
         [SerializeField] private AudioClip beamSound;
         [SerializeField] private bool loopBeamSound = true;
 
@@ -40,6 +42,9 @@ namespace HandSurvivor.ActiveSkills
         private GameObject currentHitEffect;
         private GameObject currentMuzzleEffect;
         private GameObject debugBoxVisual;
+        private float laserStartTime;
+        private float laserDuration;
+        private ParticleSystem.MainModule particlesMainModule;
 
         public bool IsActive { get; private set; }
 
@@ -61,14 +66,6 @@ namespace HandSurvivor.ActiveSkills
             lineRenderer.endWidth = beamWidth;
             lineRenderer.positionCount = 2;
 
-            if (beamMaterial != null)
-            {
-                lineRenderer.material = beamMaterial;
-            }
-
-            lineRenderer.startColor = beamColor;
-            lineRenderer.endColor = beamColor;
-
             // Use world space for positions
             lineRenderer.useWorldSpace = true;
         }
@@ -77,7 +74,7 @@ namespace HandSurvivor.ActiveSkills
         /// Start firing the laser from the specified origin point
         /// </summary>
         [ButtonMethod]
-        public void StartLaser(Transform originTransform)
+        public void StartLaser(Transform originTransform, float duration = 2f)
         {
             if (IsActive)
             {
@@ -87,6 +84,15 @@ namespace HandSurvivor.ActiveSkills
             origin = originTransform;
             IsActive = true;
             lineRenderer.enabled = true;
+            laserStartTime = Time.time;
+            laserDuration = duration;
+
+            // Enable beam origin particles
+            if (beamOriginParticles != null)
+            {
+                beamOriginParticles.gameObject.SetActive(true);
+                particlesMainModule = beamOriginParticles.main;
+            }
 
             // Spawn muzzle effect
             if (muzzleEffectPrefab != null && origin != null)
@@ -123,6 +129,12 @@ namespace HandSurvivor.ActiveSkills
 
             IsActive = false;
             lineRenderer.enabled = false;
+
+            // Disable beam origin particles
+            if (beamOriginParticles != null)
+            {
+                beamOriginParticles.gameObject.SetActive(false);
+            }
 
             // Stop sound
             if (audioSource != null)
@@ -164,13 +176,42 @@ namespace HandSurvivor.ActiveSkills
             Vector3 direction = origin.forward;
             Vector3 endPos;
 
+            // Calculate retraction factor (1.0 = full length, 0.0 = fully retracted)
+            float timeSinceStart = Time.time - laserStartTime;
+            float retractionFactor = 1f;
+            float particleAlpha = 1f;
+
+            // Start retraction during the last retractionDuration seconds
+            float retractionStartTime = laserDuration - retractionDuration;
+            if (timeSinceStart >= retractionStartTime)
+            {
+                float retractionTime = timeSinceStart - retractionStartTime;
+                retractionFactor = 1f - Mathf.Clamp01(retractionTime / retractionDuration);
+                particleAlpha = retractionFactor;
+            }
+
+            // Update beam origin particles position, alpha, and scale
+            if (beamOriginParticles != null)
+            {
+                beamOriginParticles.transform.position = startPos;
+                beamOriginParticles.transform.rotation = origin.rotation;
+                beamOriginParticles.transform.localScale = Vector3.one * particleAlpha;
+
+                Color startColor = particlesMainModule.startColor.color;
+                startColor.a = particleAlpha;
+                particlesMainModule.startColor = startColor;
+            }
+
+            // Apply retraction factor to max range
+            float effectiveRange = maxRange * retractionFactor;
+
             // Use BoxCastAll with size matching the line renderer width to hit multiple targets
             Vector3 boxHalfExtents = new Vector3(beamWidth * 0.5f, beamWidth * 0.5f, 0.01f);
-            RaycastHit[] hits = Physics.BoxCastAll(startPos, boxHalfExtents, direction, origin.rotation, maxRange, hitLayers);
+            RaycastHit[] hits = Physics.BoxCastAll(startPos, boxHalfExtents, direction, origin.rotation, effectiveRange, hitLayers);
 
             // Find closest hit for visual feedback
             RaycastHit closestHit = default;
-            float closestDistance = maxRange;
+            float closestDistance = effectiveRange;
             bool didHit = false;
 
             if (hits.Length > 0)
@@ -220,7 +261,7 @@ namespace HandSurvivor.ActiveSkills
             }
             else
             {
-                endPos = startPos + direction * maxRange;
+                endPos = startPos + direction * effectiveRange;
 
                 if (currentHitEffect != null)
                 {
@@ -290,7 +331,6 @@ namespace HandSurvivor.ActiveSkills
         /// </summary>
         public void SetBeamColor(Color color)
         {
-            beamColor = color;
             lineRenderer.startColor = color;
             lineRenderer.endColor = color;
         }

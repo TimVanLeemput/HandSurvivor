@@ -18,6 +18,7 @@ namespace HandSurvivor.Core.Passive
         [SerializeField] private bool showDebugLogs = true;
 
         private Dictionary<string, int> appliedUpgrades = new Dictionary<string, int>();
+        private Dictionary<string, List<PassiveUpgradeData>> upgradeDataByType = new Dictionary<string, List<PassiveUpgradeData>>();
 
         private void Awake()
         {
@@ -49,6 +50,13 @@ namespace HandSurvivor.Core.Passive
 
             appliedUpgrades[upgradeId]++;
             int stackCount = appliedUpgrades[upgradeId];
+
+            // Store the upgrade data reference for retroactive application
+            if (!upgradeDataByType.ContainsKey(upgradeId))
+            {
+                upgradeDataByType[upgradeId] = new List<PassiveUpgradeData>();
+            }
+            upgradeDataByType[upgradeId].Add(upgrade);
 
             if (showDebugLogs)
             {
@@ -121,7 +129,46 @@ namespace HandSurvivor.Core.Passive
         public void ClearAllUpgrades()
         {
             appliedUpgrades.Clear();
+            upgradeDataByType.Clear();
             Debug.Log("[PassiveUpgradeManager] All upgrades cleared");
+        }
+
+        /// <summary>
+        /// Apply all previously acquired upgrades to a newly added target (e.g., newly unlocked active skill)
+        /// </summary>
+        public void ApplyAllUpgradesTo(IUpgradeable target)
+        {
+            if (target == null)
+            {
+                Debug.LogWarning("[PassiveUpgradeManager] Cannot apply upgrades to null target");
+                return;
+            }
+
+            string targetId = target.GetUpgradeableId();
+            int appliedCount = 0;
+
+            foreach (KeyValuePair<string, List<PassiveUpgradeData>> kvp in upgradeDataByType)
+            {
+                List<PassiveUpgradeData> upgradeList = kvp.Value;
+
+                foreach (PassiveUpgradeData upgrade in upgradeList)
+                {
+                    // Check if this upgrade applies to this target (global or targeted)
+                    bool isGlobal = string.IsNullOrEmpty(upgrade.targetSkillId);
+                    bool isTargeted = upgrade.targetSkillId == targetId;
+
+                    if (isGlobal || isTargeted)
+                    {
+                        target.ApplyPassiveUpgrade(upgrade);
+                        appliedCount++;
+                    }
+                }
+            }
+
+            if (showDebugLogs && appliedCount > 0)
+            {
+                Debug.Log($"[PassiveUpgradeManager] Applied {appliedCount} retroactive upgrades to {targetId}");
+            }
         }
     }
 }

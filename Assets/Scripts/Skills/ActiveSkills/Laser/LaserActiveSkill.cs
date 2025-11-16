@@ -23,8 +23,6 @@ namespace HandSurvivor.ActiveSkills
         private GameObject laserBeamPrefab;
 
         [SerializeField] private float laserDamage = 15f;
-        [SerializeField] private float laserRange = 50f;
-        [SerializeField] private Color laserColor = Color.red;
 
         [Header("Hand Tracking")] [SerializeField]
         private bool useOffHand = true;
@@ -59,7 +57,6 @@ namespace HandSurvivor.ActiveSkills
 
                 // Configure laser
                 laserBeam.SetDamage(laserDamage);
-                laserBeam.SetBeamColor(laserColor);
             }
             else
             {
@@ -69,7 +66,6 @@ namespace HandSurvivor.ActiveSkills
                 laserObj.AddComponent<LineRenderer>();
                 laserBeam = laserObj.AddComponent<LaserBeam>();
                 laserBeam.SetDamage(laserDamage);
-                laserBeam.SetBeamColor(laserColor);
             }
         }
 
@@ -239,10 +235,11 @@ namespace HandSurvivor.ActiveSkills
             if (laserBeam != null && fingerTipTransform != null)
             {
                 float modifiedDamage = GetModifiedDamage(laserDamage);
+                float modifiedDuration = GetModifiedDuration();
                 laserBeam.SetDamage(modifiedDamage);
-                laserBeam.StartLaser(fingerTipTransform);
+                laserBeam.StartLaser(fingerTipTransform, modifiedDuration);
                 wasLaserFiring = true;
-                Debug.Log($"[LaserActiveSkill] Laser firing (Damage: {modifiedDamage})");
+                Debug.Log($"[LaserActiveSkill] Laser firing (Damage: {modifiedDamage}, Duration: {modifiedDuration})");
             }
         }
 
@@ -302,7 +299,7 @@ namespace HandSurvivor.ActiveSkills
             // Draw debug visualization of finger tip in editor
             if (isActive && fingerTipTransform != null)
             {
-                Gizmos.color = laserColor;
+                Gizmos.color = Color.cyan;
                 Gizmos.DrawWireSphere(fingerTipTransform.position, 0.02f);
                 Gizmos.DrawRay(fingerTipTransform.position, fingerTipTransform.forward * 1f);
             }

@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using MyBox;
+using HandSurvivor.Core.Passive;
 
 namespace HandSurvivor.ActiveSkills
 {
@@ -80,6 +81,9 @@ namespace HandSurvivor.ActiveSkills
                 ActiveSkillStack newStack = new ActiveSkillStack(activeSkill, 1);
                 activeSkillStacks.Add(newStack);
                 stackById[activeSkillId] = newStack;
+
+                // Apply all previously acquired passive upgrades retroactively
+                ApplyRetroactivePassiveUpgrades(activeSkill);
 
                 OnActiveSkillAdded?.Invoke(activeSkill, 1);
                 Debug.Log($"[ActiveSkillInventory] Added active skill: {activeSkill.Data.displayName}");
@@ -276,6 +280,20 @@ namespace HandSurvivor.ActiveSkills
                 activeSkills.Add(stack.activeSkillInstance);
             }
             return activeSkills;
+        }
+
+        /// <summary>
+        /// Apply all previously acquired passive upgrades to a newly added active skill
+        /// </summary>
+        private void ApplyRetroactivePassiveUpgrades(ActiveSkillBase activeSkill)
+        {
+            if (PassiveUpgradeManager.Instance == null)
+            {
+                Debug.LogWarning("[ActiveSkillInventory] PassiveUpgradeManager.Instance is null - cannot apply retroactive upgrades");
+                return;
+            }
+
+            PassiveUpgradeManager.Instance.ApplyAllUpgradesTo(activeSkill);
         }
     }
 }

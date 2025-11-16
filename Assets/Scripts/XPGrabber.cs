@@ -9,15 +9,14 @@ public class XPGrabber : MonoBehaviour, IUpgradeable
     [Header("Base Properties")]
     [SerializeField] private float baseRadius = 1f;
     [SerializeField] private float collectDuration = 0.4f;
-    private int _xPGrabberInverseScaleMultiplier = 10;
 
     [Header("Debug Visualization")]
     [SerializeField] private bool showDebugSphere = false;
+    [SerializeField] private Transform debugSphereTransform;
 
     [Header("Upgrade Tracking")]
     [SerializeField,ReadOnly]private float rangeMultiplier = 1f;
     private SphereCollider sphereCollider;
-    private MeshFilter debugMeshFilter;
     private MeshRenderer debugMeshRenderer;
 
     private void Awake()
@@ -29,9 +28,11 @@ public class XPGrabber : MonoBehaviour, IUpgradeable
             baseRadius = sphereCollider.radius;
         }
 
-        // Get debug visualization components
-        debugMeshFilter = GetComponent<MeshFilter>();
-        debugMeshRenderer = GetComponent<MeshRenderer>();
+        // Get debug visualization components from child object
+        if (debugSphereTransform != null)
+        {
+            debugMeshRenderer = debugSphereTransform.GetComponent<MeshRenderer>();
+        }
 
         UpdateDebugVisualization();
     }
@@ -121,12 +122,14 @@ public class XPGrabber : MonoBehaviour, IUpgradeable
             debugMeshRenderer.enabled = showDebugSphere;
         }
 
-        // Update scale to match radius (sphere primitive has diameter of 1, so scale = diameter = radius * 2)
-        if (showDebugSphere)
+        if (showDebugSphere && debugSphereTransform != null)
         {
-            float currentRadius = (baseRadius * rangeMultiplier)/_xPGrabberInverseScaleMultiplier;
+            // Unity sphere primitive has diameter of 1, so to match collider radius R,
+            // we need child scale = R * 2 (to get diameter)
+            float currentRadius = baseRadius * rangeMultiplier;
             float diameter = currentRadius * 2f;
-            transform.localScale = new Vector3(diameter, diameter, diameter);
+
+            debugSphereTransform.localScale = new Vector3(diameter, diameter, diameter);
         }
     }
 
