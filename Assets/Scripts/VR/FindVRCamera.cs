@@ -7,13 +7,18 @@ using UnityEngine;
 /// </summary>
 public class FindVRCamera : MonoBehaviour
 {
-    private void Awake()
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         private void Awake()
     {
         OVRCameraRig cameraRig = FindFirstObjectByType<OVRCameraRig>();
 
         if (cameraRig == null)
         {
-            Debug.LogWarning("[FindVRCamera] Could not find OVRCameraRig in scene!", this);
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning("[FindVRCamera] Could not find OVRCameraRig in scene!", this);
             return;
         }
 
@@ -21,7 +26,9 @@ public class FindVRCamera : MonoBehaviour
 
         if (vrCamera == null)
         {
-            Debug.LogWarning("[FindVRCamera] OVRCameraRig center eye anchor does not have a Camera component!", this);
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning("[FindVRCamera] OVRCameraRig center eye anchor does not have a Camera component!", this);
             return;
         }
 
@@ -30,7 +37,9 @@ public class FindVRCamera : MonoBehaviour
         if (canvas != null)
         {
             canvas.worldCamera = vrCamera;
-            Debug.Log($"[FindVRCamera] Assigned VR camera to Canvas on {gameObject.name}", this);
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[FindVRCamera] Assigned VR camera to Canvas on {gameObject.name}", this);
         }
     }
 

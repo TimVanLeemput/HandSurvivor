@@ -5,7 +5,10 @@ namespace HandSurvivor.ActiveSkills
 {
     public class AutoCastManager : MonoBehaviour
     {
-        public static AutoCastManager Instance;
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         public static AutoCastManager Instance;
 
         [Header("Settings")]
         [SerializeField] private float checkInterval = 0.1f;
@@ -44,7 +47,9 @@ namespace HandSurvivor.ActiveSkills
             }
             else
             {
-                Debug.LogError("[AutoCastManager] ActiveSkillSlotManager.Instance is null!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError("[AutoCastManager] ActiveSkillSlotManager.Instance is null!");
             }
         }
 
@@ -84,7 +89,9 @@ namespace HandSurvivor.ActiveSkills
 
                 if (enableDebugLogs)
                 {
-                    Debug.Log($"[AutoCastManager] Now tracking: {skill.Data.displayName}");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                        Debug.Log($"[AutoCastManager] Now tracking: {skill.Data.displayName}");
                 }
             }
         }
@@ -97,7 +104,9 @@ namespace HandSurvivor.ActiveSkills
 
                 if (enableDebugLogs)
                 {
-                    Debug.Log($"[AutoCastManager] Stopped tracking: {skill.Data.displayName}");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                        Debug.Log($"[AutoCastManager] Stopped tracking: {skill.Data.displayName}");
                 }
             }
         }
@@ -122,7 +131,9 @@ namespace HandSurvivor.ActiveSkills
 
                     if (enableDebugLogs)
                     {
-                        Debug.Log($"[AutoCastManager] Auto-activated: {skill.Data.displayName}");
+                        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                            Debug.Log($"[AutoCastManager] Auto-activated: {skill.Data.displayName}");
                     }
                 }
             }

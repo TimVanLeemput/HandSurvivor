@@ -7,7 +7,10 @@ using MyBox;
 [RequireComponent(typeof(PokeInteractable))]
 public class PokeInteractableHandFilter : MonoBehaviour, IGameObjectFilter
 {
-    [SerializeField, ReadOnly] private PokeInteractable _pokeInteractable = null;
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [SerializeField, ReadOnly] private PokeInteractable _pokeInteractable = null;
     [SerializeField] private HandFilterType _handFilterType = HandFilterType.Both;
     [SerializeField] private List<GameObject> _gameObjectWithPokeInteractorFilters = null;
 
@@ -31,7 +34,9 @@ public class PokeInteractableHandFilter : MonoBehaviour, IGameObjectFilter
                 filter.HandFilterType == _handFilterType)
             {
                 _matchingFilters.Add(filter);
-                Debug.Log($"[PokeInteractableHandFilter] Matched {filter.gameObject.name} (HandType: {filter.HandFilterType})", filter.gameObject);
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[PokeInteractableHandFilter] Matched {filter.gameObject.name} (HandType: {filter.HandFilterType})", filter.gameObject);
             }
         }
 
@@ -57,7 +62,9 @@ public class PokeInteractableHandFilter : MonoBehaviour, IGameObjectFilter
                     return true;
                 else
                 {
-                    Debug.Log($"[PokeInteractableHandFilter] Rejected {go.name} due to mismatched hand type.");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                        Debug.Log($"[PokeInteractableHandFilter] Rejected {go.name} due to mismatched hand type.");
                     return false;
                 }
             }

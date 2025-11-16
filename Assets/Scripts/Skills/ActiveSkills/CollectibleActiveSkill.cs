@@ -11,7 +11,10 @@ namespace HandSurvivor.ActiveSkills
     [RequireComponent(typeof(Collider))]
     public class CollectibleActiveSkill : MonoBehaviour
     {
-        [Header("Active Skill Configuration")] [SerializeField]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Active Skill Configuration")] [SerializeField]
         private ActiveSkillData activeSkillData;
 
         [SerializeField] private GameObject activeSkillPrefab;
@@ -102,17 +105,23 @@ namespace HandSurvivor.ActiveSkills
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"[CollectibleActiveSkill] OnTriggerEnter - Object: {other.gameObject.name}, Layer: {LayerMask.LayerToName(other.gameObject.layer)}", other.gameObject);
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[CollectibleActiveSkill] OnTriggerEnter - Object: {other.gameObject.name}, Layer: {LayerMask.LayerToName(other.gameObject.layer)}", other.gameObject);
 
             if (!autoPickupOnCollision || hasBeenCollected)
             {
-                Debug.Log($"[CollectibleActiveSkill] Skipped - autoPickup: {autoPickupOnCollision}, collected: {hasBeenCollected}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[CollectibleActiveSkill] Skipped - autoPickup: {autoPickupOnCollision}, collected: {hasBeenCollected}");
                 return;
             }
 
             // Check if collider is on player layer
             bool isPlayer = ((1 << other.gameObject.layer) & layers) != 0;
-            Debug.Log($"[CollectibleActiveSkill] Layer check - isPlayer: {isPlayer}, layers mask: {layers.value}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[CollectibleActiveSkill] Layer check - isPlayer: {isPlayer}, layers mask: {layers.value}");
             if (!isPlayer)
             {
                 return;
@@ -121,21 +130,31 @@ namespace HandSurvivor.ActiveSkills
             // Determine if this hand is main or off hand
             bool isMainHand = HandSelectionManager.IsMainHandObject(other.gameObject);
             bool isOffHand = HandSelectionManager.IsOffHandObject(other.gameObject);
-            Debug.Log($"[CollectibleActiveSkill] isMainHand: {isMainHand}, isOffHand: {isOffHand}");
-            Debug.Log($"[CollectibleActiveSkill] Pickup permissions - mainHandCanPickup: {mainHandCanPickup}, offHandCanPickup: {offHandCanPickup}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[CollectibleActiveSkill] isMainHand: {isMainHand}, isOffHand: {isOffHand}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[CollectibleActiveSkill] Pickup permissions - mainHandCanPickup: {mainHandCanPickup}, offHandCanPickup: {offHandCanPickup}");
 
             // Check if this hand is allowed to pick up
             if ((isMainHand && mainHandCanPickup) || (isOffHand && offHandCanPickup))
             {
-                Debug.Log($"[CollectibleActiveSkill] ✓ Pickup allowed! Calling Pickup()");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[CollectibleActiveSkill] ✓ Pickup allowed! Calling Pickup()");
                 Pickup();
-                Debug.Log(
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log(
                     $"  [CollectibleActiveSkill] Picked up: {activeSkillData.displayName}, collider hit {other.gameObject.name}",
                     other.gameObject);
             }
             else
             {
-                Debug.Log($"[CollectibleActiveSkill] ✗ Pickup denied - hand not allowed");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[CollectibleActiveSkill] ✗ Pickup denied - hand not allowed");
             }
         }
 
@@ -155,14 +174,18 @@ namespace HandSurvivor.ActiveSkills
             // Validate configuration
             if (activeSkillData == null)
             {
-                Debug.LogError("[CollectibleActiveSkill] No ActiveSkillData assigned!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError("[CollectibleActiveSkill] No ActiveSkillData assigned!");
                 Destroy(gameObject);
                 return;
             }
 
             if (activeSkillPrefab == null)
             {
-                Debug.LogError("[CollectibleActiveSkill] No ActiveSkill prefab assigned!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError("[CollectibleActiveSkill] No ActiveSkill prefab assigned!");
                 Destroy(gameObject);
                 return;
             }
@@ -170,7 +193,9 @@ namespace HandSurvivor.ActiveSkills
             // Check if inventory exists
             if (ActiveSkillInventory.Instance == null)
             {
-                Debug.LogError("[CollectibleActiveSkill] No ActiveSkillInventory found in scene!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError("[CollectibleActiveSkill] No ActiveSkillInventory found in scene!");
                 Destroy(gameObject);
                 return;
             }
@@ -178,7 +203,8 @@ namespace HandSurvivor.ActiveSkills
             // Check if inventory is full
             // if (ActiveSkillInventory.Instance.is)
             // {
-            //     Debug.LogWarning($"[CollectibleActiveSkill] Inventory full! Cannot pickup {activeSkillData.displayName}");
+            //     if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+         Debug.LogWarning($"[CollectibleActiveSkill] Inventory full! Cannot pickup {activeSkillData.displayName}");
             //     hasBeenCollected = false; // Allow retry
             //     return;
             // }
@@ -189,7 +215,9 @@ namespace HandSurvivor.ActiveSkills
 
             if (activeSkill == null)
             {
-                Debug.LogError($"[CollectibleActiveSkill] ActiveSkill prefab does not have an ActiveSkillBase component!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError($"[CollectibleActiveSkill] ActiveSkill prefab does not have an ActiveSkillBase component!");
                 Destroy(activeSkillObj);
                 Destroy(gameObject);
                 return;
@@ -201,7 +229,10 @@ namespace HandSurvivor.ActiveSkills
             // Fire events
             OnPickedUp?.Invoke();
 
-            Debug.Log($"[CollectibleActiveSkill] Picked up: {activeSkillData.displayName}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[CollectibleActiveSkill] Picked up: {activeSkillData.displayName}");
 
             // Destroy the collectible
             Destroy(gameObject);

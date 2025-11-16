@@ -9,7 +9,10 @@ namespace HandSurvivor.Core.LevelUp
     [CreateAssetMenu(fileName = "SkillPoolData", menuName = "HandSurvivor/Skill Pool Data", order = 0)]
     public class SkillPoolData : ScriptableObject
     {
-        [Header("Active Skills")]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Active Skills")]
         [Tooltip("Pool of active skill prefabs that can be offered to player")]
         public List<GameObject> activeSkillPrefabs = new List<GameObject>();
 
@@ -21,7 +24,9 @@ namespace HandSurvivor.Core.LevelUp
         {
             if (activeSkillPrefabs.Count == 0)
             {
-                Debug.LogWarning("[SkillPoolData] No active skills in pool!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("[SkillPoolData] No active skills in pool!");
                 return new List<GameObject>();
             }
 
@@ -35,7 +40,9 @@ namespace HandSurvivor.Core.LevelUp
         {
             if (passiveUpgrades.Count == 0)
             {
-                Debug.LogWarning("[SkillPoolData] No passive upgrades in pool!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("[SkillPoolData] No passive upgrades in pool!");
                 return new List<PassiveUpgradeData>();
             }
 
@@ -51,7 +58,9 @@ namespace HandSurvivor.Core.LevelUp
             {
                 if (prefab != null && prefab.GetComponent<ActiveSkillBase>() == null)
                 {
-                    Debug.LogWarning($"[SkillPoolData] Prefab '{prefab.name}' does not have ActiveSkillBase component!");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                        Debug.LogWarning($"[SkillPoolData] Prefab '{prefab.name}' does not have ActiveSkillBase component!");
                 }
             }
         }

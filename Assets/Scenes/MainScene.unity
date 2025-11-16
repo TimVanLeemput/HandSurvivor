@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 554b9a70f695a924d98f75de0a9fc409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.HandSelectionManager
+  showDebugLogs: 1
   handPreference:
     mainHand: 1
   OnMainHandChanged:
@@ -226,6 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e193b17ca6a4fb24dbc9813b36a7bf29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.AutoCastManager
+  showDebugLogs: 1
   checkInterval: 0.1
   enableDebugLogs: 0
 --- !u!1 &433322504
@@ -272,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecd82ae796498b5458690fe56e70c6f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.ActiveSkillSlotManager
+  showDebugLogs: 1
   maxSlots: 4
   OnSkillSlotted:
     m_PersistentCalls:
@@ -778,6 +781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2eba3bcf80e6d24f882b1f84aa423f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.DamageNumberManager
+  showDebugLogs: 1
   damageNumberPrefab: {fileID: 7418495933469088165, guid: 0f43c67f63d474f4394fb62d05a56347, type: 3}
   defaultPoolSize: 20
   maxPoolSize: 50
@@ -999,6 +1003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 921a6f7bdba3b8247b215a0bb07ca623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Level.SceneLoaderManager
+  showDebugLogs: 1
   scenesToLoad:
   - sceneAsset: {fileID: 102900000, guid: e248e566f5896644caa24333fb211484, type: 3}
     scenePath: Assets/Scenes/Environment.unity

@@ -4,7 +4,10 @@ using UnityEngine.Events;
 
 public class XPManager : MonoBehaviour
 {
-    public static XPManager Instance;
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         public static XPManager Instance;
     public GameObject XPPrefab;
     public Transform XPParent;
 
@@ -40,7 +43,9 @@ public class XPManager : MonoBehaviour
     {
         Level++;
         OnLevelUp?.Invoke(Level);
-        Debug.Log($"[XPManager] Level Up! Now level {Level}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+            Debug.Log($"[XPManager] Level Up! Now level {Level}");
     }
 
     public void DropXP(int xpAmount, Vector3 position)

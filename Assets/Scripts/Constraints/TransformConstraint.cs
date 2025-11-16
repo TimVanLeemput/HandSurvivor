@@ -9,7 +9,10 @@ namespace HandSurvivor
     [RequireComponent(typeof(ParentConstraint))]
     public class TransformConstraint : MonoBehaviour
     {
-        [Header("Transform Reference")]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Transform Reference")]
         [SerializeField] private TransformReference targetTransformReference;
 
         [Header("Constraint Settings")]
@@ -64,7 +67,9 @@ namespace HandSurvivor
             {
                 if (elapsedTime >= timeout)
                 {
-                    Debug.LogWarning($"[TransformConstraint] Timeout waiting for TransformReference on {gameObject.name}");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                        Debug.LogWarning($"[TransformConstraint] Timeout waiting for TransformReference on {gameObject.name}");
                     yield break;
                 }
 
@@ -82,13 +87,17 @@ namespace HandSurvivor
         {
             if (targetTransformReference == null)
             {
-                Debug.LogWarning($"[TransformConstraint] No TransformReference assigned on {gameObject.name}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning($"[TransformConstraint] No TransformReference assigned on {gameObject.name}");
                 return;
             }
 
             if (targetTransformReference.Value == null)
             {
-                Debug.LogWarning($"[TransformConstraint] TransformReference '{targetTransformReference.name}' has no Transform set");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning($"[TransformConstraint] TransformReference '{targetTransformReference.name}' has no Transform set");
                 return;
             }
 
@@ -147,7 +156,9 @@ namespace HandSurvivor
             parentConstraint.locked = true;
 
             constraintApplied = true;
-            Debug.Log($"[TransformConstraint] '{gameObject.name}' constrained to '{cachedTargetTransform.name}'");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[TransformConstraint] '{gameObject.name}' constrained to '{cachedTargetTransform.name}'");
         }
 
         /// <summary>
@@ -164,7 +175,9 @@ namespace HandSurvivor
 
             cachedTargetTransform = null;
             constraintApplied = false;
-            Debug.Log($"[TransformConstraint] '{gameObject.name}' constraint removed");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[TransformConstraint] '{gameObject.name}' constraint removed");
         }
 
         /// <summary>

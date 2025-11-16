@@ -9,7 +9,10 @@ namespace HandSurvivor.ActiveSkills
     /// </summary>
     public class DamageNumberManager : MonoBehaviour
     {
-        public static DamageNumberManager Instance { get; private set; }
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         public static DamageNumberManager Instance { get; private set; }
 
         [Header("Pool Settings")] [SerializeField]
         private GameObject damageNumberPrefab;
@@ -103,7 +106,9 @@ namespace HandSurvivor.ActiveSkills
         {
             if (damageNumberPool == null)
             {
-                Debug.LogWarning("[DamageNumberManager] Pool not initialized!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("[DamageNumberManager] Pool not initialized!");
                 return;
             }
 

@@ -13,7 +13,10 @@ public enum HandFilterType
 
 public class PokeInteractorFilter : MonoBehaviour, IGameObjectFilter
 {
-    public HandJointId Joint { get; private set; }
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         public HandJointId Joint { get; private set; }
     public HandFilterType HandFilterType { get; private set; }
 
     private void Awake()
@@ -23,11 +26,15 @@ public class PokeInteractorFilter : MonoBehaviour, IGameObjectFilter
         if (handJoint != null)
         {
             Joint = handJoint.HandJointId;
-            Debug.Log($"[PokeInteractorFilter] Auto-detected Joint ID: {Joint}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[PokeInteractorFilter] Auto-detected Joint ID: {Joint}");
         }
         else
         {
-            Debug.LogWarning($"[PokeInteractorFilter] No HandJoint found in children of {gameObject.name}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning($"[PokeInteractorFilter] No HandJoint found in children of {gameObject.name}");
         }
 
         // Auto-detect which hand this interactor is on
@@ -35,7 +42,9 @@ public class PokeInteractorFilter : MonoBehaviour, IGameObjectFilter
 
         if (handType == null)
         {
-            Debug.LogWarning($"[PokeInteractorFilter] Could not detect hand type for {gameObject.name} - defaulting to Both");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning($"[PokeInteractorFilter] Could not detect hand type for {gameObject.name} - defaulting to Both");
             HandFilterType = HandFilterType.Both;
             return;
         }
@@ -44,7 +53,10 @@ public class PokeInteractorFilter : MonoBehaviour, IGameObjectFilter
         bool isMainHand = HandSelectionManager.CheckIsMainHand(handType.Value);
         HandFilterType = isMainHand ? HandFilterType.MainHandOnly : HandFilterType.OffHandOnly;
 
-        Debug.Log($"[PokeInteractorFilter] Auto-detected hand type: {handType.Value} ({HandFilterType})", gameObject);
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+            Debug.Log($"[PokeInteractorFilter] Auto-detected hand type: {handType.Value} ({HandFilterType})", gameObject);
     }
 
     public bool Filter(GameObject go)

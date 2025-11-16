@@ -7,7 +7,10 @@ namespace HandSurvivor
     /// </summary>
     public class SetTransformReference : MonoBehaviour
     {
-        [Header("Transform to Set")]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Transform to Set")]
         [SerializeField] private Transform targetTransform;
         [SerializeField] private bool useSelfIfNull = true;
 
@@ -50,7 +53,9 @@ namespace HandSurvivor
         {
             if (transformReference == null)
             {
-                Debug.LogWarning($"[SetTransformReference] No TransformReference assigned on {gameObject.name}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning($"[SetTransformReference] No TransformReference assigned on {gameObject.name}");
                 return;
             }
 
@@ -58,12 +63,16 @@ namespace HandSurvivor
 
             if (transformToSet == null)
             {
-                Debug.LogWarning($"[SetTransformReference] No Transform to set on {gameObject.name}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning($"[SetTransformReference] No Transform to set on {gameObject.name}");
                 return;
             }
 
             transformReference.Value = transformToSet;
-            Debug.Log($"[SetTransformReference] Set '{transformToSet.name}' to TransformReference '{transformReference.name}'");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[SetTransformReference] Set '{transformToSet.name}' to TransformReference '{transformReference.name}'");
         }
 
         /// <summary>
@@ -74,7 +83,9 @@ namespace HandSurvivor
             if (transformReference != null)
             {
                 transformReference.Clear();
-                Debug.Log($"[SetTransformReference] Cleared TransformReference '{transformReference.name}'");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[SetTransformReference] Cleared TransformReference '{transformReference.name}'");
             }
         }
 

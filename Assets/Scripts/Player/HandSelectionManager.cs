@@ -9,7 +9,10 @@ namespace HandSurvivor
     /// </summary>
     public class HandSelectionManager : MonoBehaviour
     {
-        private const string HAND_PREFERENCE_KEY = "HandSurvivor_MainHand";
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         private const string HAND_PREFERENCE_KEY = "HandSurvivor_MainHand";
 
         [Header("Hand Preference")]
         [SerializeField]
@@ -74,14 +77,18 @@ namespace HandSurvivor
             {
                 int savedHand = PlayerPrefs.GetInt(HAND_PREFERENCE_KEY, (int)HandType.Right);
                 handPreference.MainHand = (HandType)savedHand;
-                Debug.Log($"[HandSelection] Loaded preference: Main Hand = {handPreference.MainHand}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[HandSelection] Loaded preference: Main Hand = {handPreference.MainHand}");
             }
             else
             {
                 // Default to right hand if no preference saved
                 handPreference.MainHand = HandType.Right;
                 SavePreference();
-                Debug.Log($"[HandSelection] No saved preference - defaulting to Right hand");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[HandSelection] No saved preference - defaulting to Right hand");
             }
 
             OnPreferenceLoaded?.Invoke(handPreference.MainHand);
@@ -94,7 +101,9 @@ namespace HandSurvivor
         {
             PlayerPrefs.SetInt(HAND_PREFERENCE_KEY, (int)handPreference.MainHand);
             PlayerPrefs.Save();
-            Debug.Log($"[HandSelection] Saved preference: Main Hand = {handPreference.MainHand} - Int should be {(int)handPreference.MainHand}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[HandSelection] Saved preference: Main Hand = {handPreference.MainHand} - Int should be {(int)handPreference.MainHand}");
         }
 
         /// <summary>
@@ -104,14 +113,19 @@ namespace HandSurvivor
         {
             if (handPreference.MainHand == hand)
             {
-                Debug.Log($"[HandSelection] Main hand already set to {hand}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[HandSelection] Main hand already set to {hand}");
                 return;
             }
 
             handPreference.MainHand = hand;
             SavePreference();
 
-            Debug.Log($"[HandSelection] Main hand changed to: {hand} (Off hand: {handPreference.OffHand})");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[HandSelection] Main hand changed to: {hand} (Off hand: {handPreference.OffHand})");
             OnMainHandChanged?.Invoke(hand);
         }
 
@@ -123,7 +137,10 @@ namespace HandSurvivor
             handPreference.SwapHands();
             SavePreference();
 
-            Debug.Log($"[HandSelection] Hands swapped - Main: {handPreference.MainHand}, Off: {handPreference.OffHand}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[HandSelection] Hands swapped - Main: {handPreference.MainHand}, Off: {handPreference.OffHand}");
             OnMainHandChanged?.Invoke(handPreference.MainHand);
         }
 
@@ -228,7 +245,9 @@ namespace HandSurvivor
         [ContextMenu("Debug: Log Current Preference")]
         private void DebugLogPreference()
         {
-            Debug.Log($"[HandSelection] Current Preference:\n" +
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[HandSelection] Current Preference:\n" +
                      $"  Main Hand: {handPreference.MainHand} (Physical Damage)\n" +
                      $"  Off Hand: {handPreference.OffHand} (Spirit Abilities)");
         }
@@ -238,7 +257,9 @@ namespace HandSurvivor
         {
             PlayerPrefs.DeleteKey(HAND_PREFERENCE_KEY);
             PlayerPrefs.Save();
-            Debug.Log("[HandSelection] Cleared saved preference");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log("[HandSelection] Cleared saved preference");
         }
 #endif
     }

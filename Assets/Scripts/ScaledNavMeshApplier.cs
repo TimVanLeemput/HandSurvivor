@@ -6,7 +6,10 @@ using UnityEngine.AI;
 [ExecuteInEditMode]
 public class ScaledNavMeshApplier : MonoBehaviour
 {
-    [Header("Input NavMesh")]
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Input NavMesh")]
     public NavMeshData sourceNavMesh; // ton .asset baké à l’échelle 1
 
     [Header("Scaling")]
@@ -25,7 +28,9 @@ public class ScaledNavMeshApplier : MonoBehaviour
     {
         if (sourceNavMesh == null)
         {
-            Debug.LogError("Aucun NavMeshData source n’est assigné.");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogError("Aucun NavMeshData source n’est assigné.");
             return;
         }
 
@@ -68,7 +73,9 @@ public class ScaledNavMeshApplier : MonoBehaviour
 
         if (scaledData == null)
         {
-            Debug.LogError("Échec de la génération du NavMesh scaled.");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogError("Échec de la génération du NavMesh scaled.");
             return;
         }
 
@@ -77,7 +84,9 @@ public class ScaledNavMeshApplier : MonoBehaviour
         {
             if (instance.valid) instance.Remove();
             instance = NavMesh.AddNavMeshData(scaledData, transform.position, transform.rotation);
-            Debug.Log($"✅ NavMesh scaled x{scaleFactor} appliqué à la scène.");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"✅ NavMesh scaled x{scaleFactor} appliqué à la scène.");
         }
 
         // Si un NavMeshSurface est lié, on le met à jour

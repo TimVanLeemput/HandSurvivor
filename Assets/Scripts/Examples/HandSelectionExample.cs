@@ -8,7 +8,10 @@ namespace HandSurvivor.Examples
     /// </summary>
     public class HandSelectionExample : MonoBehaviour
     {
-        [Header("Example Settings")]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Example Settings")]
         [SerializeField]
         private bool logOnStart = true;
 
@@ -40,7 +43,10 @@ namespace HandSurvivor.Examples
             HandType mainHand = HandSelectionManager.GetMainHand();
             HandType offHand = HandSelectionManager.GetOffHand();
 
-            Debug.Log($"[HandExample] Current Setup:\n" +
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[HandExample] Current Setup:\n" +
                      $"  Main Hand (Physical Damage): {mainHand}\n" +
                      $"  Off Hand (Spirit Abilities): {offHand}");
         }
@@ -50,7 +56,9 @@ namespace HandSurvivor.Examples
         /// </summary>
         private void OnHandChanged(HandType newMainHand)
         {
-            Debug.Log($"[HandExample] Player changed main hand to: {newMainHand}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[HandExample] Player changed main hand to: {newMainHand}");
 
             // Example: Update weapon attachments, ability positions, etc.
             UpdateGameplayElements();
@@ -64,13 +72,17 @@ namespace HandSurvivor.Examples
             // Check if this is the main hand (physical damage)
             if (HandSelectionManager.CheckIsMainHand(hand))
             {
-                Debug.Log($"[HandExample] {hand} hand trigger pressed - PHYSICAL DAMAGE ATTACK!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[HandExample] {hand} hand trigger pressed - PHYSICAL DAMAGE ATTACK!");
                 PerformPhysicalAttack();
             }
             // Check if this is the off hand (spirit abilities)
             else if (HandSelectionManager.CheckIsOffHand(hand))
             {
-                Debug.Log($"[HandExample] {hand} hand trigger pressed - SPIRIT ABILITY!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[HandExample] {hand} hand trigger pressed - SPIRIT ABILITY!");
                 ActivateSpiritAbility();
             }
         }
@@ -82,7 +94,9 @@ namespace HandSurvivor.Examples
         {
             // Implement physical damage logic here
             // Example: Spawn punch VFX, apply damage to enemies, etc.
-            Debug.Log("[HandExample] Executing physical damage attack...");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log("[HandExample] Executing physical damage attack...");
         }
 
         /// <summary>
@@ -92,7 +106,9 @@ namespace HandSurvivor.Examples
         {
             // Implement spirit ability logic here
             // Example: Collect powerups, launch spirit projectiles, etc.
-            Debug.Log("[HandExample] Activating spirit ability...");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log("[HandExample] Activating spirit ability...");
         }
 
         /// <summary>
@@ -103,7 +119,10 @@ namespace HandSurvivor.Examples
             HandType mainHand = HandSelectionManager.GetMainHand();
             HandType offHand = HandSelectionManager.GetOffHand();
 
-            Debug.Log($"[HandExample] Updating gameplay elements:\n" +
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[HandExample] Updating gameplay elements:\n" +
                      $"  Attaching physical weapon to {mainHand} hand\n" +
                      $"  Attaching spirit collector to {offHand} hand");
 
@@ -123,12 +142,16 @@ namespace HandSurvivor.Examples
 
             if (role == HandRole.OffHand)
             {
-                Debug.Log($"[HandExample] Powerup collected with OFF HAND ({collectingHand}) - BONUS POINTS!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[HandExample] Powerup collected with OFF HAND ({collectingHand}) - BONUS POINTS!");
                 // Give bonus for using correct hand
             }
             else
             {
-                Debug.Log($"[HandExample] Powerup collected with MAIN HAND ({collectingHand}) - standard points");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[HandExample] Powerup collected with MAIN HAND ({collectingHand}) - standard points");
                 // Standard collection
             }
         }

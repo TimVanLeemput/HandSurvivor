@@ -11,7 +11,10 @@ namespace HandSurvivor.Skills
     /// </summary>
     public class SkillSlotsUIManager : MonoBehaviour
     {
-        [Header("Prefab References")]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Prefab References")]
         [SerializeField] private GameObject skillSlotUIPrefab;
 
         [Header("Container")]
@@ -39,7 +42,9 @@ namespace HandSurvivor.Skills
         {
             if (ActiveSkillSlotManager.Instance == null)
             {
-                Debug.LogWarning("[SkillSlotsUIManager] ActiveSkillSlotManager.Instance is null!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("[SkillSlotsUIManager] ActiveSkillSlotManager.Instance is null!");
                 return;
             }
 
@@ -50,7 +55,10 @@ namespace HandSurvivor.Skills
                 CreateSlotUI();
             }
 
-            Debug.Log($"[SkillSlotsUIManager] Initialized {currentMaxSlots} skill slot UI elements");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[SkillSlotsUIManager] Initialized {currentMaxSlots} skill slot UI elements");
         }
 
         /// <summary>
@@ -60,7 +68,9 @@ namespace HandSurvivor.Skills
         {
             if (skillSlotUIPrefab == null || slotsContainer == null)
             {
-                Debug.LogError("[SkillSlotsUIManager] Missing prefab or container reference!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError("[SkillSlotsUIManager] Missing prefab or container reference!");
                 return;
             }
 
@@ -73,7 +83,9 @@ namespace HandSurvivor.Skills
             }
             else
             {
-                Debug.LogError("[SkillSlotsUIManager] SkillSlotUI component not found on prefab!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError("[SkillSlotsUIManager] SkillSlotUI component not found on prefab!");
             }
         }
 
@@ -174,7 +186,10 @@ namespace HandSurvivor.Skills
             InitializeSlots();
             RefreshAllSlots();
 
-            Debug.Log($"[SkillSlotsUIManager] Rebuilt UI with {currentMaxSlots} slots");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[SkillSlotsUIManager] Rebuilt UI with {currentMaxSlots} slots");
         }
     }
 }

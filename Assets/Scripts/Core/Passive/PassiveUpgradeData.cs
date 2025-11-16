@@ -14,7 +14,10 @@ namespace HandSurvivor.Core.Passive
     [CreateAssetMenu(fileName = "PassiveUpgrade_", menuName = "HandSurvivor/Passive Upgrade Data", order = 1)]
     public class PassiveUpgradeData : ScriptableObject
     {
-        [Header("Identity")]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Identity")]
         [Tooltip("Unique identifier for this passive upgrade")]
         public string upgradeId;
 
@@ -55,7 +58,9 @@ namespace HandSurvivor.Core.Passive
 
             if (value < 0f)
             {
-                Debug.LogWarning($"[PassiveUpgradeData] '{displayName}' has negative value. Ensure this is intentional.");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning($"[PassiveUpgradeData] '{displayName}' has negative value. Ensure this is intentional.");
             }
         }
     }

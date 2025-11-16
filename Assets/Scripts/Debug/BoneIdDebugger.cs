@@ -4,7 +4,10 @@ using System.Collections.Generic;
 
 public class BoneIdDebugger : MonoBehaviour
 {
-    [Header("Bone ID Testing")]
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Bone ID Testing")]
      [SerializeField]
     private List<OVRSkeleton.BoneId> allBoneIds = new List<OVRSkeleton.BoneId>
     (
@@ -101,26 +104,39 @@ public class BoneIdDebugger : MonoBehaviour
     
     private void Start()
     {
-        Debug.Log("=== BONE ID DEBUGGER START ===", gameObject);
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+            Debug.Log("=== BONE ID DEBUGGER START ===", gameObject);
         foreach (OVRSkeleton.BoneId boneId in allBoneIds)
         {
             DebugBone(allBoneIds.IndexOf(boneId), boneId);
         }
-        Debug.Log("=== BONE ID DEBUGGER END ===", gameObject);
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
 
-        Debug.Log("=== ALL ENUM VALUES ===", gameObject);
+            Debug.Log("=== BONE ID DEBUGGER END ===", gameObject);
+
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+            Debug.Log("=== ALL ENUM VALUES ===", gameObject);
         Array enumValues = Enum.GetValues(typeof(OVRSkeleton.BoneId));
         foreach (OVRSkeleton.BoneId boneId in enumValues)
         {
             int enumIntValue = (int)boneId;
-            Debug.Log($"  Enum[{enumIntValue}] = {boneId}", gameObject);
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"  Enum[{enumIntValue}] = {boneId}", gameObject);
         }
-        Debug.Log($"=== Total: {enumValues.Length} bone IDs ===", gameObject);
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+            Debug.Log($"=== Total: {enumValues.Length} bone IDs ===", gameObject);
     }
 
     private void DebugBone(int index, OVRSkeleton.BoneId boneId)
     {
         int enumValue = (int)boneId;
-        Debug.Log($"  requiredBone{index}: {boneId} (enum int value: {enumValue})", gameObject);
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+            Debug.Log($"  requiredBone{index}: {boneId} (enum int value: {enumValue})", gameObject);
     }
 }

@@ -95,7 +95,8 @@ namespace HandSurvivor.ActiveSkills
             }
 
             HandShapeManager.Instance.OnFingerGun.AddListener(OnFingerGunDetected);
-            Debug.Log("[LaserActiveSkill] Listening to HandShapeManager OnFingerGun event");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log("[LaserActiveSkill] Listening to HandShapeManager OnFingerGun event");
         }
 
         protected override void Update()
@@ -106,7 +107,8 @@ namespace HandSurvivor.ActiveSkills
             {
                 if (Time.time >= cooldownEndTime)
                 {
-                    Debug.Log($"[LaserActiveSkill] Cooldown expired at {Time.time} (end time was {cooldownEndTime})");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.Log($"[LaserActiveSkill] Cooldown expired at {Time.time} (end time was {cooldownEndTime})");
                     isOnCooldown = false;
                     EnterPrimedState(); // Return to primed state when cooldown completes
                 }
@@ -116,7 +118,8 @@ namespace HandSurvivor.ActiveSkills
             if (currentState == LaserState.Firing && Time.time >= activationTime + GetModifiedDuration())
             {
                 // Laser duration expired while firing - transition to cooling down
-                Debug.Log($"[LaserActiveSkill] Duration expired at {Time.time}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[LaserActiveSkill] Duration expired at {Time.time}");
                 OnDeactivate?.Invoke();
                 EnterCoolingDownState();
                 OnExpired();
@@ -127,17 +130,20 @@ namespace HandSurvivor.ActiveSkills
 
         public void OnFingerGunDetected()
         {
-            Debug.Log($"[LaserActiveSkill] OnFingerGunDetected - currentState={currentState}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[LaserActiveSkill] OnFingerGunDetected - currentState={currentState}");
 
             // Fire if in Primed state
             if (currentState == LaserState.Primed)
             {
-                Debug.Log("[LaserActiveSkill] Primed state detected - calling EnterFiringState");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log("[LaserActiveSkill] Primed state detected - calling EnterFiringState");
                 EnterFiringState();
             }
             else
             {
-                Debug.Log($"[LaserActiveSkill] Cannot fire - not in Primed state");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[LaserActiveSkill] Cannot fire - not in Primed state");
             }
         }
 
@@ -146,18 +152,21 @@ namespace HandSurvivor.ActiveSkills
             // If already primed or in any state other than Idle/CoolingDown, do nothing
             if (currentState == LaserState.Primed || currentState == LaserState.Firing)
             {
-                Debug.Log($"[LaserActiveSkill] Activate() blocked - already in {currentState} state");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[LaserActiveSkill] Activate() blocked - already in {currentState} state");
                 return;
             }
 
             // Only allow activation from CoolingDown if cooldown has completed
             if (currentState == LaserState.CoolingDown && isOnCooldown)
             {
-                Debug.Log($"[LaserActiveSkill] Activate() blocked - still on cooldown");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[LaserActiveSkill] Activate() blocked - still on cooldown");
                 return;
             }
 
-            Debug.Log($"[LaserActiveSkill] Activate() called from {currentState} state");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[LaserActiveSkill] Activate() called from {currentState} state");
 
             // Override base activation to NOT start cooldown
             // Instead, enter Primed state
@@ -189,22 +198,26 @@ namespace HandSurvivor.ActiveSkills
 
         protected override void OnActivated()
         {
-            Debug.Log("[LaserActiveSkill] Entering Primed state!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log("[LaserActiveSkill] Entering Primed state!");
 
             if (laserBeam == null)
             {
-                Debug.LogError("[LaserActiveSkill] No LaserBeam component found!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogError("[LaserActiveSkill] No LaserBeam component found!");
                 return;
             }
 
             if (targetHand == null || targetSkeleton == null)
             {
-                Debug.LogWarning("[LaserActiveSkill] Target hand not found, searching again...");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogWarning("[LaserActiveSkill] Target hand not found, searching again...");
                 FindTargetHand();
 
                 if (targetHand == null || targetSkeleton == null)
                 {
-                    Debug.LogError("[LaserActiveSkill] Still cannot find target hand! Aborting.");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.LogError("[LaserActiveSkill] Still cannot find target hand! Aborting.");
                     return;
                 }
             }
@@ -213,7 +226,8 @@ namespace HandSurvivor.ActiveSkills
 
             if (fingerTipTransform == null)
             {
-                Debug.LogError("[LaserActiveSkill] Could not find finger tip transform!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogError("[LaserActiveSkill] Could not find finger tip transform!");
                 return;
             }
 
@@ -223,7 +237,8 @@ namespace HandSurvivor.ActiveSkills
 
         protected override void OnDeactivated()
         {
-            Debug.Log("[LaserActiveSkill] Laser duration expired");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log("[LaserActiveSkill] Laser duration expired");
 
             // When duration expires, enter cooling down state
             EnterCoolingDownState();
@@ -239,7 +254,8 @@ namespace HandSurvivor.ActiveSkills
                 laserBeam.SetDamage(modifiedDamage);
                 laserBeam.StartLaser(fingerTipTransform, modifiedDuration);
                 wasLaserFiring = true;
-                Debug.Log($"[LaserActiveSkill] Laser firing (Damage: {modifiedDamage}, Duration: {modifiedDuration})");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[LaserActiveSkill] Laser firing (Damage: {modifiedDamage}, Duration: {modifiedDuration})");
             }
         }
 
@@ -249,7 +265,8 @@ namespace HandSurvivor.ActiveSkills
             {
                 laserBeam.StopLaser();
                 wasLaserFiring = false;
-                Debug.Log("[LaserActiveSkill] Laser stopped");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log("[LaserActiveSkill] Laser stopped");
             }
         }
 
@@ -269,7 +286,8 @@ namespace HandSurvivor.ActiveSkills
             // Wait for skeleton to be initialized
             if (targetSkeleton.Bones == null || targetSkeleton.Bones.Count == 0)
             {
-                Debug.LogWarning("[LaserActiveSkill] Skeleton not initialized yet");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogWarning("[LaserActiveSkill] Skeleton not initialized yet");
                 return null;
             }
 
@@ -282,7 +300,8 @@ namespace HandSurvivor.ActiveSkills
                 }
             }
 
-            Debug.LogWarning($"[LaserActiveSkill] Could not find bone: {fingerTipBone}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.LogWarning($"[LaserActiveSkill] Could not find bone: {fingerTipBone}");
             return null;
         }
 
@@ -318,7 +337,8 @@ namespace HandSurvivor.ActiveSkills
             currentState = LaserState.Primed;
             SpawnPrimedParticles();
             PlayActivationEffects(); // Play primed sound when entering primed state
-            Debug.Log("[LaserActiveSkill] Entered PRIMED state - sparkles active");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log("[LaserActiveSkill] Entered PRIMED state - sparkles active");
         }
 
         private void ExitPrimedState()
@@ -335,7 +355,8 @@ namespace HandSurvivor.ActiveSkills
             activationTime = Time.time;
 
             StartFiring();
-            Debug.Log("[LaserActiveSkill] Entered FIRING state - laser active");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log("[LaserActiveSkill] Entered FIRING state - laser active");
         }
 
         private void EnterCoolingDownState()
@@ -348,16 +369,19 @@ namespace HandSurvivor.ActiveSkills
             {
                 isOnCooldown = true;
                 cooldownEndTime = Time.time + GetModifiedCooldown();
-                Debug.Log(
-                    $"[LaserActiveSkill Instance {GetInstanceID()}] Cooldown started: isOnCooldown={isOnCooldown}, cooldownEndTime={cooldownEndTime}, modified cooldown={GetModifiedCooldown()}s");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log(
+                        $"[LaserActiveSkill Instance {GetInstanceID()}] Cooldown started: isOnCooldown={isOnCooldown}, cooldownEndTime={cooldownEndTime}, modified cooldown={GetModifiedCooldown()}s");
             }
             else
             {
-                Debug.LogWarning($"[LaserActiveSkill] Cooldown NOT started - data={data}, cooldown={data?.cooldown}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogWarning($"[LaserActiveSkill] Cooldown NOT started - data={data}, cooldown={data?.cooldown}");
             }
 
-            Debug.Log(
-                $"[LaserActiveSkill Instance {GetInstanceID()}] Entered COOLING_DOWN state - waiting for cooldown");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log(
+                    $"[LaserActiveSkill Instance {GetInstanceID()}] Entered COOLING_DOWN state - waiting for cooldown");
         }
 
         #endregion

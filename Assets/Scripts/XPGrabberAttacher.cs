@@ -7,7 +7,10 @@ using HandSurvivor.Utilities;
 /// </summary>
 public class XPGrabberAttacher : MonoBehaviour
 {
-    [Header("XP Grabber Setup")]
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("XP Grabber Setup")]
     [SerializeField] private GameObject xpGrabberObject;
     [SerializeField] private OVRSkeleton.BoneId attachBoneId = OVRSkeleton.BoneId.Hand_WristRoot;
     [SerializeField] private float attachDelay = 0.5f;
@@ -16,7 +19,9 @@ public class XPGrabberAttacher : MonoBehaviour
     {
         if (xpGrabberObject == null)
         {
-            Debug.LogError("[XPGrabberAttacher] XP Grabber object not assigned!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogError("[XPGrabberAttacher] XP Grabber object not assigned!");
             return;
         }
 
@@ -29,7 +34,9 @@ public class XPGrabberAttacher : MonoBehaviour
 
         if (!offHand.IsValid)
         {
-            Debug.LogError("[XPGrabberAttacher] Could not find off-hand! Retrying in 1 second...");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogError("[XPGrabberAttacher] Could not find off-hand! Retrying in 1 second...");
             Invoke(nameof(AttachXPGrabber), 1f);
             return;
         }
@@ -47,7 +54,9 @@ public class XPGrabberAttacher : MonoBehaviour
 
         if (targetTransform == null)
         {
-            Debug.LogWarning($"[XPGrabberAttacher] Bone {attachBoneId} not found in skeleton, falling back to hand root");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning($"[XPGrabberAttacher] Bone {attachBoneId} not found in skeleton, falling back to hand root");
             targetTransform = offHand.Hand.transform;
         }
 
@@ -56,6 +65,9 @@ public class XPGrabberAttacher : MonoBehaviour
         xpGrabberObject.transform.localPosition = Vector3.zero;
         xpGrabberObject.transform.localRotation = Quaternion.identity;
 
-        Debug.Log($"[XPGrabberAttacher] Successfully attached XP Grabber to off-hand ({offHand.HandType}) bone: {attachBoneId}", xpGrabberObject);
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+            Debug.Log($"[XPGrabberAttacher] Successfully attached XP Grabber to off-hand ({offHand.HandType}) bone: {attachBoneId}", xpGrabberObject);
     }
 }

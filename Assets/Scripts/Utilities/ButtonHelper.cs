@@ -6,7 +6,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class ButtonHelper : MonoBehaviour
 {
-    [HideInInspector] public Button button;
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [HideInInspector] public Button button;
 
     private void Reset()
     {
@@ -28,11 +31,15 @@ public class ButtonHelper : MonoBehaviour
         if (button != null)
         {
             button.onClick.Invoke();
-            Debug.Log("[ButtonHelper] Button pressed!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log("[ButtonHelper] Button pressed!");
         }
         else
         {
-            Debug.LogWarning("[ButtonHelper] No Button found!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning("[ButtonHelper] No Button found!");
         }
     }
 }

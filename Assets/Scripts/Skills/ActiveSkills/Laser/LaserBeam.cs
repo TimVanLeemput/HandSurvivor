@@ -11,7 +11,10 @@ namespace HandSurvivor.ActiveSkills
     [RequireComponent(typeof(LineRenderer))]
     public class LaserBeam : MonoBehaviour
     {
-        [Header("Beam Settings")] [SerializeField]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Beam Settings")] [SerializeField]
         private float maxRange = 50f;
 
         [SerializeField] private float damage = 10f;
@@ -113,7 +116,10 @@ namespace HandSurvivor.ActiveSkills
                 audioSource.Play();
             }
 
-            Debug.Log("[LaserBeam] Laser started");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log("[LaserBeam] Laser started");
         }
 
         /// <summary>
@@ -155,7 +161,10 @@ namespace HandSurvivor.ActiveSkills
                 currentMuzzleEffect = null;
             }
 
-            Debug.Log("[LaserBeam] Laser stopped");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log("[LaserBeam] Laser stopped");
         }
 
         private void Update()
@@ -277,7 +286,9 @@ namespace HandSurvivor.ActiveSkills
 
         private void DealDamage(RaycastHit hit)
         {
-            Debug.LogWarning($"[LaserBeam] Enemy {hit.transform.gameObject.name} trying to deal damage!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning($"[LaserBeam] Enemy {hit.transform.gameObject.name} trying to deal damage!");
             Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
 
             if (enemy != null)
@@ -289,10 +300,15 @@ namespace HandSurvivor.ActiveSkills
                 }
                 else
                 {
-                    Debug.LogWarning($"[LaserBeam] Enemy '{enemy.name}' has no RagdollController component!");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                        Debug.LogWarning($"[LaserBeam] Enemy '{enemy.name}' has no RagdollController component!");
                 }
 
-                Debug.Log($"[LaserBeam] Damaged enemy: {enemy.name}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                    Debug.Log($"[LaserBeam] Damaged enemy: {enemy.name}");
                 enemy.TakeDamage((int)damage);
 
                 // Show damage number (throttled to avoid spam)
@@ -308,7 +324,9 @@ namespace HandSurvivor.ActiveSkills
             }
             else
             {
-                Debug.LogWarning($"[LaserBeam] Hit object '{hit.collider.name}' has no Enemy component");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning($"[LaserBeam] Hit object '{hit.collider.name}' has no Enemy component");
             }
         }
 

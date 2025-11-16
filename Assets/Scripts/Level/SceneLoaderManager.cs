@@ -12,7 +12,10 @@ namespace HandSurvivor.Level
     /// </summary>
     public class SceneLoaderManager : MonoBehaviour
     {
-        public static SceneLoaderManager Instance { get; private set; }
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         public static SceneLoaderManager Instance { get; private set; }
 
         [Header("Scene Loading Configuration")]
         [SerializeField] private List<SceneReference> scenesToLoad = new List<SceneReference>();
@@ -50,7 +53,9 @@ namespace HandSurvivor.Level
             // Ensure this is on a root GameObject
             if (transform.parent != null)
             {
-                Debug.LogWarning("SceneLoaderManager: Component must be on a root GameObject for DontDestroyOnLoad to work. Reparenting...");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("SceneLoaderManager: Component must be on a root GameObject for DontDestroyOnLoad to work. Reparenting...");
                 transform.SetParent(null);
             }
 
@@ -72,13 +77,17 @@ namespace HandSurvivor.Level
         {
             if (isLoading)
             {
-                Debug.LogWarning("SceneLoaderManager: Already loading scenes");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("SceneLoaderManager: Already loading scenes");
                 return;
             }
 
             if (scenesToLoad == null || scenesToLoad.Count == 0)
             {
-                Debug.LogWarning("SceneLoaderManager: No scenes configured to load");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("SceneLoaderManager: No scenes configured to load");
                 return;
             }
 
@@ -92,7 +101,9 @@ namespace HandSurvivor.Level
         {
             if (sceneToLoad == null || !sceneToLoad.IsValid)
             {
-                Debug.LogError("SceneLoaderManager: Invalid scene reference provided");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError("SceneLoaderManager: Invalid scene reference provided");
                 return;
             }
 
@@ -106,13 +117,17 @@ namespace HandSurvivor.Level
         {
             if (isLoading)
             {
-                Debug.LogWarning("SceneLoaderManager: Already loading scenes");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("SceneLoaderManager: Already loading scenes");
                 return;
             }
 
             if (scenesToLoadOverride == null || scenesToLoadOverride.Count == 0)
             {
-                Debug.LogWarning("SceneLoaderManager: No scenes provided to load");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("SceneLoaderManager: No scenes provided to load");
                 return;
             }
 
@@ -142,7 +157,9 @@ namespace HandSurvivor.Level
 
                 if (sceneRef == null || !sceneRef.IsValid)
                 {
-                    Debug.LogWarning($"SceneLoaderManager: Scene at index {i} is invalid, skipping"); 
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                        Debug.LogWarning($"SceneLoaderManager: Scene at index {i} is invalid, skipping"); 
                     continue;
                 }
 
@@ -175,7 +192,9 @@ namespace HandSurvivor.Level
 
             if (SceneManager.GetSceneByName(sceneName).isLoaded)
             {
-                Debug.LogWarning($"SceneLoaderManager: Scene '{sceneName}' is already loaded, skipping");  // WARNING - MIGHT NEED TO REMOVE IF WE WANT TO RELOAD SAME LEVEL?
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning($"SceneLoaderManager: Scene '{sceneName}' is already loaded, skipping");  // WARNING - MIGHT NEED TO REMOVE IF WE WANT TO RELOAD SAME LEVEL?
                 yield break;
             }
 
@@ -183,7 +202,9 @@ namespace HandSurvivor.Level
 
             if (asyncLoad == null)
             {
-                Debug.LogError($"SceneLoaderManager: Failed to start loading scene: {scenePath}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError($"SceneLoaderManager: Failed to start loading scene: {scenePath}");
                 yield break;
             }
 
@@ -200,14 +221,18 @@ namespace HandSurvivor.Level
             }
 
             loadedScenes.Add(sceneName);
-            Debug.Log($"SceneLoaderManager: Loaded scene '{sceneName}'");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"SceneLoaderManager: Loaded scene '{sceneName}'");
         }
 
         public void UnloadScene(SceneReference sceneToUnload)
         {
             if (sceneToUnload == null || !sceneToUnload.IsValid)
             {
-                Debug.LogError("SceneLoaderManager: Invalid scene reference provided for unload");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError("SceneLoaderManager: Invalid scene reference provided for unload");
                 return;
             }
 
@@ -225,7 +250,9 @@ namespace HandSurvivor.Level
         {
             if (scenesToUnload == null || scenesToUnload.Count == 0)
             {
-                Debug.LogWarning("SceneLoaderManager: No scenes provided to unload");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("SceneLoaderManager: No scenes provided to unload");
                 return;
             }
 
@@ -243,7 +270,9 @@ namespace HandSurvivor.Level
             {
                 if (sceneRef == null || !sceneRef.IsValid)
                 {
-                    Debug.LogWarning("SceneLoaderManager: Invalid scene reference in unload list, skipping");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                        Debug.LogWarning("SceneLoaderManager: Invalid scene reference in unload list, skipping");
                     continue;
                 }
 
@@ -276,7 +305,9 @@ namespace HandSurvivor.Level
 
             if (asyncUnload == null)
             {
-                Debug.LogError($"SceneLoaderManager: Failed to start unloading scene: {scenePath}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError($"SceneLoaderManager: Failed to start unloading scene: {scenePath}");
                 yield break;
             }
 
@@ -286,14 +317,18 @@ namespace HandSurvivor.Level
             }
 
             loadedScenes.Remove(sceneName);
-            Debug.Log($"SceneLoaderManager: Unloaded scene '{sceneName}'");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"SceneLoaderManager: Unloaded scene '{sceneName}'");
         }
 
         private IEnumerator FadeOut()
         {
             if (OVRScreenFade.instance == null)
             {
-                Debug.LogWarning("SceneLoaderManager: OVRScreenFade not available");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("SceneLoaderManager: OVRScreenFade not available");
                 yield break;
             }
 
@@ -308,7 +343,9 @@ namespace HandSurvivor.Level
         {
             if (OVRScreenFade.instance == null)
             {
-                Debug.LogWarning("SceneLoaderManager: OVRScreenFade not available");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("SceneLoaderManager: OVRScreenFade not available");
                 yield break;
             }
 

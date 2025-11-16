@@ -10,7 +10,10 @@ namespace HandSurvivor.Core.Passive
     /// </summary>
     public class PassiveUpgradePath : MonoBehaviour
     {
-        [Header("Configuration")] [SerializeField]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Configuration")] [SerializeField]
         private int maxCustomBehaviorLevel = 5;
 
         [Tooltip("Current passive level for this skill")] [SerializeField, ReadOnly]
@@ -56,7 +59,9 @@ namespace HandSurvivor.Core.Passive
             else
             {
                 // Beyond max custom level - only damage scaling applies
-                Debug.Log(
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log(
                     $"[PassiveUpgradePath] Level {currentLevel} - Custom behaviors maxed, damage scaling continues");
             }
         }
@@ -68,12 +73,16 @@ namespace HandSurvivor.Core.Passive
         {
             if (level < 1 || level > levelBehaviors.Length)
             {
-                Debug.LogWarning($"[PassiveUpgradePath] Level {level} out of range");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning($"[PassiveUpgradePath] Level {level} out of range");
                 return;
             }
 
             LevelBehavior behavior = levelBehaviors[level - 1];
-            Debug.Log($"[PassiveUpgradePath] Applying Level {level}: {behavior.description}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[PassiveUpgradePath] Applying Level {level}: {behavior.description}");
 
             // Invoke Unity Events for custom logic
             behavior.onLevelReached?.Invoke();
@@ -130,12 +139,16 @@ namespace HandSurvivor.Core.Passive
             if (maxCustomBehaviorLevel < 1)
             {
                 maxCustomBehaviorLevel = 1;
-                Debug.LogWarning("[PassiveUpgradePath] Max custom behavior level must be at least 1");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("[PassiveUpgradePath] Max custom behavior level must be at least 1");
             }
 
             if (levelBehaviors != null && levelBehaviors.Length > maxCustomBehaviorLevel)
             {
-                Debug.LogWarning(
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning(
                     $"[PassiveUpgradePath] {levelBehaviors.Length} behaviors defined but max level is {maxCustomBehaviorLevel}");
             }
         }
@@ -146,12 +159,16 @@ namespace HandSurvivor.Core.Passive
         /// </summary>
         public void CalculateMaxLevelsEditor()
         {
-            Debug.Log(" Max Levels being calculated!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log(" Max Levels being calculated!");
 
             if (targetPassiveUpgrade == null || activeSkillData == null)
             {
                 calculatedMaxLevels = 0;
-                Debug.Log(" [PassiveUpgradePath] Invalid target upgrade or active skill data");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log(" [PassiveUpgradePath] Invalid target upgrade or active skill data");
 
                 return;
             }
@@ -161,7 +178,9 @@ namespace HandSurvivor.Core.Passive
                 targetPassiveUpgrade.type != PassiveType.SizeIncrease)
             {
                 calculatedMaxLevels = 0;
-                Debug.Log("Only CooldownReduction and SizeIncrease types are supported for this calculation");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log("Only CooldownReduction and SizeIncrease types are supported for this calculation");
                 return;
             }
 
@@ -174,27 +193,37 @@ namespace HandSurvivor.Core.Passive
                 if (upgradeValuePercent <= 0f)
                 {
                     calculatedMaxLevels = 0;
-                    Debug.Log($" [PassiveUpgradePath] Invalid upgrade value: {targetPassiveUpgrade.value}");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                        Debug.Log($" [PassiveUpgradePath] Invalid upgrade value: {targetPassiveUpgrade.value}");
 
                     return;
                 }
-                Debug.Log(" [PassiveUpgradePath] Calculating max levels for CooldownReduction");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log(" [PassiveUpgradePath] Calculating max levels for CooldownReduction");
                 
 
                 // Starting from 1.0, how many upgrades to reach minMultiplier?
                 // 1.0 - (upgradeValue * levels) = minMultiplier
                 // levels = (1.0 - minMultiplier) / upgradeValue
                 float levelsNeeded = (1f - minMultiplier) / upgradeValuePercent;
-                Debug.Log($" [PassiveUpgradePath] Levels needed: {levelsNeeded}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($" [PassiveUpgradePath] Levels needed: {levelsNeeded}");
                 calculatedMaxLevels = Mathf.CeilToInt(levelsNeeded);
-                Debug.Log($" [PassiveUpgradePath] Max levels calculated: {calculatedMaxLevels}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($" [PassiveUpgradePath] Max levels calculated: {calculatedMaxLevels}");
             }
             // For size, there's no hard limit, so we use a different calculation
             else if (targetPassiveUpgrade.type == PassiveType.SizeIncrease)
             {
                 // For size, use the maxCustomBehaviorLevel as the meaningful max
                 calculatedMaxLevels = maxCustomBehaviorLevel;
-                Debug.Log(
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log(
                     $"[PassiveUpgradePath] Max levels calculated for SizeIncrease: calculcated : {calculatedMaxLevels}    ");
             }
         }

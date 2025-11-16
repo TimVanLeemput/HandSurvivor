@@ -6,7 +6,10 @@ using MyBox;
 
 public class XPGrabber : MonoBehaviour, IUpgradeable
 {
-    [Header("Base Properties")]
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Base Properties")]
     [SerializeField] private float baseRadius = 1f;
     [SerializeField] private float collectDuration = 0.4f;
 
@@ -97,11 +100,16 @@ public class XPGrabber : MonoBehaviour, IUpgradeable
             rangeMultiplier += increasePercent;
             UpdateRadius();
 
-            Debug.Log($"[XPGrabber] Range increased by {upgrade.value}%. New multiplier: {rangeMultiplier:F2}, New radius: {sphereCollider.radius:F2}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[XPGrabber] Range increased by {upgrade.value}%. New multiplier: {rangeMultiplier:F2}, New radius: {sphereCollider.radius:F2}");
         }
         else
         {
-            Debug.LogWarning($"[XPGrabber] Passive type '{upgrade.type}' not supported. Only RangeIncrease is valid.");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning($"[XPGrabber] Passive type '{upgrade.type}' not supported. Only RangeIncrease is valid.");
         }
     }
 

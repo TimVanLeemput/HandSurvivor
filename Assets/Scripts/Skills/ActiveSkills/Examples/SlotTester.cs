@@ -3,7 +3,10 @@ using HandSurvivor.ActiveSkills;
 
 public class SlotTester : MonoBehaviour
 {
-    [SerializeField] private GameObject laserSkillPrefab;
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [SerializeField] private GameObject laserSkillPrefab;
 
     void Update()
     {
@@ -29,7 +32,9 @@ public class SlotTester : MonoBehaviour
         if (skill != null)
         {
             skill.Pickup();
-            Debug.Log($"Added skill. Slots: {ActiveSkillSlotManager.Instance.GetFilledSlotCount()}/4");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"Added skill. Slots: {ActiveSkillSlotManager.Instance.GetFilledSlotCount()}/4");
         }
     }
 
@@ -37,7 +42,9 @@ public class SlotTester : MonoBehaviour
     {
         if (ActiveSkillSlotManager.Instance != null)
         {
-            Debug.Log($"Filled slots: {ActiveSkillSlotManager.Instance.GetFilledSlotCount()}/{ActiveSkillSlotManager.Instance.MaxSlots}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"Filled slots: {ActiveSkillSlotManager.Instance.GetFilledSlotCount()}/{ActiveSkillSlotManager.Instance.MaxSlots}");
         }
     }
 }

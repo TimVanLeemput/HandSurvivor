@@ -9,7 +9,10 @@ namespace HandSurvivor.Skills
     /// </summary>
     public class SkillSlotUI : MonoBehaviour
     {
-        [Header("UI References")]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("UI References")]
         [SerializeField] private Image iconImage;
         [SerializeField] private Image cooldownFillImage;
         [SerializeField] private GameObject emptySlotIndicator;
@@ -40,7 +43,8 @@ namespace HandSurvivor.Skills
             }
             else
             {
-                Debug.LogWarning("[SkillSlotUI] Update - currentSkill is NULL!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogWarning("[SkillSlotUI] Update - currentSkill is NULL!");
             }
         }
 
@@ -59,13 +63,15 @@ namespace HandSurvivor.Skills
 
             if (skill != null)
             {
-                Debug.Log($"[SkillSlotUI] SetSkill called with {skill.Data.displayName} (Instance ID: {skill.GetInstanceID()})");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[SkillSlotUI] SetSkill called with {skill.Data.displayName} (Instance ID: {skill.GetInstanceID()})");
                 ShowSkill();
                 SubscribeToSkillEvents();
             }
             else
             {
-                Debug.Log("[SkillSlotUI] SetSkill called with NULL skill");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log("[SkillSlotUI] SetSkill called with NULL skill");
                 ShowEmpty();
                 isTrackingCooldown = false;
             }

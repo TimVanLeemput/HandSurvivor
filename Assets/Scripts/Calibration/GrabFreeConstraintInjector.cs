@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class GrabFreeConstraintInjector : MonoBehaviour
 {
-    private CustomGrabFreeTransformer _grabFreeTransformer;
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         private CustomGrabFreeTransformer _grabFreeTransformer;
     private Grabbable _grabbable;
 
     private TransformerUtils.PositionConstraints _initialPositionConstraints =
@@ -35,7 +38,9 @@ public class GrabFreeConstraintInjector : MonoBehaviour
         _grabbable = GetComponent<Grabbable>();
         if (_grabbable == null)
         {
-            Debug.LogError("Grabbable missing for GrabFreeConstraintInjector", gameObject);
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogError("Grabbable missing for GrabFreeConstraintInjector", gameObject);
         }
 
         SetInitialConstraints();

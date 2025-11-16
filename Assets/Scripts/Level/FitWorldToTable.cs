@@ -6,7 +6,10 @@ using HandSurvivor.Level;
 
 public class FitWorldToTable : MonoBehaviour
 {
-    [Header("References")]
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("References")]
     [SerializeField] private WorldPlacementReference worldPlacementReference;
     
     private WorldReference worldReference;
@@ -19,7 +22,9 @@ public class FitWorldToTable : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[FitWorldToTable] SceneLoaderManager not found, attempting immediate fit");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning("[FitWorldToTable] SceneLoaderManager not found, attempting immediate fit");
             // StartCoroutine(FindAndFitWorld());
         }
     }
@@ -45,7 +50,9 @@ public class FitWorldToTable : MonoBehaviour
 
         if (refs.Length == 0)
         {
-            Debug.LogWarning("[FitWorldToTable] No WorldReference found!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning("[FitWorldToTable] No WorldReference found!");
             yield break;
         }
 

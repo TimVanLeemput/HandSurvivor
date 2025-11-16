@@ -9,7 +9,10 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "BoneIdMapper", menuName = "HandSurvivor/Bone ID Mapper", order = 100)]
 public class BoneIdMapper : ScriptableObject
 {
-    [System.Serializable]
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [System.Serializable]
     public struct BoneMapping
     {
         public OVRSkeleton.BoneId ovrBoneId;
@@ -51,7 +54,10 @@ public class BoneIdMapper : ScriptableObject
             return result;
         }
 
-        Debug.LogWarning($"[BoneIdMapper] No mapping found for OVRBoneId: {ovrBoneId}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+            Debug.LogWarning($"[BoneIdMapper] No mapping found for OVRBoneId: {ovrBoneId}");
         return HandJointId.Invalid;
     }
 
@@ -67,7 +73,10 @@ public class BoneIdMapper : ScriptableObject
             return result;
         }
 
-        Debug.LogWarning($"[BoneIdMapper] No mapping found for HandJointId: {handJointId}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+            Debug.LogWarning($"[BoneIdMapper] No mapping found for HandJointId: {handJointId}");
         return OVRSkeleton.BoneId.Invalid;
     }
 
@@ -97,7 +106,9 @@ public class BoneIdMapper : ScriptableObject
         }
 
         UnityEditor.EditorUtility.SetDirty(this);
-        Debug.Log($"[BoneIdMapper] Auto-generated {boneMappings.Count} bone mappings");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+            Debug.Log($"[BoneIdMapper] Auto-generated {boneMappings.Count} bone mappings");
     }
 #endif
 }

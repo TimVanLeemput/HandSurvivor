@@ -6,7 +6,10 @@ using HandSurvivor.Utilities;
 [RequireComponent(typeof(Collider))]
 public class ColliderTriggerEvents : MonoBehaviour
 {
-    [Header("Events")]
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Events")]
     public UnityEvent onTriggerEnter;
     public UnityEvent<Collider> onTriggerStay;
     public UnityEvent<Collider> onTriggerExit;
@@ -45,7 +48,9 @@ public class ColliderTriggerEvents : MonoBehaviour
     {
         if (enableDebug)
         {
-            Debug.Log($"[ColliderTriggerEvents] START - Settings:\n" +
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[ColliderTriggerEvents] START - Settings:\n" +
                      $"  checkHand: {checkHand} | handFilter: {handFilter}\n" +
                      $"  checkComponent: {checkComponent} | requiredComponent: {requiredComponentName}\n" +
                      $"  checkTag: {checkTag} | requiredTag: {requiredTag}\n" +
@@ -56,33 +61,39 @@ public class ColliderTriggerEvents : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (enableDebug) Debug.Log($"[ColliderTriggerEvents] ENTER triggered by {other.gameObject.name}", other.gameObject);
+        if (enableDebug) if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+     Debug.Log($"[ColliderTriggerEvents] ENTER triggered by {other.gameObject.name}", other.gameObject);
 
         if (ShouldTrigger(other, "ENTER"))
         {
-            if (enableDebug) Debug.Log($"[ColliderTriggerEvents] ✓ ENTER event invoked for {other.gameObject.name}", other.gameObject);
+            if (enableDebug) if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+     Debug.Log($"[ColliderTriggerEvents] ✓ ENTER event invoked for {other.gameObject.name}", other.gameObject);
             onTriggerEnter?.Invoke();
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (enableDebug) Debug.Log($"[ColliderTriggerEvents] STAY triggered by {other.gameObject.name}", other.gameObject);
+        if (enableDebug) if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+     Debug.Log($"[ColliderTriggerEvents] STAY triggered by {other.gameObject.name}", other.gameObject);
 
         if (ShouldTrigger(other, "STAY"))
         {
-            if (enableDebug) Debug.Log($"[ColliderTriggerEvents] ✓ STAY event invoked for {other.gameObject.name}", other.gameObject);
+            if (enableDebug) if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+     Debug.Log($"[ColliderTriggerEvents] ✓ STAY event invoked for {other.gameObject.name}", other.gameObject);
             onTriggerStay?.Invoke(other);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (enableDebug) Debug.Log($"[ColliderTriggerEvents] EXIT triggered by {other.gameObject.name}", other.gameObject);
+        if (enableDebug) if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+     Debug.Log($"[ColliderTriggerEvents] EXIT triggered by {other.gameObject.name}", other.gameObject);
 
         if (ShouldTrigger(other, "EXIT"))
         {
-            if (enableDebug) Debug.Log($"[ColliderTriggerEvents] ✓ EXIT event invoked for {other.gameObject.name}", other.gameObject);
+            if (enableDebug) if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+     Debug.Log($"[ColliderTriggerEvents] ✓ EXIT event invoked for {other.gameObject.name}", other.gameObject);
             onTriggerExit?.Invoke(other);
         }
     }
@@ -91,7 +102,9 @@ public class ColliderTriggerEvents : MonoBehaviour
     {
         if (enableDebug)
         {
-            Debug.Log($"[ColliderTriggerEvents] [{eventType}] Checking filters for {other.gameObject.name}:\n" +
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[ColliderTriggerEvents] [{eventType}] Checking filters for {other.gameObject.name}:\n" +
                      $"  Hand Check: {checkHand} | Component Check: {checkComponent} | Tag Check: {checkTag} | Layer Check: {checkLayer} | GameObject Name Check: {checkGameObjectName}", other.gameObject);
         }
 
@@ -101,7 +114,9 @@ public class ColliderTriggerEvents : MonoBehaviour
             if (enableDebug)
             {
                 HandType? handType = TargetHandFinder.GetHandTypeFromObject(other.gameObject);
-                Debug.Log($"[ColliderTriggerEvents] [{eventType}] Hand filter ({handFilter}): {(handResult ? "✓ PASS" : "✗ FAIL")} | Detected hand: {(handType.HasValue ? handType.Value.ToString() : "None")}", other.gameObject);
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[ColliderTriggerEvents] [{eventType}] Hand filter ({handFilter}): {(handResult ? "✓ PASS" : "✗ FAIL")} | Detected hand: {(handType.HasValue ? handType.Value.ToString() : "None")}", other.gameObject);
             }
             if (!handResult) return false;
         }
@@ -110,7 +125,9 @@ public class ColliderTriggerEvents : MonoBehaviour
         {
             bool componentResult = CheckComponent(other.gameObject);
             if (enableDebug)
-                Debug.Log($"[ColliderTriggerEvents] [{eventType}] Component filter ({requiredComponentName}): {(componentResult ? "✓ PASS" : "✗ FAIL")}", other.gameObject);
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[ColliderTriggerEvents] [{eventType}] Component filter ({requiredComponentName}): {(componentResult ? "✓ PASS" : "✗ FAIL")}", other.gameObject);
             if (!componentResult) return false;
         }
 
@@ -118,7 +135,9 @@ public class ColliderTriggerEvents : MonoBehaviour
         {
             bool tagResult = CheckTagFilter(other.gameObject);
             if (enableDebug)
-                Debug.Log($"[ColliderTriggerEvents] [{eventType}] Tag filter ({requiredTag}): {(tagResult ? "✓ PASS" : "✗ FAIL")} | Current tag: {other.gameObject.tag}", other.gameObject);
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[ColliderTriggerEvents] [{eventType}] Tag filter ({requiredTag}): {(tagResult ? "✓ PASS" : "✗ FAIL")} | Current tag: {other.gameObject.tag}", other.gameObject);
             if (!tagResult) return false;
         }
 
@@ -126,7 +145,9 @@ public class ColliderTriggerEvents : MonoBehaviour
         {
             bool layerResult = CheckLayerFilter(other.gameObject);
             if (enableDebug)
-                Debug.Log($"[ColliderTriggerEvents] [{eventType}] Layer filter: {(layerResult ? "✓ PASS" : "✗ FAIL")} | Current layer: {LayerMask.LayerToName(other.gameObject.layer)} ({other.gameObject.layer})", other.gameObject);
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[ColliderTriggerEvents] [{eventType}] Layer filter: {(layerResult ? "✓ PASS" : "✗ FAIL")} | Current layer: {LayerMask.LayerToName(other.gameObject.layer)} ({other.gameObject.layer})", other.gameObject);
             if (!layerResult) return false;
         }
 
@@ -134,12 +155,16 @@ public class ColliderTriggerEvents : MonoBehaviour
         {
             bool nameResult = CheckGameObjectName(other.gameObject);
             if (enableDebug)
-                Debug.Log($"[ColliderTriggerEvents] [{eventType}] GameObject name filter ({requiredGameObjectName}): {(nameResult ? "✓ PASS" : "✗ FAIL")} | Current name: {other.gameObject.name}", other.gameObject);
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[ColliderTriggerEvents] [{eventType}] GameObject name filter ({requiredGameObjectName}): {(nameResult ? "✓ PASS" : "✗ FAIL")} | Current name: {other.gameObject.name}", other.gameObject);
             if (!nameResult) return false;
         }
 
         if (enableDebug)
-            Debug.Log($"[ColliderTriggerEvents] [{eventType}] ✓ ALL FILTERS PASSED for {other.gameObject.name}", other.gameObject);
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[ColliderTriggerEvents] [{eventType}] ✓ ALL FILTERS PASSED for {other.gameObject.name}", other.gameObject);
 
         return true;
     }

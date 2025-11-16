@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class VRStartPosition : MonoBehaviour
 {
-    [SerializeField] private bool setRotation = true;
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [SerializeField] private bool setRotation = true;
     [SerializeField] private bool overrideHeight = false;
 
     private void Start()
@@ -29,7 +32,9 @@ public class VRStartPosition : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("VRStartPosition: OVRCameraRig not found in scene");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogWarning("VRStartPosition: OVRCameraRig not found in scene");
         }
     }
 }

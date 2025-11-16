@@ -8,14 +8,21 @@ namespace HandSurvivor.UI
 {
     public class ExitButton : MonoBehaviour
     {
-        public void QuitApplication()
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         public void QuitApplication()
         {
 #if UNITY_EDITOR
             EditorApplication.isPlaying = false;
-            Debug.Log("[ExitButton] Exiting play mode");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log("[ExitButton] Exiting play mode");
 #else
             Application.Quit();
-            Debug.Log("[ExitButton] Quitting application");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log("[ExitButton] Quitting application");
 #endif
         }
     }

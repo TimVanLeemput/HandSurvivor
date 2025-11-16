@@ -6,7 +6,10 @@ namespace HandSurvivor.ActiveSkills
 {
     public class ActiveSkillSlotManager : MonoBehaviour
     {
-        public static ActiveSkillSlotManager Instance;
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         public static ActiveSkillSlotManager Instance;
 
         [Header("Slot Configuration")]
         [SerializeField] private int maxSlots = 4;
@@ -40,7 +43,9 @@ namespace HandSurvivor.ActiveSkills
             bool canAdd = slots.Count < maxSlots;
             if (!canAdd)
             {
-                Debug.LogWarning($"[ActiveSkillSlotManager] Cannot add skill - all {maxSlots} slots are full!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning($"[ActiveSkillSlotManager] Cannot add skill - all {maxSlots} slots are full!");
             }
             return canAdd;
         }
@@ -49,7 +54,9 @@ namespace HandSurvivor.ActiveSkills
         {
             if (skill == null)
             {
-                Debug.LogWarning("[ActiveSkillSlotManager] Cannot add null skill!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("[ActiveSkillSlotManager] Cannot add null skill!");
                 return false;
             }
 
@@ -60,20 +67,27 @@ namespace HandSurvivor.ActiveSkills
 
             if (slots.Contains(skill))
             {
-                Debug.LogWarning($"[ActiveSkillSlotManager] Skill {skill.Data.displayName} is already slotted!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning($"[ActiveSkillSlotManager] Skill {skill.Data.displayName} is already slotted!");
                 return false;
             }
 
             slots.Add(skill);
             skill.transform.SetParent(transform);
 
-            Debug.Log($"[ActiveSkillSlotManager] Slotted skill: {skill.Data.displayName} (Slot {slots.Count}/{maxSlots})");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[ActiveSkillSlotManager] Slotted skill: {skill.Data.displayName} (Slot {slots.Count}/{maxSlots})");
 
             OnSkillSlotted?.Invoke(skill);
 
             if (AreAllSlotsFilled())
             {
-                Debug.Log($"[ActiveSkillSlotManager] All {maxSlots} slots are now filled!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[ActiveSkillSlotManager] All {maxSlots} slots are now filled!");
                 OnAllSlotsFilled?.Invoke();
             }
 
@@ -89,7 +103,9 @@ namespace HandSurvivor.ActiveSkills
 
             if (slots.Remove(skill))
             {
-                Debug.Log($"[ActiveSkillSlotManager] Removed skill: {skill.Data.displayName}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[ActiveSkillSlotManager] Removed skill: {skill.Data.displayName}");
                 OnSkillRemoved?.Invoke(skill);
                 return true;
             }
@@ -134,7 +150,9 @@ namespace HandSurvivor.ActiveSkills
             }
 
             slots.Clear();
-            Debug.Log("[ActiveSkillSlotManager] All slots cleared");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log("[ActiveSkillSlotManager] All slots cleared");
         }
     }
 }

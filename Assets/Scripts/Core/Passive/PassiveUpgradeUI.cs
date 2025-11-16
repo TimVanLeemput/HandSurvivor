@@ -10,7 +10,10 @@ namespace HandSurvivor.Core.Passive
     /// </summary>
     public class PassiveUpgradeUI : MonoBehaviour
     {
-        [Header("References")]
+       [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("References")]
         [SerializeField] private PassiveUpgradeData upgradeData;
 
         [Header("UI Elements")]
@@ -47,7 +50,9 @@ namespace HandSurvivor.Core.Passive
 
             if (upgradeData == null)
             {
-                Debug.LogWarning("[PassiveUpgradeUI] No PassiveUpgradeData assigned!", this);
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogWarning("[PassiveUpgradeUI] No PassiveUpgradeData assigned!", this);
                 return;
             }
 
@@ -210,7 +215,9 @@ namespace HandSurvivor.Core.Passive
         {
             if (upgradeData == null)
             {
-                Debug.LogError("[PassiveUpgradeUI] Cannot select - no upgrade data!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.LogError("[PassiveUpgradeUI] Cannot select - no upgrade data!");
                 return;
             }
 
@@ -223,7 +230,10 @@ namespace HandSurvivor.Core.Passive
             UpdateTotalBonusDisplay();
             UpdateNewIndicator();
 
-            Debug.Log($"[PassiveUpgradeUI] Selected upgrade: {upgradeData.displayName}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[PassiveUpgradeUI] Selected upgrade: {upgradeData.displayName}");
         }
 
         /// <summary>

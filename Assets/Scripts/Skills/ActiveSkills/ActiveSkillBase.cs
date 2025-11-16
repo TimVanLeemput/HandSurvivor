@@ -12,7 +12,10 @@ namespace HandSurvivor.ActiveSkills
     /// </summary>
     public abstract class ActiveSkillBase : MonoBehaviour, IUpgradeable
     {
-        [Header("Configuration")]
+        [Header("Debug")]
+        [SerializeField] protected bool showDebugLogs = true;
+
+         [Header("Configuration")]
         [SerializeField] protected ActiveSkillData data;
 
         // [Header("Activator")]
@@ -234,22 +237,31 @@ namespace HandSurvivor.ActiveSkills
             if (previousMultiplier > minClamp && cooldownMultiplier <= minClamp)
             {
                 OnMaxPassiveReached?.Invoke();
-                Debug.Log($"[{Data.displayName}] MAX COOLDOWN REACHED - Event fired!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                    Debug.Log($"[{Data.displayName}] MAX COOLDOWN REACHED - Event fired!");
             }
 
-            Debug.Log($"[{Data.displayName}] Cooldown multiplier: {cooldownMultiplier:F2}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+
+                Debug.Log($"[{Data.displayName}] Cooldown multiplier: {cooldownMultiplier:F2}");
         }
 
         public void ApplyDamageMultiplier(float increase)
         {
             damageMultiplier += increase;
-            Debug.Log($"[{Data.displayName}] Damage multiplier: {damageMultiplier:F2}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[{Data.displayName}] Damage multiplier: {damageMultiplier:F2}");
         }
 
         public void ApplySizeMultiplier(float increase)
         {
             sizeMultiplier += increase;
-            Debug.Log($"[{Data.displayName}] Size multiplier: {sizeMultiplier:F2}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[{Data.displayName}] Size multiplier: {sizeMultiplier:F2}");
         }
 
         /// <summary>
@@ -258,7 +270,9 @@ namespace HandSurvivor.ActiveSkills
         public void TriggerMaxPassiveReached()
         {
             OnMaxPassiveReached?.Invoke();
-            Debug.Log($"[{Data.displayName}] MAX PASSIVE REACHED - Event fired!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.Log($"[{Data.displayName}] MAX PASSIVE REACHED - Event fired!");
         }
 
         public float GetModifiedCooldown()
@@ -315,7 +329,9 @@ namespace HandSurvivor.ActiveSkills
 
                 case PassiveType.RangeIncrease:
                     // ActiveSkills don't typically have range, but can be extended in derived classes
-                    Debug.LogWarning($"[{Data.displayName}] RangeIncrease not supported for ActiveSkills by default");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                        Debug.LogWarning($"[{Data.displayName}] RangeIncrease not supported for ActiveSkills by default");
                     break;
             }
 

@@ -8,6 +8,8 @@ namespace HandSurvivor.Utilities
     /// </summary>
     public static class TargetHandFinder
     {
+        private static bool showDebugLogs = true;
+
         public struct HandComponents
         {
             public OVRHand Hand;
@@ -42,17 +44,20 @@ namespace HandSurvivor.Utilities
                 ? HandSelectionManager.GetOffHand()
                 : HandSelectionManager.GetMainHand();
 
-            Debug.Log($"[TargetHandFinder] Looking for {(useOffHand ? "OFF" : "MAIN")} hand, which is: {targetHandType}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[TargetHandFinder] Looking for {(useOffHand ? "OFF" : "MAIN")} hand, which is: {targetHandType}");
 
             OVRHand[] hands = Object.FindObjectsByType<OVRHand>(FindObjectsSortMode.None);
-            Debug.Log($"[TargetHandFinder] Found {hands.Length} OVRHand(s) in scene");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[TargetHandFinder] Found {hands.Length} OVRHand(s) in scene");
 
             foreach (OVRHand hand in hands)
             {
                 OVRSkeleton skeleton = hand.GetComponent<OVRSkeleton>();
                 if (skeleton == null)
                 {
-                    Debug.LogWarning($"[TargetHandFinder] OVRHand found but no OVRSkeleton attached!");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.LogWarning($"[TargetHandFinder] OVRHand found but no OVRSkeleton attached!");
                     continue;
                 }
 
@@ -62,14 +67,16 @@ namespace HandSurvivor.Utilities
                 bool isLeftHand = (skelType == OVRSkeleton.SkeletonType.HandLeft ||
                                   skelType == OVRSkeleton.SkeletonType.XRHandLeft);
 
-                Debug.Log($"[TargetHandFinder] Checking hand - SkeletonType: {skelType}, IsRight: {isRightHand}, IsLeft: {isLeftHand}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[TargetHandFinder] Checking hand - SkeletonType: {skelType}, IsRight: {isRightHand}, IsLeft: {isLeftHand}");
 
                 bool isMatch = (targetHandType == HandType.Right && isRightHand) ||
                               (targetHandType == HandType.Left && isLeftHand);
 
                 if (isMatch)
                 {
-                    Debug.Log($"[TargetHandFinder] ✓ MATCHED! Using {targetHandType} hand");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.Log($"[TargetHandFinder] ✓ MATCHED! Using {targetHandType} hand");
                     return new HandComponents
                     {
                         Hand = hand,
@@ -79,7 +86,8 @@ namespace HandSurvivor.Utilities
                 }
             }
 
-            Debug.LogError($"[TargetHandFinder] Could not find {targetHandType} hand ({(useOffHand ? "OFF-hand" : "MAIN-hand")}) in scene!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.LogError($"[TargetHandFinder] Could not find {targetHandType} hand ({(useOffHand ? "OFF-hand" : "MAIN-hand")}) in scene!");
             return new HandComponents();
         }
 

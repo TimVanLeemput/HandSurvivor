@@ -12,6 +12,9 @@ namespace HandSurvivor.Core.LevelUp
     {
         public static SkillSelectionUI Instance { get; private set; }
 
+        [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
         [Header("UI References")] [SerializeField]
         private GameObject selectionPanel;
 
@@ -52,7 +55,8 @@ namespace HandSurvivor.Core.LevelUp
         {
             if (skills.Count != skillPrefabs.Count)
             {
-                Debug.LogError("[SkillSelectionUI] Skill data and prefab count mismatch!");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogError("[SkillSelectionUI] Skill data and prefab count mismatch!");
                 return;
             }
 
@@ -80,7 +84,8 @@ namespace HandSurvivor.Core.LevelUp
             }
 
             selectionPanel.SetActive(true);
-            Debug.Log($"[SkillSelectionUI] Showing {skills.Count} active skill options");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[SkillSelectionUI] Showing {skills.Count} active skill options");
         }
 
         public void ShowPassiveUpgradeSelection(List<PassiveUpgradeData> upgrades,
@@ -110,19 +115,22 @@ namespace HandSurvivor.Core.LevelUp
             }
 
             selectionPanel.SetActive(true);
-            Debug.Log($"[SkillSelectionUI] Showing {upgrades.Count} passive upgrade options");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[SkillSelectionUI] Showing {upgrades.Count} passive upgrade options");
         }
 
         private void SetupOptionButton(GameObject optionObj, Sprite skillImage, string title, string description,
             Action onClick)
         {
-            Debug.Log($"[SkillSelectionUI] Setting up Button: {title}", optionObj);
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[SkillSelectionUI] Setting up Button: {title}", optionObj);
 
             SkillOptionButton skillOptionButton = optionObj.GetComponent<SkillOptionButton>();
-            
+
             if (skillOptionButton == null)
             {
-                Debug.LogError($"[SkillSelectionUI] SkillOptionButton component not found on: {title}", optionObj);
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogError($"[SkillSelectionUI] SkillOptionButton component not found on: {title}", optionObj);
                 return;
             }
             
@@ -148,79 +156,94 @@ namespace HandSurvivor.Core.LevelUp
                 skillOptionButton.Button.interactable = true;
                 skillOptionButton.Button.onClick.AddListener(() =>
                 {
-                    Debug.Log($"[SkillSelectionUI] Button CLICKED: {title}");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.Log($"[SkillSelectionUI] Button CLICKED: {title}");
                     if (onClick != null)
                     {
-                        Debug.Log($"[SkillSelectionUI] Invoking onClick callback for: {title}");
+                        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                            Debug.Log($"[SkillSelectionUI] Invoking onClick callback for: {title}");
                         onClick.Invoke();
                     }
                     else
                     {
-                        Debug.LogError($"[SkillSelectionUI] onClick callback is NULL for: {title}");
+                        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                            Debug.LogError($"[SkillSelectionUI] onClick callback is NULL for: {title}");
                     }
                 });
-                Debug.Log($"[SkillSelectionUI] Button listener added successfully for: {title}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[SkillSelectionUI] Button listener added successfully for: {title}");
             }
             else
             {
-                Debug.LogError($"[SkillSelectionUI] NO BUTTON COMPONENT found on: {title}", optionObj);
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogError($"[SkillSelectionUI] NO BUTTON COMPONENT found on: {title}", optionObj);
             }
         }
 
         private void OnActiveSkillOptionClicked(int index)
         {
-            Debug.Log($"[SkillSelectionUI] OnActiveSkillOptionClicked called with index: {index}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[SkillSelectionUI] OnActiveSkillOptionClicked called with index: {index}");
 
             if (index >= 0 && index < currentSkillPrefabs.Count)
             {
                 GameObject selectedPrefab = currentSkillPrefabs[index];
-                Debug.Log($"[SkillSelectionUI] Active skill selected: {selectedPrefab.name}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[SkillSelectionUI] Active skill selected: {selectedPrefab.name}");
 
                 selectionPanel.SetActive(false);
 
                 if (activeSkillCallback != null)
                 {
-                    Debug.Log($"[SkillSelectionUI] Invoking activeSkillCallback with prefab: {selectedPrefab.name}");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.Log($"[SkillSelectionUI] Invoking activeSkillCallback with prefab: {selectedPrefab.name}");
                     activeSkillCallback.Invoke(selectedPrefab);
                 }
                 else
                 {
-                    Debug.LogError("[SkillSelectionUI] activeSkillCallback is NULL!");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.LogError("[SkillSelectionUI] activeSkillCallback is NULL!");
                 }
             }
             else
             {
-                Debug.LogError(
-                    $"[SkillSelectionUI] Invalid index {index} or prefabs count {currentSkillPrefabs.Count}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogError(
+                        $"[SkillSelectionUI] Invalid index {index} or prefabs count {currentSkillPrefabs.Count}");
             }
         }
 
         private void OnPassiveUpgradeOptionClicked(int index)
         {
-            Debug.Log($"[SkillSelectionUI] OnPassiveUpgradeOptionClicked called with index: {index}");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[SkillSelectionUI] OnPassiveUpgradeOptionClicked called with index: {index}");
 
             if (index >= 0 && index < currentPassiveData.Count)
             {
                 PassiveUpgradeData selectedUpgrade = currentPassiveData[index];
-                Debug.Log($"[SkillSelectionUI] Passive upgrade selected: {selectedUpgrade.displayName}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[SkillSelectionUI] Passive upgrade selected: {selectedUpgrade.displayName}");
 
                 selectionPanel.SetActive(false);
 
                 if (passiveUpgradeCallback != null)
                 {
-                    Debug.Log(
-                        $"[SkillSelectionUI] Invoking passiveUpgradeCallback with upgrade: {selectedUpgrade.displayName}");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.Log(
+                            $"[SkillSelectionUI] Invoking passiveUpgradeCallback with upgrade: {selectedUpgrade.displayName}");
                     passiveUpgradeCallback.Invoke(selectedUpgrade);
                 }
                 else
                 {
-                    Debug.LogError("[SkillSelectionUI] passiveUpgradeCallback is NULL!");
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.LogError("[SkillSelectionUI] passiveUpgradeCallback is NULL!");
                 }
             }
             else
             {
-                Debug.LogError(
-                    $"[SkillSelectionUI] Invalid index {index} or upgrades count {currentPassiveData.Count}");
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogError(
+                        $"[SkillSelectionUI] Invalid index {index} or upgrades count {currentPassiveData.Count}");
             }
         }
 

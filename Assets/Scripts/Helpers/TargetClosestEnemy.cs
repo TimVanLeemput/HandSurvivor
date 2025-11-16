@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class TargetClosestEnemy : MonoBehaviour
 {
-    public Transform Reference;
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         public Transform Reference;
     public Enemy Target;
     public int DPS = 100;
     private Enemy previousTarget;
@@ -16,7 +19,9 @@ public class TargetClosestEnemy : MonoBehaviour
         activeSkill = GetComponentInParent<ActiveSkillBase>();
         if (activeSkill == null)
         {
-            Debug.LogError("[TargetClosestEnnemy] No ActiveSkillBase found in parent");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+
+                Debug.LogError("[TargetClosestEnnemy] No ActiveSkillBase found in parent");
         }
     }
 
