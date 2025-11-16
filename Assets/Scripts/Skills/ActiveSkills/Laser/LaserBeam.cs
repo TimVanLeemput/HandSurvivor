@@ -24,6 +24,19 @@ namespace HandSurvivor.ActiveSkills
         [Header("Visual")] [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private float beamWidth = 0.05f;
 
+        [Header("Raycast Box")]
+        [SerializeField] private Vector3 raycastBoxHalfExtents = new Vector3(0.025f, 0.025f, 0.01f);
+        [Tooltip("Auto-sync raycast box width with beam width")]
+        [SerializeField] private bool autoSyncBoxWithBeamWidth = true;
+
+        [Header("Surface Contact")]
+        [Tooltip("Layers that block the beam visually (e.g., Environment, ground)")]
+        [SerializeField] private LayerMask blockingSurfacesLayerMask = 0;
+        [Tooltip("Event emitted continuously while laser contacts blocking surface (for VFX trail)")]
+        [SerializeField] private UnityEngine.Events.UnityEvent<RaycastHit> onSurfaceContact;
+        [Tooltip("Interval between surface contact event emissions (seconds)")]
+        [SerializeField] private float surfaceContactEventInterval = 0.05f;
+
         [Header("Retraction")]
         [SerializeField] private float retractionDuration = 0.25f;
 
@@ -36,6 +49,7 @@ namespace HandSurvivor.ActiveSkills
         [Header("Debug")]
         [SerializeField] private bool showDebugBox = false;
         [SerializeField] private bool showDebugBoxInVR = false;
+        [SerializeField] private bool showGizmoBoxInEditor = true;
 
         private Transform origin;
         private AudioSource audioSource;
@@ -48,6 +62,7 @@ namespace HandSurvivor.ActiveSkills
         private float laserStartTime;
         private float laserDuration;
         private ParticleSystem.MainModule particlesMainModule;
+        private float lastSurfaceContactEventTime = 0f;
 
         public bool IsActive { get; private set; }
 
@@ -215,17 +230,60 @@ namespace HandSurvivor.ActiveSkills
             float effectiveRange = maxRange * retractionFactor;
 
             // Use BoxCastAll with size matching the line renderer width to hit multiple targets
-            Vector3 boxHalfExtents = new Vector3(beamWidth * 0.5f, beamWidth * 0.5f, 0.01f);
+            Vector3 boxHalfExtents = autoSyncBoxWithBeamWidth
+                ? new Vector3(beamWidth * 0.5f, beamWidth * 0.5f, raycastBoxHalfExtents.z)
+                : raycastBoxHalfExtents;
             RaycastHit[] hits = Physics.BoxCastAll(startPos, boxHalfExtents, direction, origin.rotation, effectiveRange, hitLayers);
 
-            // Find closest hit for visual feedback
-            RaycastHit closestHit = default;
-            float closestDistance = effectiveRange;
-            bool didHit = false;
+            // Separate blocking surfaces from damage targets
+            RaycastHit closestBlockingSurface = default;
+            float blockingDistance = effectiveRange;
+            bool hasBlockingSurface = false;
 
-            if (hits.Length > 0)
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
             {
-                // Sort by distance to find closest
+                Debug.Log($"[LaserBeam] BoxCast detected {hits.Length} total hits. blockingSurfacesLayerMask={blockingSurfacesLayerMask.value}");
+            }
+
+            // Find closest blocking surface
+            for (int i = 0; i < hits.Length; i++)
+            {
+                int hitLayer = hits[i].collider.gameObject.layer;
+                int hitLayerMask = 1 << hitLayer;
+                bool isBlockingSurface = (hitLayerMask & blockingSurfacesLayerMask) != 0;
+
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                {
+                    Debug.Log($"[LaserBeam] Hit '{hits[i].collider.name}' on layer {hitLayer} ({LayerMask.LayerToName(hitLayer)}), distance={hits[i].distance:F2}, isBlockingSurface={isBlockingSurface}");
+                }
+
+                if (isBlockingSurface)
+                {
+                    if (!hasBlockingSurface || hits[i].distance < blockingDistance)
+                    {
+                        closestBlockingSurface = hits[i];
+                        blockingDistance = hits[i].distance;
+                        hasBlockingSurface = true;
+
+                        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        {
+                            Debug.Log($"[LaserBeam] New closest blocking surface: '{hits[i].collider.name}' at {hits[i].distance:F2}m");
+                        }
+                    }
+                }
+            }
+
+            // Use blocking surface to limit effective range
+            float visualRange = hasBlockingSurface ? blockingDistance : effectiveRange;
+
+            // Find closest hit for visual feedback (legacy, now uses blocking surface)
+            RaycastHit closestHit = hasBlockingSurface ? closestBlockingSurface : default;
+            float closestDistance = visualRange;
+            bool didHit = hasBlockingSurface;
+
+            // If no blocking surface, check for any hit for legacy hit effect
+            if (!hasBlockingSurface && hits.Length > 0)
+            {
                 System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
                 closestHit = hits[0];
                 closestDistance = closestHit.distance;
@@ -258,12 +316,32 @@ namespace HandSurvivor.ActiveSkills
                         new Vector3(0f, currentHitEffect.transform.eulerAngles.y, 0f);
                 }
 
-                // Deal damage to ALL hits with timing check
+                // Emit surface contact event for VFX trail (only for blocking surfaces)
+                if (hasBlockingSurface && onSurfaceContact != null)
+                {
+                    if (Time.time >= lastSurfaceContactEventTime + surfaceContactEventInterval)
+                    {
+                        onSurfaceContact.Invoke(closestBlockingSurface);
+                        lastSurfaceContactEventTime = Time.time;
+
+                        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        {
+                            Debug.Log($"[LaserBeam] Surface contact event emitted for '{closestBlockingSurface.collider.name}' at {closestBlockingSurface.point}");
+                        }
+                    }
+                }
+
+                // Deal damage to ALL hits with timing check (excludes blocking surfaces)
                 if (Time.time >= lastDamageTime + damageInterval)
                 {
                     foreach (RaycastHit hit in hits)
                     {
-                        DealDamage(hit);
+                        // Skip blocking surfaces for damage
+                        bool isBlockingSurface = ((1 << hit.collider.gameObject.layer) & blockingSurfacesLayerMask) != 0;
+                        if (!isBlockingSurface)
+                        {
+                            DealDamage(hit);
+                        }
                     }
                     lastDamageTime = Time.time;
                 }
@@ -479,6 +557,34 @@ namespace HandSurvivor.ActiveSkills
             corners[7] = center - right + up + forward; // Top back left
 
             return corners;
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (!showGizmoBoxInEditor) return;
+
+            // Show box at origin when active
+            if (IsActive && origin != null)
+            {
+                Vector3 boxHalfExtents = autoSyncBoxWithBeamWidth
+                    ? new Vector3(beamWidth * 0.5f, beamWidth * 0.5f, raycastBoxHalfExtents.z)
+                    : raycastBoxHalfExtents;
+
+                Gizmos.color = Color.yellow;
+                Gizmos.matrix = Matrix4x4.TRS(origin.position, origin.rotation, Vector3.one);
+                Gizmos.DrawWireCube(Vector3.zero, boxHalfExtents * 2f);
+            }
+            // Show preview at transform when inactive
+            else if (transform != null)
+            {
+                Vector3 boxHalfExtents = autoSyncBoxWithBeamWidth
+                    ? new Vector3(beamWidth * 0.5f, beamWidth * 0.5f, raycastBoxHalfExtents.z)
+                    : raycastBoxHalfExtents;
+
+                Gizmos.color = new Color(1f, 1f, 0f, 0.5f); // Semi-transparent yellow
+                Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
+                Gizmos.DrawWireCube(Vector3.zero, boxHalfExtents * 2f);
+            }
         }
     }
 }

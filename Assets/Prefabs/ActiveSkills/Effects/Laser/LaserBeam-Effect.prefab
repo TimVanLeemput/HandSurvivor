@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 73258828367453031}
   - component: {fileID: 4343126109629533475}
   - component: {fileID: 5047063572401005879}
+  - component: {fileID: 398002534005522807}
   m_Layer: 0
   m_Name: LaserBeam-Effect
   m_TagString: Untagged
@@ -46,14 +47,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095a78357d4884c49a40cb207f1c8725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.PowerUps.LaserBeam
+  showDebugLogs: 1
   maxRange: 1
   damage: 15
   damageInterval: 0.1
   hitLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1152
   lineRenderer: {fileID: 5047063572401005879}
   beamWidth: 0.05
+  raycastBoxHalfExtents: {x: 0.02, y: 0.02, z: 0.01}
+  autoSyncBoxWithBeamWidth: 0
+  blockingSurfacesLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  onSurfaceContact:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 398002534005522807}
+        m_TargetAssemblyTypeName: HandSurvivor.ActiveSkills.SpawnGameObject, Assembly-CSharp
+        m_MethodName: SpawnAtRayCastHitPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  surfaceContactEventInterval: 0.05
+  retractionDuration: 0.25
   hitEffectPrefab: {fileID: 3652897219425112887, guid: b2cdb5ff928d3d344a29a3e825808b53, type: 3}
   muzzleEffectPrefab: {fileID: 0}
   beamOriginParticles: {fileID: 4863440314386883166}
@@ -61,6 +85,7 @@ MonoBehaviour:
   loopBeamSound: 0
   showDebugBox: 0
   showDebugBoxInVR: 0
+  showGizmoBoxInEditor: 0
 --- !u!120 &5047063572401005879
 LineRenderer:
   serializedVersion: 2
@@ -189,6 +214,20 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &398002534005522807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7768875096541566223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df26240101cdba84c96c194110705a27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.SpawnGameObject
+  prefabToSpawn: {fileID: 823212768247775278, guid: cf702e8ddd82ac74e8d745d7593f9f90, type: 3}
+  prefabLifeTime: 0.1
 --- !u!1001 &2368327264015624474
 PrefabInstance:
   m_ObjectHideFlags: 0
