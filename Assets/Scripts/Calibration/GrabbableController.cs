@@ -5,6 +5,7 @@ using UnityEngine;
 public class GrabbableController : MonoBehaviour
 {
     private HandGrabInteractable _handGrabInteractable;
+    [SerializeField] private Grabbable _grabbable;
 
     private void Start()
     {
@@ -30,5 +31,14 @@ public class GrabbableController : MonoBehaviour
     public void DisableGrabbing()
     {
         SetGrabbable(false);
+    }
+
+    public void SetGrabbableRigidBodyGrabity(bool value)
+    {
+        Rigidbody grabbableRb = _grabbable.GetComponent<Rigidbody>();
+        if (grabbableRb)
+        {
+            grabbableRb.useGravity = value;
+        }
     }
 }
