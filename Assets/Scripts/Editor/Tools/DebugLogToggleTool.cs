@@ -39,7 +39,7 @@ namespace HandSurvivor.Editor.Tools
         private static void RefreshAllDebugFlags()
         {
             // Force Unity to refresh inspector for all MonoBehaviours
-            MonoBehaviour[] allMonoBehaviours = Object.FindObjectsOfType<MonoBehaviour>();
+            MonoBehaviour[] allMonoBehaviours = Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.InstanceID);
             foreach (MonoBehaviour mb in allMonoBehaviours)
             {
                 EditorUtility.SetDirty(mb);
