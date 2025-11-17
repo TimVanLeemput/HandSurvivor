@@ -23,6 +23,15 @@ namespace HandSurvivor.ActiveSkills
         [Header("Animation Settings")]
         [SerializeField] private float lifetime = 1.5f;
         [SerializeField] private float riseSpeed = 1.5f;
+        [SerializeField] private float damageNumberYPositionOffset = 0.1f;
+
+        [Header("Spacing & Pattern")]
+        [Tooltip("Random offset applied to spawn position (0 = no randomness)")]
+        [SerializeField] private float randomSpreadRadius = 0.2f;
+        [Tooltip("Stagger spawn vertically when multiple numbers appear at once")]
+        [SerializeField] private bool staggerVertically = true;
+        [SerializeField] private float verticalStaggerAmount = 0.1f;
+        
 
         [Header("Visual Settings")]
         [SerializeField] private float fontSize = 72f;
@@ -30,6 +39,7 @@ namespace HandSurvivor.ActiveSkills
         [SerializeField] private float worldScale = 0.01f;
 
         private ObjectPool<DamageNumber> damageNumberPool;
+        private int spawnCounter = 0;
 
         private void Awake()
         {
@@ -112,8 +122,26 @@ namespace HandSurvivor.ActiveSkills
                 return;
             }
 
+            // Apply base Y offset
+            Vector3 finalPosition = new Vector3(position.x, position.y + damageNumberYPositionOffset, position.z);
+
+            // Apply random spread if enabled
+            if (randomSpreadRadius > 0f)
+            {
+                Vector2 randomCircle = Random.insideUnitCircle * randomSpreadRadius;
+                finalPosition.x += randomCircle.x;
+                finalPosition.z += randomCircle.y;
+            }
+
+            // Apply vertical stagger if enabled
+            if (staggerVertically)
+            {
+                finalPosition.y += (spawnCounter % 3) * verticalStaggerAmount;
+                spawnCounter++;
+            }
+
             DamageNumber damageNumber = damageNumberPool.Get();
-            damageNumber.Initialize(damage, position, lifetime, riseSpeed, fontSize, textColor, worldScale);
+            damageNumber.Initialize(damage, finalPosition, lifetime, riseSpeed, fontSize, textColor, worldScale);
         }
 
         /// <summary>

@@ -930,6 +930,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1186,6 +1190,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1259,6 +1267,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1646,6 +1658,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1720,6 +1736,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1793,6 +1813,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3657,6 +3681,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4593,6 +4621,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4667,6 +4699,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4740,6 +4776,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5540,6 +5580,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5679,6 +5723,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6252,6 +6300,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6481,6 +6533,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7312,7 +7368,7 @@ MonoBehaviour:
   XPPrefab: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
   XPParent: {fileID: 1475173783}
   Level: 1
-  XPIncreasePerLevel: 100
+  XPIncreasePerLevel: 0
   CurrentXPForLevel: 1000
   CurrentXP: 0
   OnLevelUp:
@@ -7868,6 +7924,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7942,6 +8002,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8015,6 +8079,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8501,6 +8569,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 2000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

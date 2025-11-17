@@ -17,7 +17,8 @@ namespace HandSurvivor.ActiveSkills
          [Header("Beam Settings")] [SerializeField]
         private float maxRange = 50f;
 
-        [SerializeField] private float damage = 10f;
+        [Tooltip("Damage value set at runtime by LaserActiveSkill from ActiveSkillData")]
+        private float damage = 10f;
         [SerializeField] private float damageInterval = 0.1f;
         [SerializeField] private LayerMask hitLayers = ~0;
 
@@ -54,8 +55,6 @@ namespace HandSurvivor.ActiveSkills
         private Transform origin;
         private AudioSource audioSource;
         private float lastDamageTime = 0f;
-        private float lastDamageNumberTime = 0f;
-        private float damageNumberInterval = 0.3f; // Show damage number every 0.3s instead of every tick
         private GameObject currentHitEffect;
         private GameObject currentMuzzleEffect;
         private GameObject debugBoxVisual;
@@ -389,15 +388,10 @@ namespace HandSurvivor.ActiveSkills
                     Debug.Log($"[LaserBeam] Damaged enemy: {enemy.name}");
                 enemy.TakeDamage((int)damage);
 
-                // Show damage number (throttled to avoid spam)
-                if (Time.time >= lastDamageNumberTime + damageNumberInterval)
+                // Show damage number for each enemy hit
+                if (DamageNumberManager.Instance != null)
                 {
-                    if (DamageNumberManager.Instance != null)
-                    {
-                        Vector3 damageNumberPosition = hit.point + Vector3.up * 0.3f;
-                        DamageNumberManager.Instance.SpawnDamageNumber((int)damage, damageNumberPosition);
-                        lastDamageNumberTime = Time.time;
-                    }
+                    DamageNumberManager.Instance.SpawnDamageNumber((int)damage, hit.point);
                 }
             }
             else

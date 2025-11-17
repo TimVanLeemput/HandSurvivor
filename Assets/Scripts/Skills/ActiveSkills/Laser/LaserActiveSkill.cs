@@ -22,8 +22,6 @@ namespace HandSurvivor.ActiveSkills
         [Header("Laser Configuration")] [SerializeField]
         private GameObject laserBeamPrefab;
 
-        [SerializeField] private float laserDamage = 15f;
-
         [Header("Hand Tracking")] [SerializeField]
         private bool useOffHand = true;
 
@@ -54,9 +52,6 @@ namespace HandSurvivor.ActiveSkills
                 {
                     laserBeam = laserObj.AddComponent<LaserBeam>();
                 }
-
-                // Configure laser
-                laserBeam.SetDamage(laserDamage);
             }
             else
             {
@@ -65,7 +60,6 @@ namespace HandSurvivor.ActiveSkills
                 laserObj.transform.SetParent(transform);
                 laserObj.AddComponent<LineRenderer>();
                 laserBeam = laserObj.AddComponent<LaserBeam>();
-                laserBeam.SetDamage(laserDamage);
             }
         }
 
@@ -249,7 +243,7 @@ namespace HandSurvivor.ActiveSkills
         {
             if (laserBeam != null && fingerTipTransform != null)
             {
-                float modifiedDamage = GetModifiedDamage(laserDamage);
+                float modifiedDamage = GetModifiedDamage(data.damage);
                 float modifiedDuration = GetModifiedDuration();
                 laserBeam.SetDamage(modifiedDamage);
                 laserBeam.StartLaser(fingerTipTransform, modifiedDuration);

@@ -49,8 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.PowerUps.LaserBeam
   showDebugLogs: 1
   maxRange: 1
-  damage: 15
-  damageInterval: 0.1
+  damage: 75
+  damageInterval: 0.5
   hitLayers:
     serializedVersion: 2
     m_Bits: 1152

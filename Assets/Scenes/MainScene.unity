@@ -615,8 +615,12 @@ MonoBehaviour:
   defaultPoolSize: 20
   maxPoolSize: 50
   lifetime: 2
-  riseSpeed: 0.1
-  fontSize: 5
+  riseSpeed: 0.05
+  damageNumberYPositionOffset: 0.025
+  randomSpreadRadius: 0.05
+  staggerVertically: 1
+  verticalStaggerAmount: 0.1
+  fontSize: 1
   textColor: {r: 1, g: 0.3, b: 0.2, a: 1}
   worldScale: 0.01
 --- !u!1 &1924798971
