@@ -516,6 +516,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VR
       objectReference: {fileID: 0}
+    - target: {fileID: 386210381366362596, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: _whenSelected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 644092063520107038, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_IsActive
       value: 0

@@ -24,12 +24,18 @@ namespace HandSurvivor.Core.LevelUp
 
         [Header("Strings")] [SerializeField] private string activeSkillTitle = "Choose Active Skill";
         [SerializeField] private string passiveUpgradeTitle = "Choose Passive Upgrade";
+        [SerializeField] private string mixedSelectionTitle = "Choose Upgrade";
 
         private Action<GameObject> activeSkillCallback;
         private Action<PassiveUpgradeData> passiveUpgradeCallback;
         private List<GameObject> currentOptions = new List<GameObject>();
         private List<GameObject> currentSkillPrefabs = new List<GameObject>();
         private List<PassiveUpgradeData> currentPassiveData = new List<PassiveUpgradeData>();
+
+        // For mixed selection - track which index maps to which type
+        private enum OptionType { ActiveSkill, PassiveUpgrade }
+        private List<OptionType> optionTypes = new List<OptionType>();
+        private List<int> optionIndices = new List<int>(); // Index into skill or upgrade list
 
         private void Awake()
         {
@@ -119,6 +125,59 @@ namespace HandSurvivor.Core.LevelUp
                 Debug.Log($"[SkillSelectionUI] Showing {upgrades.Count} passive upgrade options");
         }
 
+        public void ShowMixedSelection(List<ActiveSkillData> skills, List<GameObject> skillPrefabs,
+            List<PassiveUpgradeData> upgrades, Action<GameObject> onSkillSelected,
+            Action<PassiveUpgradeData> onUpgradeSelected)
+        {
+            ClearOptions();
+
+            activeSkillCallback = onSkillSelected;
+            passiveUpgradeCallback = onUpgradeSelected;
+            currentSkillPrefabs = skillPrefabs;
+            currentPassiveData = upgrades;
+            optionTypes.Clear();
+            optionIndices.Clear();
+
+            if (titleText != null)
+            {
+                titleText.text = mixedSelectionTitle;
+            }
+
+            // Add all skills
+            for (int i = 0; i < skills.Count; i++)
+            {
+                ActiveSkillData skillData = skills[i];
+                int displayIndex = optionTypes.Count; // Current position in combined list
+
+                GameObject optionObj = Instantiate(optionButtonPrefab, optionsContainer);
+                currentOptions.Add(optionObj);
+                optionTypes.Add(OptionType.ActiveSkill);
+                optionIndices.Add(i); // Index into skillPrefabs list
+
+                SetupOptionButton(optionObj, skillData.skillImage, skillData.displayName, skillData.description,
+                    () => OnMixedOptionClicked(displayIndex));
+            }
+
+            // Add all upgrades
+            for (int i = 0; i < upgrades.Count; i++)
+            {
+                PassiveUpgradeData upgradeData = upgrades[i];
+                int displayIndex = optionTypes.Count; // Current position in combined list
+
+                GameObject optionObj = Instantiate(optionButtonPrefab, optionsContainer);
+                currentOptions.Add(optionObj);
+                optionTypes.Add(OptionType.PassiveUpgrade);
+                optionIndices.Add(i); // Index into upgrades list
+
+                SetupOptionButton(optionObj, upgradeData.passiveImage, upgradeData.displayName, upgradeData.description,
+                    () => OnMixedOptionClicked(displayIndex));
+            }
+
+            selectionPanel.SetActive(true);
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[SkillSelectionUI] Showing mixed selection: {skills.Count} skills + {upgrades.Count} upgrades = {optionTypes.Count} total");
+        }
+
         private void SetupOptionButton(GameObject optionObj, Sprite skillImage, string title, string description,
             Action onClick)
         {
@@ -177,6 +236,47 @@ namespace HandSurvivor.Core.LevelUp
             {
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
                     Debug.LogError($"[SkillSelectionUI] NO BUTTON COMPONENT found on: {title}", optionObj);
+            }
+        }
+
+        private void OnMixedOptionClicked(int displayIndex)
+        {
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[SkillSelectionUI] OnMixedOptionClicked called with displayIndex: {displayIndex}");
+
+            if (displayIndex < 0 || displayIndex >= optionTypes.Count)
+            {
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogError($"[SkillSelectionUI] Invalid displayIndex: {displayIndex}");
+                return;
+            }
+
+            OptionType type = optionTypes[displayIndex];
+            int dataIndex = optionIndices[displayIndex];
+
+            selectionPanel.SetActive(false);
+
+            if (type == OptionType.ActiveSkill)
+            {
+                if (dataIndex >= 0 && dataIndex < currentSkillPrefabs.Count)
+                {
+                    GameObject selectedPrefab = currentSkillPrefabs[dataIndex];
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.Log($"[SkillSelectionUI] Mixed: Active skill selected: {selectedPrefab.name}");
+
+                    activeSkillCallback?.Invoke(selectedPrefab);
+                }
+            }
+            else if (type == OptionType.PassiveUpgrade)
+            {
+                if (dataIndex >= 0 && dataIndex < currentPassiveData.Count)
+                {
+                    PassiveUpgradeData selectedUpgrade = currentPassiveData[dataIndex];
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.Log($"[SkillSelectionUI] Mixed: Passive upgrade selected: {selectedUpgrade.displayName}");
+
+                    passiveUpgradeCallback?.Invoke(selectedUpgrade);
+                }
             }
         }
 

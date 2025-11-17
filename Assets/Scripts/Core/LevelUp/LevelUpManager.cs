@@ -19,7 +19,8 @@ namespace HandSurvivor.Core.LevelUp
         [Header("Settings")]
         [SerializeField] private int choiceCount = 3;
 
-        private bool isPaused = false;
+        private int pendingLevels = 0;
+        private bool isShowingSelection = false;
 
         private void Awake()
         {
@@ -91,52 +92,54 @@ namespace HandSurvivor.Core.LevelUp
         private void OnPlayerLevelUp(int newLevel)
         {
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                 Debug.Log($"[LevelUpManager] Player reached level {newLevel}");
 
-            if (ActiveSkillSlotManager.Instance == null)
-            {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+            pendingLevels++;
 
-                    Debug.LogError("[LevelUpManager] ActiveSkillSlotManager.Instance is null!");
-                return;
-            }
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[LevelUpManager] Pending levels: {pendingLevels}");
 
-            int filledSlots = ActiveSkillSlotManager.Instance.GetFilledSlotCount();
-            bool allSlotsFilled = filledSlots >= ActiveSkillSlotManager.Instance.MaxSlots;
-
-            if (allSlotsFilled)
+            // Only show selection if not already showing
+            if (!isShowingSelection)
             {
-                ShowPassiveUpgradeSelection();
-            }
-            else
-            {
-                ShowActiveSkillSelection();
+                ShowNextSelection();
             }
         }
 
-        private void ShowActiveSkillSelection()
+        private void ShowNextSelection()
         {
             if (SkillSelectionUI.Instance == null)
             {
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                     Debug.LogError("[LevelUpManager] SkillSelectionUI.Instance is null!");
                 return;
             }
 
-            List<GameObject> randomSkills = skillPool.GetRandomActiveSkills(choiceCount);
+            isShowingSelection = true;
 
-            if (randomSkills.Count == 0)
+            // Get owned skill IDs for filtering
+            List<string> ownedSkillIds = null;
+            if (ActiveSkillInventory.Instance != null)
+            {
+                ownedSkillIds = ActiveSkillInventory.Instance.GetAllSkillIds();
+            }
+
+            // Get mixed selection of skills and upgrades
+            skillPool.GetRandomMixedSelection(choiceCount, ownedSkillIds,
+                out List<GameObject> selectedSkills, out List<PassiveUpgradeData> selectedUpgrades);
+
+            // Check if we have any options at all
+            if (selectedSkills.Count == 0 && selectedUpgrades.Count == 0)
             {
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
-                    Debug.LogWarning("[LevelUpManager] No active skills available!");
+                    Debug.LogWarning("[LevelUpManager] No skills or upgrades available! Consuming level without selection.");
+                ProcessLevelSelection();
                 return;
             }
 
+            // Extract skill data from prefabs
             List<ActiveSkillData> skillDataList = new List<ActiveSkillData>();
-            foreach (GameObject prefab in randomSkills)
+            foreach (GameObject prefab in selectedSkills)
             {
                 ActiveSkillBase skillBase = prefab.GetComponent<ActiveSkillBase>();
                 if (skillBase != null && skillBase.Data != null)
@@ -145,36 +148,14 @@ namespace HandSurvivor.Core.LevelUp
                 }
             }
 
-            SkillSelectionUI.Instance.ShowActiveSkillSelection(skillDataList, randomSkills, OnActiveSkillSelected);
-        }
-
-        private void ShowPassiveUpgradeSelection()
-        {
-            if (SkillSelectionUI.Instance == null)
-            {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
-                    Debug.LogError("[LevelUpManager] SkillSelectionUI.Instance is null!");
-                return;
-            }
-
-            List<PassiveUpgradeData> randomUpgrades = skillPool.GetRandomPassiveUpgrades(choiceCount);
-
-            if (randomUpgrades.Count == 0)
-            {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
-                    Debug.LogWarning("[LevelUpManager] No passive upgrades available!");
-                return;
-            }
-
-            SkillSelectionUI.Instance.ShowPassiveUpgradeSelection(randomUpgrades, OnPassiveUpgradeSelected);
+            // Show mixed selection UI
+            SkillSelectionUI.Instance.ShowMixedSelection(skillDataList, selectedSkills, selectedUpgrades,
+                OnActiveSkillSelected, OnPassiveUpgradeSelected);
         }
 
         private void OnActiveSkillSelected(GameObject skillPrefab)
         {
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                 Debug.Log($"[LevelUpManager] Active skill selected: {skillPrefab.name}");
 
             GameObject skillObj = Instantiate(skillPrefab);
@@ -184,24 +165,21 @@ namespace HandSurvivor.Core.LevelUp
             {
                 skillBase.Pickup();
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                     Debug.Log($"[LevelUpManager] Added skill to inventory: {skillBase.Data.displayName}");
             }
             else
             {
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                     Debug.LogError($"[LevelUpManager] Selected skill prefab has no ActiveSkillBase component!");
                 Destroy(skillObj);
             }
 
-            ResumeGame();
+            ProcessLevelSelection();
         }
 
         private void OnPassiveUpgradeSelected(PassiveUpgradeData upgrade)
         {
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                 Debug.Log($"[LevelUpManager] Passive upgrade selected: {upgrade.displayName}");
 
             if (PassiveUpgradeManager.Instance != null)
@@ -211,23 +189,32 @@ namespace HandSurvivor.Core.LevelUp
             else
             {
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                     Debug.LogError("[LevelUpManager] PassiveUpgradeManager.Instance is null!");
             }
 
-            ResumeGame();
+            ProcessLevelSelection();
         }
 
-
-        private void ResumeGame()
+        private void ProcessLevelSelection()
         {
-            if (isPaused)
-            {
-                Time.timeScale = 1f;
-                isPaused = false;
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+            pendingLevels--;
 
-                    Debug.Log("[LevelUpManager] Game resumed");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[LevelUpManager] Level spent. Remaining pending levels: {pendingLevels}");
+
+            if (pendingLevels > 0)
+            {
+                // More levels pending - show next selection
+                ShowNextSelection();
+            }
+            else
+            {
+                // All levels spent - hide UI
+                isShowingSelection = false;
+                if (SkillSelectionUI.Instance != null)
+                {
+                    SkillSelectionUI.Instance.Hide();
+                }
             }
         }
     }

@@ -105,6 +105,8 @@ namespace HandSurvivor.Skills
             {
                 iconImage.sprite = currentSkill.Data.skillImage;
                 iconImage.enabled = true;
+                cooldownFillImage.sprite = currentSkill.Data.skillImage;
+                cooldownFillImage.enabled = true;
             }
 
             if (emptySlotIndicator != null)
@@ -153,7 +155,8 @@ namespace HandSurvivor.Skills
             {
                 float totalCooldown = currentSkill.GetModifiedCooldown();
                 float remaining = currentSkill.RemainingCooldown;
-                float cooldownPercent = totalCooldown > 0 ? remaining / totalCooldown : 0f;
+                // Invert: more remaining = less fill, less remaining = more fill
+                float cooldownPercent = totalCooldown > 0 ? 1f - (remaining / totalCooldown) : 1f;
 
                 // Debug.Log($"[SkillSlotUI] {currentSkill.Data.displayName} - IsOnCooldown={currentSkill.IsOnCooldown}, Remaining={remaining:F2}s, Total={totalCooldown:F2}s, Percent={cooldownPercent:F2}, FillAmount being set to {cooldownPercent:F2}");
 
@@ -162,8 +165,8 @@ namespace HandSurvivor.Skills
             }
             else
             {
-                // Cooldown finished
-                cooldownFillImage.fillAmount = 0f;
+                // Cooldown finished - show full image
+                cooldownFillImage.fillAmount = 1f;
                 isTrackingCooldown = false;
             }
         }

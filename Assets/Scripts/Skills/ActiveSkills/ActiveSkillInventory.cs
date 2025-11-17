@@ -216,6 +216,14 @@ namespace HandSurvivor.ActiveSkills
         }
 
         /// <summary>
+        /// Get all owned active skill IDs
+        /// </summary>
+        public List<string> GetAllSkillIds()
+        {
+            return new List<string>(stackById.Keys);
+        }
+
+        /// <summary>
         /// Clear all active skills from inventory
         /// </summary>
         public void ClearInventory()
