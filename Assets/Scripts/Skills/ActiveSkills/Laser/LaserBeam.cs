@@ -18,7 +18,7 @@ namespace HandSurvivor.ActiveSkills
         private float maxRange = 50f;
 
         [Tooltip("Damage value set at runtime by LaserActiveSkill from ActiveSkillData")]
-        private float damage = 10f;
+        private float damage = 0f; // This value is set by ActiveSkillData
         [SerializeField] private float damageInterval = 0.1f;
         [SerializeField] private LayerMask hitLayers = ~0;
 
@@ -43,7 +43,7 @@ namespace HandSurvivor.ActiveSkills
 
         [Header("Effects")] [SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private GameObject muzzleEffectPrefab;
-        [SerializeField] private ParticleSystem beamOriginParticles;
+        [SerializeField] private GameObject beamOriginParticlesPrefab;
         [SerializeField] private AudioClip beamSound;
         [SerializeField] private bool loopBeamSound = true;
 
@@ -57,6 +57,8 @@ namespace HandSurvivor.ActiveSkills
         private float lastDamageTime = 0f;
         private GameObject currentHitEffect;
         private GameObject currentMuzzleEffect;
+        private GameObject currentBeamOriginParticles;
+        private ParticleSystem beamOriginParticleSystem;
         private GameObject debugBoxVisual;
         private float laserStartTime;
         private float laserDuration;
@@ -104,11 +106,15 @@ namespace HandSurvivor.ActiveSkills
             laserStartTime = Time.time;
             laserDuration = duration;
 
-            // Enable beam origin particles
-            if (beamOriginParticles != null)
+            // Spawn beam origin particles
+            if (beamOriginParticlesPrefab != null && origin != null)
             {
-                beamOriginParticles.gameObject.SetActive(true);
-                particlesMainModule = beamOriginParticles.main;
+                currentBeamOriginParticles = Instantiate(beamOriginParticlesPrefab, origin.position, origin.rotation, origin);
+                beamOriginParticleSystem = currentBeamOriginParticles.GetComponent<ParticleSystem>();
+                if (beamOriginParticleSystem != null)
+                {
+                    particlesMainModule = beamOriginParticleSystem.main;
+                }
             }
 
             // Spawn muzzle effect
@@ -150,10 +156,12 @@ namespace HandSurvivor.ActiveSkills
             IsActive = false;
             lineRenderer.enabled = false;
 
-            // Disable beam origin particles
-            if (beamOriginParticles != null)
+            // Destroy beam origin particles
+            if (currentBeamOriginParticles != null)
             {
-                beamOriginParticles.gameObject.SetActive(false);
+                Destroy(currentBeamOriginParticles);
+                currentBeamOriginParticles = null;
+                beamOriginParticleSystem = null;
             }
 
             // Stop sound
@@ -173,6 +181,13 @@ namespace HandSurvivor.ActiveSkills
             {
                 Destroy(currentMuzzleEffect);
                 currentMuzzleEffect = null;
+            }
+
+            if (currentBeamOriginParticles != null)
+            {
+                Destroy(currentBeamOriginParticles);
+                currentBeamOriginParticles = null;
+                beamOriginParticleSystem = null;
             }
 
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
@@ -213,12 +228,10 @@ namespace HandSurvivor.ActiveSkills
                 particleAlpha = retractionFactor;
             }
 
-            // Update beam origin particles position, alpha, and scale
-            if (beamOriginParticles != null)
+            // Update beam origin particles alpha and scale (position/rotation inherited from parent)
+            if (beamOriginParticleSystem != null)
             {
-                beamOriginParticles.transform.position = startPos;
-                beamOriginParticles.transform.rotation = origin.rotation;
-                beamOriginParticles.transform.localScale = Vector3.one * particleAlpha;
+                currentBeamOriginParticles.transform.localScale = Vector3.one * particleAlpha;
 
                 Color startColor = particlesMainModule.startColor.color;
                 startColor.a = particleAlpha;

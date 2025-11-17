@@ -19,7 +19,7 @@ MonoBehaviour:
   ActiveSkillType: 1
   duration: 2
   cooldown: 0.5
-  damage: 200
+  damage: 50
   minCooldownMultiplier: 0.1
   maxUpgradedRepeatRate: 0
   activationSound: {fileID: 8300000, guid: 856bff2ad7eccd4469de1d63bb910f7e, type: 3}

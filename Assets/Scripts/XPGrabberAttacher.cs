@@ -5,7 +5,7 @@ using HandSurvivor.Utilities;
 /// Attaches the XP Grabber prefab to the off-hand at runtime
 /// Place this component on the VR rig prefab
 /// </summary>
-public class XPGrabberAttacher : MonoBehaviour
+public class XPGrabberAttacher : MonoBehaviour, HandSurvivor.IHandSwappable
 {
    [Header("Debug")]
         [SerializeField] private bool showDebugLogs = true;
@@ -25,7 +25,30 @@ public class XPGrabberAttacher : MonoBehaviour
             return;
         }
 
+        // Subscribe to hand preference changes
+        if (HandSurvivor.HandSelectionManager.Instance != null)
+        {
+            HandSurvivor.HandSelectionManager.Instance.OnMainHandChanged.AddListener(OnHandPreferenceChanged);
+        }
+
         Invoke(nameof(AttachXPGrabber), attachDelay);
+    }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe from events
+        if (HandSurvivor.HandSelectionManager.Instance != null)
+        {
+            HandSurvivor.HandSelectionManager.Instance?.OnMainHandChanged?.RemoveListener(OnHandPreferenceChanged);
+        }
+    }
+
+    public void OnHandPreferenceChanged(HandSurvivor.HandType newMainHand)
+    {
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+            Debug.Log($"[XPGrabberAttacher] Hand preference changed to {newMainHand}, re-attaching XP Grabber");
+
+        AttachXPGrabber();
     }
 
     private void AttachXPGrabber()

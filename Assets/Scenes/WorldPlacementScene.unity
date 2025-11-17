@@ -662,6 +662,7 @@ GameObject:
   - component: {fileID: 869308896}
   - component: {fileID: 869308899}
   - component: {fileID: 869308898}
+  - component: {fileID: 869308900}
   m_Layer: 0
   m_Name: Grabbable-WorldAnchor-Mesh
   m_TagString: Untagged
@@ -741,6 +742,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 869308895}
   m_Mesh: {fileID: -3302950079108340932, guid: 639b396a864cd4a40adb04ee4256d918, type: 3}
+--- !u!65 &869308900
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 869308895}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.510191, y: 0.12874168, z: 1.43255}
+  m_Center: {x: 0, y: 0.7477258, z: -0.00000006374828}
 --- !u!1001 &1117190169
 PrefabInstance:
   m_ObjectHideFlags: 0

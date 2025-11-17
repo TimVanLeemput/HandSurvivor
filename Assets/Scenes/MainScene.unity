@@ -516,6 +516,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: VR
       objectReference: {fileID: 0}
+    - target: {fileID: 644092063520107038, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167460239946761908, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7563554515575242704, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -555,6 +563,14 @@ PrefabInstance:
     - target: {fileID: 7563554515575242704, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8124065329358215410, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: _poses.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8124065329358215410, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: _onSelectIcons.Array.size
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
