@@ -246,6 +246,7 @@ namespace HandSurvivor.ActiveSkills
                 float modifiedDamage = GetModifiedDamage(data.damage);
                 float modifiedDuration = GetModifiedDuration();
                 laserBeam.SetDamage(modifiedDamage);
+                laserBeam.SetSkillId(data.activeSkillId);
                 laserBeam.StartLaser(fingerTipTransform, modifiedDuration);
                 wasLaserFiring = true;
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)

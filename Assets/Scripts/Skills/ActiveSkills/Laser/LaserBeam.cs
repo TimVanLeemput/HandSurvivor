@@ -1,6 +1,7 @@
 using MyBox;
 using Unity.VisualScripting;
 using UnityEngine;
+using HandSurvivor.Stats;
 
 namespace HandSurvivor.ActiveSkills
 {
@@ -19,6 +20,7 @@ namespace HandSurvivor.ActiveSkills
 
         [Tooltip("Damage value set at runtime by LaserActiveSkill from ActiveSkillData")]
         private float damage = 0f; // This value is set by ActiveSkillData
+        private string skillId = ""; // Set at runtime for stats tracking
         [SerializeField] private float damageInterval = 0.1f;
         [SerializeField] private LayerMask hitLayers = ~0;
 
@@ -401,6 +403,10 @@ namespace HandSurvivor.ActiveSkills
                     Debug.Log($"[LaserBeam] Damaged enemy: {enemy.name}");
                 enemy.TakeDamage((int)damage);
 
+                // Track damage for stats
+                if (PlayerStatsManager.Instance != null && !string.IsNullOrEmpty(skillId))
+                    PlayerStatsManager.Instance.RecordDamage(skillId, damage, enemy.name);
+
                 // Show damage number for each enemy hit
                 if (DamageNumberManager.Instance != null)
                 {
@@ -454,6 +460,11 @@ namespace HandSurvivor.ActiveSkills
         public void SetDamage(float dmg)
         {
             damage = dmg;
+        }
+
+        public void SetSkillId(string id)
+        {
+            skillId = id;
         }
 
         private void CreateDebugBoxVisual()

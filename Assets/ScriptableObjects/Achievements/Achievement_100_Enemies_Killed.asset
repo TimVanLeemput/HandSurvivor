@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9102e29af3ab64babc87f787c95ea9, type: 3}
+  m_Name: Achievement_100_Enemies_Killed
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Stats.Achievement
+  achievementId: 100_Enemies_Killed
+  displayName: 100 Enemies Killed
+  description: You managed to crush 100 enemies!
+  icon: {fileID: 21300000, guid: 281d4541606c6934a81388a2d3b9cdb3, type: 3}
+  type: 0
+  condition: 0
+  targetValue: 100
+  contextFilter: 
+  isUnlocked: 0
+  unlockedDateString: 

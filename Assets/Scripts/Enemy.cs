@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using HandSurvivor.Stats;
 
 public class Enemy : MonoBehaviour
 {
@@ -84,6 +85,10 @@ public class Enemy : MonoBehaviour
     public void DealDamage()
     {
         Nexus.Instance.HP -= damage;
+
+        // Track nexus damage for stats
+        if (PlayerStatsManager.Instance != null)
+            PlayerStatsManager.Instance.RecordNexusDamage(damage);
     }
 
     public void TakeDamage(int damage)
@@ -102,6 +107,11 @@ public class Enemy : MonoBehaviour
     {
         if (dropXP)
             XPManager.Instance.DropXP(XPAmount, transform.position);
+
+        // Track kill for stats
+        if (PlayerStatsManager.Instance != null)
+            PlayerStatsManager.Instance.RecordKill(gameObject.name, XPAmount);
+
         StartCoroutine(DeathCoroutine());
     }
 
