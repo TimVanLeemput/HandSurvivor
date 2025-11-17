@@ -5,9 +5,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using HandSurvivor.Stats;
+using MyBox;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
+    public EnemyType MyEnemyType;
     public int HP = 100;
     public int damage = 10;
     public int XPAmount = 10;
@@ -18,17 +21,22 @@ public class Enemy : MonoBehaviour
     private Animator _animator;
     private NavMeshAgent _navMeshAgent;
     private Transform _nexusTransform;
+    private Rigidbody _rigidbody;
+    private Collider _collider;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _nexusTransform = Nexus.Instance.transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
+        _nexusTransform = Nexus.Instance.transform;
     }
 
     private void Start()
     {
-        StartCoroutine(TargetNexusCoroutine());
+        if (_navMeshAgent != null)
+            StartCoroutine(TargetNexusCoroutine());
     }
 
     private IEnumerator TargetNexusCoroutine()
@@ -37,7 +45,7 @@ public class Enemy : MonoBehaviour
         {
             yield return null;
         }
-        
+
         while (!CheckDestinationReached(_nexusTransform.position))
         {
             TargetNexus();
@@ -46,7 +54,7 @@ public class Enemy : MonoBehaviour
 
         _animator.SetTrigger("Attack");
         gameObject.GetComponent<EnemyNavMeshSync>().Attack();
-        
+
         while (true)
         {
             transform.LookAt(_nexusTransform);
@@ -146,5 +154,31 @@ public class Enemy : MonoBehaviour
     bool CheckDestinationReached(Vector3 target)
     {
         return Vector3.Distance(transform.position, target) < destinationReachedDistance;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (MyEnemyType != EnemyType.small) return;
+
+        if (GetComponent<InvisibleEnemyRef>().Ref != null)
+            Destroy(GetComponent<InvisibleEnemyRef>().Ref.gameObject);
+
+        _rigidbody.isKinematic = false;
+        
+        float _multiplier = 0.5f;
+
+        Vector3 force = new Vector3(Random.Range(-1f,1f), Random.Range(-0.5f,0.5f), Random.Range(-1f,1f));
+        _rigidbody.AddForce(force * _multiplier, ForceMode.Impulse);
+        _collider.enabled = false;
+        _animator.SetTrigger("Floating");
+        Die();
+    }
+
+    public enum EnemyType
+    {
+        small,
+        medium,
+        large,
+        flying
     }
 }
