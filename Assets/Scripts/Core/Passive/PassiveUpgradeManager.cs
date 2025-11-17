@@ -89,7 +89,7 @@ namespace HandSurvivor.Core.Passive
             List<IUpgradeable> targets = new List<IUpgradeable>();
 
             // Get all MonoBehaviours that implement IUpgradeable (includes ActiveSkills and basic abilities)
-            MonoBehaviour[] allMonoBehaviours = FindObjectsOfType<MonoBehaviour>();
+            MonoBehaviour[] allMonoBehaviours = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.InstanceID);
             IUpgradeable[] allUpgradeables = allMonoBehaviours.OfType<IUpgradeable>().ToArray();
 
             if (string.IsNullOrEmpty(targetSkillId))

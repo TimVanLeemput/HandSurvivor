@@ -33,7 +33,6 @@ namespace HandSurvivor
 
         private ParentConstraint parentConstraint;
         private Transform cachedTargetTransform;
-        private bool constraintApplied = false;
 
         private void Awake()
         {
@@ -155,7 +154,6 @@ namespace HandSurvivor
             parentConstraint.constraintActive = true;
             parentConstraint.locked = true;
 
-            constraintApplied = true;
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
 
                 Debug.Log($"[TransformConstraint] '{gameObject.name}' constrained to '{cachedTargetTransform.name}'");
@@ -174,7 +172,6 @@ namespace HandSurvivor
             }
 
             cachedTargetTransform = null;
-            constraintApplied = false;
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
 
                 Debug.Log($"[TransformConstraint] '{gameObject.name}' constraint removed");

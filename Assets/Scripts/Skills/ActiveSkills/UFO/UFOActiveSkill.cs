@@ -9,15 +9,8 @@ namespace HandSurvivor.ActiveSkills
     /// Laser active skill that shoots a beam from the index finger
     /// Fires during cooldown window when finger gun pose is detected
     /// </summary>
-    public class LaserActiveSkill : ActiveSkillBase
+    public class UFOActiveSkill : ActiveSkillBase
     {
-        private enum LaserState
-        {
-            Idle, // Not slotted or inactive
-            Primed, // Slotted, ready to fire (sparkles active)
-            Firing, // Laser active (pose detected)
-            CoolingDown // Post-fire cooldown (no sparkles, can't fire)
-        }
 
         [Header("Laser Configuration")] [SerializeField]
         private GameObject laserBeamPrefab;
@@ -37,10 +30,9 @@ namespace HandSurvivor.ActiveSkills
         private OVRSkeleton targetSkeleton;
         private bool wasLaserFiring = false;
 
-        private LaserState currentState = LaserState.Idle;
         private GameObject primedParticlesInstance;
 
-        protected new void  Awake()
+        protected new void Awake()
         {
             // Create laser beam instance
             if (laserBeamPrefab != null)
@@ -87,106 +79,27 @@ namespace HandSurvivor.ActiveSkills
                 Debug.LogWarning("[LaserActiveSkill] No HandShapeManager assigned!");
                 return;
             }
-
-            HandShapeManager.Instance.OnFingerGun.AddListener(OnFingerGunDetected);
-            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                Debug.Log("[LaserActiveSkill] Listening to HandShapeManager OnFingerGun event");
         }
 
-        protected override void Update()
-        {
-            // Handle our custom cooldown logic separately from base
-            // Check cooldown expiry for CoolingDown state
-            if (currentState == LaserState.CoolingDown && isOnCooldown)
-            {
-                if (Time.time >= cooldownEndTime)
-                {
-                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                        Debug.Log($"[LaserActiveSkill] Cooldown expired at {Time.time} (end time was {cooldownEndTime})");
-                    isOnCooldown = false;
-                    EnterPrimedState(); // Return to primed state when cooldown completes
-                }
-            }
 
-            // Duration tracking for Firing state only (how long laser can fire)
-            if (currentState == LaserState.Firing && Time.time >= activationTime + GetModifiedDuration())
-            {
-                // Laser duration expired while firing - transition to cooling down
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log($"[LaserActiveSkill] Duration expired at {Time.time}");
-                OnDeactivate?.Invoke();
-                EnterCoolingDownState();
-                OnExpired();
-            }
-
-            UpdateFingerTipTransform();
-        }
-
-        public void OnFingerGunDetected()
-        {
-            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                Debug.Log($"[LaserActiveSkill] OnFingerGunDetected - currentState={currentState}");
-
-            // Fire if in Primed state
-            if (currentState == LaserState.Primed)
-            {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log("[LaserActiveSkill] Primed state detected - calling EnterFiringState");
-                EnterFiringState();
-            }
-            else
-            {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log($"[LaserActiveSkill] Cannot fire - not in Primed state");
-            }
-        }
+      
 
         protected override void Activate()
         {
-            // If already primed or in any state other than Idle/CoolingDown, do nothing
-            if (currentState == LaserState.Primed || currentState == LaserState.Firing)
-            {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log($"[LaserActiveSkill] Activate() blocked - already in {currentState} state");
-                return;
-            }
-
-            // Only allow activation from CoolingDown if cooldown has completed
-            if (currentState == LaserState.CoolingDown && isOnCooldown)
-            {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log($"[LaserActiveSkill] Activate() blocked - still on cooldown");
-                return;
-            }
-
-            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                Debug.Log($"[LaserActiveSkill] Activate() called from {currentState} state");
-
-            // Override base activation to NOT start cooldown
-            // Instead, enter Primed state
             isActive = true;
             activationTime = Time.time;
 
             OnActivate?.Invoke();
-            // Don't play activation sound here - only play when primed first time (in Pickup) or when laser fires
             OnActivated();
         }
 
         public override bool CanActivate()
         {
-            // Prevent re-activation if already primed or firing
-            if (currentState == LaserState.Primed || currentState == LaserState.Firing)
-            {
-                return false;
-            }
-
-            // Prevent activation during cooldown
             if (isOnCooldown)
             {
                 return false;
             }
 
-            // Idle or CoolingDown with cooldown complete can activate
             return true;
         }
 
@@ -323,13 +236,6 @@ namespace HandSurvivor.ActiveSkills
 
         private void EnterPrimedState()
         {
-            // Prevent re-entering if already primed
-            if (currentState == LaserState.Primed)
-            {
-                return;
-            }
-
-            currentState = LaserState.Primed;
             SpawnPrimedParticles();
             PlayActivationEffects(); // Play primed sound when entering primed state
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
@@ -344,7 +250,6 @@ namespace HandSurvivor.ActiveSkills
         private void EnterFiringState()
         {
             ExitPrimedState(); // Remove sparkles FIRST
-            currentState = LaserState.Firing;
 
             // Set activation time for duration tracking
             activationTime = Time.time;
@@ -356,7 +261,6 @@ namespace HandSurvivor.ActiveSkills
 
         private void EnterCoolingDownState()
         {
-            currentState = LaserState.CoolingDown;
             StopFiring();
 
             // Start cooldown NOW (when entering cooling down)

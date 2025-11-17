@@ -1,6 +1,7 @@
 using UnityEngine;
 using HandSurvivor.Stats;
 using MyBox;
+using NUnit.Framework.Constraints;
 
 /// <summary>
 /// Example script showing how to track achievement progress
@@ -10,6 +11,8 @@ public class AchievementProgressExample : MonoBehaviour
 {
     [Header("Example Achievement")] [SerializeField]
     private Achievement exampleAchievement;
+    
+    [SerializeField] private bool showDebugLogs = false;
 
     private void Start()
     {
@@ -20,15 +23,11 @@ public class AchievementProgressExample : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        PrintAllAchievementProgress();
-        PrintAchievementProgress(exampleAchievement);
-    }
-
     private void OnAchievementUnlocked(Achievement achievement)
     {
-        Debug.Log($"🏆 Achievement Unlocked: {achievement.displayName} - {achievement.description}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"🏆 Achievement Unlocked: {achievement.displayName} - {achievement.description}");
     }
 
     [ButtonMethod]
@@ -36,17 +35,24 @@ public class AchievementProgressExample : MonoBehaviour
     {
         if (AchievementManager.Instance == null)
         {
-            Debug.LogWarning("AchievementManager not found!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLogWarning)
+
+                Debug.LogWarning("AchievementManager not found!");
             return;
         }
 
-        Debug.Log("=== ACHIEVEMENT PROGRESS ===");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+
+            Debug.Log("=== ACHIEVEMENT PROGRESS ===");
 
         var allAchievements = AchievementManager.Instance.GetAllAchievements();
 
         if (allAchievements.Count == 0)
         {
-            Debug.LogWarning(
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLogWarning)
+
+                Debug.LogWarning(
                 "No achievements found! Make sure to assign achievements to AchievementManager in the Inspector.");
             return;
         }
@@ -57,7 +63,9 @@ public class AchievementProgressExample : MonoBehaviour
         }
 
         float totalProgress = AchievementManager.Instance.GetTotalUnlockPercentage() * 100f;
-        Debug.Log($"Total Progress: {totalProgress:F1}%");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Total Progress: {totalProgress:F1}%");
     }
 
     [ButtonMethod]
@@ -65,25 +73,51 @@ public class AchievementProgressExample : MonoBehaviour
     {
         if (PlayerStatsManager.Instance == null)
         {
-            Debug.LogWarning("PlayerStatsManager not found!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLogWarning)
+
+                Debug.LogWarning("PlayerStatsManager not found!");
             return;
         }
 
         var run = PlayerStatsManager.Instance.GetCurrentRun();
         var lifetime = PlayerStatsManager.Instance.GetLifetimeStats();
 
-        Debug.Log("=== CURRENT RUN STATS ===");
-        Debug.Log($"Kills: {run.totalKills}");
-        Debug.Log($"Damage: {run.totalDamageDealt:F0}");
-        Debug.Log($"Survival Time: {run.survivalTime:F1}s");
-        Debug.Log($"Level: {run.currentLevel}");
-        Debug.Log($"Wave: {run.currentWave}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
 
-        Debug.Log("=== LIFETIME STATS ===");
-        Debug.Log($"Total Kills: {lifetime.totalKillsAllTime}");
-        Debug.Log($"Total Damage: {lifetime.totalDamageAllTime:F0}");
-        Debug.Log($"Highest Wave: {lifetime.highestWaveReached}");
-        Debug.Log($"Total Runs: {lifetime.totalRuns}");
+
+            Debug.Log("=== CURRENT RUN STATS ===");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Kills: {run.totalKills}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Damage: {run.totalDamageDealt:F0}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Survival Time: {run.survivalTime:F1}s");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Level: {run.currentLevel}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Wave: {run.currentWave}");
+
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+
+            Debug.Log("=== LIFETIME STATS ===");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Total Kills: {lifetime.totalKillsAllTime}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Total Damage: {lifetime.totalDamageAllTime:F0}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Highest Wave: {lifetime.highestWaveReached}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Total Runs: {lifetime.totalRuns}");
     }
 
     private void PrintAchievementProgress(Achievement achievement)
@@ -97,7 +131,10 @@ public class AchievementProgressExample : MonoBehaviour
 
         string status = isUnlocked ? "✅ UNLOCKED" : $"⏳ {progress * 100f:F1}%";
 
-        Debug.Log($"{status} | {achievement.displayName} | {progressString}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+
+            Debug.Log($"{status} | {achievement.displayName} | {progressString}");
     }
 
     /// <summary>
@@ -109,7 +146,9 @@ public class AchievementProgressExample : MonoBehaviour
             return;
 
         float progress = AchievementManager.Instance.GetAchievementProgress(achievementId);
-        Debug.Log($"Achievement '{achievementId}' progress: {progress * 100f:F1}%");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+            Debug.Log($"Achievement '{achievementId}' progress: {progress * 100f:F1}%");
     }
 
     /// <summary>
@@ -122,7 +161,10 @@ public class AchievementProgressExample : MonoBehaviour
 
         AchievementManager.Instance.GetAchievementProgressValues(achievement, out float current, out float target);
 
-        Debug.Log($"Current: {current}, Target: {target}");
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLog)
+
+
+            Debug.Log($"Current: {current}, Target: {target}");
         // Use these values to update UI elements like progress bars, text, etc.
     }
 

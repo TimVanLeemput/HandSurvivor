@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073efa8bb3c24a9419ba449351b2792b, type: 3}
+  m_Name: ActiveSkill_UFOSkillData
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.ActiveSkillData
+  activeSkillId: ufo_skill
+  displayName: Ufo
+  description: A UFO will spawn sometimes, try to grab it to use it to your advantage
+    before it escapes!
+  skillImage: {fileID: 21300000, guid: 94b07948bba670e46a36a1f8da046570, type: 3}
+  ActiveSkillType: 0
+  duration: 2
+  cooldown: 5
+  damage: 0
+  minCooldownMultiplier: 0.1
+  maxUpgradedRepeatRate: 0
+  activationSound: {fileID: 8300000, guid: 38a05fe88b4a5364291e44499a33b14a, type: 3}
+  loopActivationSound: 0
+  comments: 

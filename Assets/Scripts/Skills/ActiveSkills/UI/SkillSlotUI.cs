@@ -22,7 +22,6 @@ namespace HandSurvivor.Skills
         [SerializeField] private bool clockwiseFill = true;
 
         private ActiveSkillBase currentSkill;
-        private bool isTrackingCooldown = false;
 
         private void Start()
         {
@@ -73,7 +72,6 @@ namespace HandSurvivor.Skills
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
                     Debug.Log("[SkillSlotUI] SetSkill called with NULL skill");
                 ShowEmpty();
-                isTrackingCooldown = false;
             }
         }
 
@@ -93,7 +91,6 @@ namespace HandSurvivor.Skills
         /// </summary>
         private void OnSkillActivated()
         {
-            isTrackingCooldown = true;
         }
 
         /// <summary>
@@ -161,13 +158,11 @@ namespace HandSurvivor.Skills
                 // Debug.Log($"[SkillSlotUI] {currentSkill.Data.displayName} - IsOnCooldown={currentSkill.IsOnCooldown}, Remaining={remaining:F2}s, Total={totalCooldown:F2}s, Percent={cooldownPercent:F2}, FillAmount being set to {cooldownPercent:F2}");
 
                 cooldownFillImage.fillAmount = cooldownPercent;
-                isTrackingCooldown = true;
             }
             else
             {
                 // Cooldown finished - show full image
                 cooldownFillImage.fillAmount = 1f;
-                isTrackingCooldown = false;
             }
         }
 

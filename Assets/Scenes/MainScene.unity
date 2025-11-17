@@ -384,6 +384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AchievementProgressExample
   exampleAchievement: {fileID: 11400000, guid: ef47a8f6623665847a12a1daf03ec10c, type: 2}
+  showDebugLogs: 0
 --- !u!4 &1095441459
 Transform:
   m_ObjectHideFlags: 0
@@ -758,6 +759,7 @@ MonoBehaviour:
     highestSingleHitAllTime: 0
     allSkillsUnlocked: []
     totalPassiveUpgradesApplied: 0
+  updateLifetimeStatsInRealTime: 1
   OnStatChanged:
     m_PersistentCalls:
       m_Calls: []
