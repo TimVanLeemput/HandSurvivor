@@ -3462,6 +3462,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6892204500806579104, guid: d3660c96df691ec4a84452bbae26ffb2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.281
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d3660c96df691ec4a84452bbae26ffb2, type: 3}
       propertyPath: m_Name
       value: Low_poly_UFO

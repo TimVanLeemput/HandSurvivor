@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using HandSurvivor.Stats;
+using MyBox;
 using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
@@ -26,15 +27,16 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _nexusTransform = Nexus.Instance.transform;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
+        _nexusTransform = Nexus.Instance.transform;
     }
 
     private void Start()
     {
-        StartCoroutine(TargetNexusCoroutine());
+        if (_navMeshAgent != null)
+            StartCoroutine(TargetNexusCoroutine());
     }
 
     private IEnumerator TargetNexusCoroutine()
@@ -163,20 +165,13 @@ public class Enemy : MonoBehaviour
 
         _rigidbody.isKinematic = false;
         
-        _animator.SetTrigger("Death");
-        Die();
-        StartCoroutine(AddForceCoroutine());
-    }
+        float _multiplier = 0.5f;
 
-    private IEnumerator AddForceCoroutine()
-    {
-        yield return null;
-        float _multiplier = 1f;
-
-        Vector3 force = new Vector3(Random.Range(-1,1), 0.1f, Random.Range(-1,1));
-
+        Vector3 force = new Vector3(Random.Range(-1f,1f), Random.Range(-0.5f,0.5f), Random.Range(-1f,1f));
         _rigidbody.AddForce(force * _multiplier, ForceMode.Impulse);
         _collider.enabled = false;
+        _animator.SetTrigger("Floating");
+        Die();
     }
 
     public enum EnemyType

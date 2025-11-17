@@ -19,9 +19,12 @@ public class UFOAttractor : MonoBehaviour
         Transform enemyTransform = enemy.transform;
         enemy.GetComponentInChildren<RagdollController>()?.SetRagdoll(true);
         enemy.GetComponentInChildren<RagdollController_Medium>()?.SetRagdoll(true);
+        
+        enemy.GetComponent<Animator>().SetTrigger("Floating");
 
         DisableAllChildColliders(enemy.gameObject);
         float elapsed = 0f;
+        Vector3 initialScale = enemyTransform.localScale;
 
         while (elapsed < collectDuration && enemyTransform != null)
         {
@@ -36,6 +39,16 @@ public class UFOAttractor : MonoBehaviour
             Vector3 velocity = toTarget / remaining;
 
             enemyTransform.position += velocity * Time.deltaTime;
+            
+            float progress = Mathf.Clamp01(elapsed / collectDuration); // 0 → 1
+
+            if (progress >= 0.7f) // Derniers 10%
+            {
+                // progress = 0.9 → 1.0  devient t = 0 → 1
+                float t = Mathf.InverseLerp(0.7f, 1f, progress);
+                float scaleFactor = Mathf.Lerp(1f, 0f, t); // 1 → 0
+                enemyTransform.localScale = initialScale * scaleFactor;
+            }
 
             yield return null;
         }
