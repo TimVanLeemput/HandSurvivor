@@ -8,7 +8,8 @@ namespace HandSurvivor.Core.Passive
         CooldownReduction,
         DamageIncrease,
         SizeIncrease,
-        RangeIncrease
+        RangeIncrease,
+        ChargesIncrease
     }
 
     [CreateAssetMenu(fileName = "PassiveUpgrade_", menuName = "HandSurvivor/Passive Upgrade Data", order = 1)]

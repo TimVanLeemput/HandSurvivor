@@ -59,7 +59,10 @@ namespace HandSurvivor.ActiveSkills
         {
             upgradePath = GetComponent<PassiveUpgradePath>();
         }
-
+        
+        protected virtual void Start()
+        {
+        }
 
         protected virtual void Update()
         {
@@ -310,7 +313,7 @@ namespace HandSurvivor.ActiveSkills
             return data != null ? data.activeSkillId : string.Empty;
         }
 
-        public void ApplyPassiveUpgrade(PassiveUpgradeData upgrade)
+        public virtual void ApplyPassiveUpgrade(PassiveUpgradeData upgrade)
         {
             // Route to existing multiplier methods
             switch (upgrade.type)
