@@ -318,6 +318,58 @@ namespace HandSurvivor.Stats
         }
 
         /// <summary>
+        /// Get achievement progress by ID (0-1)
+        /// </summary>
+        public float GetAchievementProgress(string achievementId)
+        {
+            Achievement achievement = allAchievements.Find(a => a.achievementId == achievementId);
+            if (achievement == null)
+                return 0f;
+
+            return GetAchievementProgress(achievement);
+        }
+
+        /// <summary>
+        /// Get achievement current value and target value
+        /// </summary>
+        public void GetAchievementProgressValues(Achievement achievement, out float current, out float target)
+        {
+            target = achievement.targetValue;
+
+            if (achievementState.IsUnlocked(achievement.achievementId))
+            {
+                current = target;
+                return;
+            }
+
+            current = GetCurrentValueForAchievement(achievement);
+        }
+
+        /// <summary>
+        /// Get formatted progress string (e.g., "45/100")
+        /// </summary>
+        public string GetAchievementProgressString(Achievement achievement)
+        {
+            GetAchievementProgressValues(achievement, out float current, out float target);
+
+            // Format based on type
+            if (achievement.type == AchievementType.Survival)
+            {
+                // Time in seconds - format as MM:SS
+                int currentMinutes = Mathf.FloorToInt(current / 60f);
+                int currentSeconds = Mathf.FloorToInt(current % 60f);
+                int targetMinutes = Mathf.FloorToInt(target / 60f);
+                int targetSeconds = Mathf.FloorToInt(target % 60f);
+                return $"{currentMinutes:00}:{currentSeconds:00} / {targetMinutes:00}:{targetSeconds:00}";
+            }
+            else
+            {
+                // Whole numbers for kills, damage, etc.
+                return $"{Mathf.FloorToInt(current)} / {Mathf.FloorToInt(target)}";
+            }
+        }
+
+        /// <summary>
         /// Get unlock percentage
         /// </summary>
         public float GetTotalUnlockPercentage()

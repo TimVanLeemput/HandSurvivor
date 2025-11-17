@@ -24,6 +24,10 @@ namespace HandSurvivor.Stats
         private float runStartTime;
         private bool isRunActive = false;
 
+        [Header("Lifetime Stats Behavior")]
+        [Tooltip("If true, lifetime stats update in real-time during run. If false, only update on EndRun()")]
+        [SerializeField] private bool updateLifetimeStatsInRealTime = true;
+
         [Header("Events")]
         public UnityEvent<StatType, float, string> OnStatChanged = new UnityEvent<StatType, float, string>();
 
@@ -66,6 +70,16 @@ namespace HandSurvivor.Stats
             if (AllManagersReady())
             {
                 SubscribeToEvents();
+
+                // Auto-start tracking for development/testing
+                // TODO: Move this to proper game start logic when implemented
+                if (!isRunActive)
+                {
+                    StartNewRun();
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.Log("[PlayerStatsManager] Auto-started run tracking for testing");
+                }
+
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
                     Debug.Log("[PlayerStatsManager] Initialized and subscribed to events");
             }
@@ -156,6 +170,19 @@ namespace HandSurvivor.Stats
             if (!isRunActive) return;
 
             currentRun.AddDamage(skillId, damage);
+
+            // Update lifetime stats in real-time if enabled
+            if (updateLifetimeStatsInRealTime)
+            {
+                lifetime.totalDamageAllTime += damage;
+                if (!string.IsNullOrEmpty(skillId))
+                {
+                    if (!lifetime.damageBySkillAllTime.ContainsKey(skillId))
+                        lifetime.damageBySkillAllTime[skillId] = 0f;
+                    lifetime.damageBySkillAllTime[skillId] += damage;
+                }
+            }
+
             OnStatChanged?.Invoke(StatType.TotalDamage, currentRun.totalDamageDealt, "");
             OnStatChanged?.Invoke(StatType.DamageBySkill, damage, skillId);
 
@@ -171,6 +198,19 @@ namespace HandSurvivor.Stats
             if (!isRunActive) return;
 
             currentRun.AddKill(enemyType);
+
+            // Update lifetime stats in real-time if enabled
+            if (updateLifetimeStatsInRealTime)
+            {
+                lifetime.totalKillsAllTime++;
+                if (!string.IsNullOrEmpty(enemyType))
+                {
+                    if (!lifetime.killsByEnemyAllTime.ContainsKey(enemyType))
+                        lifetime.killsByEnemyAllTime[enemyType] = 0;
+                    lifetime.killsByEnemyAllTime[enemyType]++;
+                }
+            }
+
             OnStatChanged?.Invoke(StatType.TotalKills, currentRun.totalKills, "");
             OnStatChanged?.Invoke(StatType.KillsByEnemy, 1, enemyType);
 

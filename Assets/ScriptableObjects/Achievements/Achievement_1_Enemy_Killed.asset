@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab9102e29af3ab64babc87f787c95ea9, type: 3}
-  m_Name: Achievement_100_Enemies_Killed
+  m_Name: Achievement_1_Enemy_Killed
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Stats.Achievement
-  achievementId: 100_Enemies_Killed
-  displayName: 100 Enemies Killed
-  description: You managed to crush 100 enemies!
-  icon: {fileID: 21300000, guid: 68dfdc35f2fabd040a8cd0ce659196da, type: 3}
+  achievementId: first_blood
+  displayName: First blood
+  description: You managed to crush your first enemy!
+  icon: {fileID: 21300000, guid: 281d4541606c6934a81388a2d3b9cdb3, type: 3}
   type: 0
   condition: 0
-  targetValue: 100
+  targetValue: 1
   contextFilter: 
   isUnlocked: 0
   unlockedDateString: 
