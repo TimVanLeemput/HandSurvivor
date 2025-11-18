@@ -64,11 +64,11 @@ namespace HandSurvivor.Core.Passive
             }
 
             // Get all upgradeable targets (both ActiveSkills and basic abilities)
-            List<IUpgradeable> targets = GetUpgradeableTargets(upgrade.targetSkillId);
+            List<IUpgradeable> targets = GetUpgradeableTargets(upgrade);
 
             if (targets.Count == 0)
             {
-                Debug.LogWarning($"[PassiveUpgradeManager] No upgradeable targets found for: {upgrade.targetSkillId}");
+                Debug.LogWarning($"[PassiveUpgradeManager] No upgradeable targets found for upgrade: {upgrade.displayName}");
                 return;
             }
 
@@ -84,7 +84,7 @@ namespace HandSurvivor.Core.Passive
         /// <summary>
         /// Gets all IUpgradeable components (both ActiveSkills and basic abilities)
         /// </summary>
-        private List<IUpgradeable> GetUpgradeableTargets(string targetSkillId)
+        private List<IUpgradeable> GetUpgradeableTargets(PassiveUpgradeData upgrade)
         {
             List<IUpgradeable> targets = new List<IUpgradeable>();
 
@@ -92,17 +92,34 @@ namespace HandSurvivor.Core.Passive
             MonoBehaviour[] allMonoBehaviours = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.InstanceID);
             IUpgradeable[] allUpgradeables = allMonoBehaviours.OfType<IUpgradeable>().ToArray();
 
-            if (string.IsNullOrEmpty(targetSkillId))
+            // Global upgrade
+            if (upgrade.applyGlobally)
             {
-                // Global upgrade - apply to all upgradeables
                 targets.AddRange(allUpgradeables);
+                return targets;
             }
-            else
+
+            // Target active skills via direct reference
+            if (upgrade.targetActiveSkills != null && upgrade.targetActiveSkills.Count > 0)
             {
-                // Targeted upgrade - filter by upgradeableId
                 foreach (IUpgradeable upgradeable in allUpgradeables)
                 {
-                    if (upgradeable.GetUpgradeableId() == targetSkillId)
+                    if (upgradeable is ActiveSkillBase activeSkill)
+                    {
+                        if (upgrade.targetActiveSkills.Contains(activeSkill.Data))
+                        {
+                            targets.Add(upgradeable);
+                        }
+                    }
+                }
+            }
+
+            // Target XPGrabber
+            if (upgrade.targetXPGrabber)
+            {
+                foreach (IUpgradeable upgradeable in allUpgradeables)
+                {
+                    if (upgradeable is XPGrabber)
                     {
                         targets.Add(upgradeable);
                     }
@@ -144,7 +161,6 @@ namespace HandSurvivor.Core.Passive
                 return;
             }
 
-            string targetId = target.GetUpgradeableId();
             int appliedCount = 0;
 
             foreach (KeyValuePair<string, List<PassiveUpgradeData>> kvp in upgradeDataByType)
@@ -153,11 +169,28 @@ namespace HandSurvivor.Core.Passive
 
                 foreach (PassiveUpgradeData upgrade in upgradeList)
                 {
-                    // Check if this upgrade applies to this target (global or targeted)
-                    bool isGlobal = string.IsNullOrEmpty(upgrade.targetSkillId);
-                    bool isTargeted = upgrade.targetSkillId == targetId;
+                    bool shouldApply = false;
 
-                    if (isGlobal || isTargeted)
+                    // Check global
+                    if (upgrade.applyGlobally)
+                    {
+                        shouldApply = true;
+                    }
+                    // Check ActiveSkill targets
+                    else if (target is ActiveSkillBase activeSkill)
+                    {
+                        if (upgrade.targetActiveSkills != null && upgrade.targetActiveSkills.Contains(activeSkill.Data))
+                        {
+                            shouldApply = true;
+                        }
+                    }
+                    // Check XPGrabber target
+                    else if (target is XPGrabber && upgrade.targetXPGrabber)
+                    {
+                        shouldApply = true;
+                    }
+
+                    if (shouldApply)
                     {
                         target.ApplyPassiveUpgrade(upgrade);
                         appliedCount++;
@@ -167,7 +200,7 @@ namespace HandSurvivor.Core.Passive
 
             if (showDebugLogs && appliedCount > 0)
             {
-                Debug.Log($"[PassiveUpgradeManager] Applied {appliedCount} retroactive upgrades to {targetId}");
+                Debug.Log($"[PassiveUpgradeManager] Applied {appliedCount} retroactive upgrades to {target.GetUpgradeableId()}");
             }
         }
     }

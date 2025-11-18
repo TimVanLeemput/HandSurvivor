@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 718d60313c72bd14183d652db7c84756, type: 3}
   m_Name: PassiveUpgrade_ActiveSkillsDamageIncrease
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.Passive.PassiveUpgradeData
+  showDebugLogs: 1
   upgradeId: activeSkillsDamageIncrease
   displayName: Damage +20%
   description: Increased damage by {value}%
   passiveImage: {fileID: 21300000, guid: 2a5c892bdd014164da633b8c6fd0f246, type: 3}
   type: 1
-  targetSkillId: 
   value: 20
+  targetActiveSkills:
+  - {fileID: 11400000, guid: 50c5af4b0e6c90046ad48de3b1b5ba60, type: 2}
+  - {fileID: 11400000, guid: 7c92ec5d18f20564eba728bcd60a357c, type: 2}
+  - {fileID: 11400000, guid: 302a52fa92469f447aa5b89ff6e94b96, type: 2}
+  - {fileID: 11400000, guid: 3543a75eabc4f0b44b13c9f9f3cfdcf8, type: 2}
+  targetXPGrabber: 0
+  applyGlobally: 0
+  triggersMaxEvent: 0

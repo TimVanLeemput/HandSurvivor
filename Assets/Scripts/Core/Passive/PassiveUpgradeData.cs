@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using HandSurvivor.ActiveSkills;
+using HandSurvivor.Skills;
 
 namespace HandSurvivor.Core.Passive
 {
@@ -36,11 +39,18 @@ namespace HandSurvivor.Core.Passive
         [Tooltip("Type of upgrade")]
         public PassiveType type = PassiveType.DamageIncrease;
 
-        [Tooltip("Target active skill ID (leave empty for global upgrade)")]
-        public string targetSkillId;
-
         [Tooltip("Upgrade value (e.g., 10 = +10% or -10%)")]
         public float value = 10f;
+
+        [Header("Targeting")]
+        [Tooltip("Target active skills (leave empty for global upgrade). Supports multiple targets.")]
+        public List<ActiveSkillData> targetActiveSkills = new List<ActiveSkillData>();
+
+        [Tooltip("Enable to target XPGrabber (range upgrades)")]
+        public bool targetXPGrabber = false;
+
+        [Tooltip("Enable to apply globally to all upgradeable components")]
+        public bool applyGlobally = false;
 
         [Tooltip("Should trigger OnMaxPassiveReached event when hitting max upgrade (for Cooldown/Size only)")]
         public bool triggersMaxEvent = false;
@@ -57,10 +67,24 @@ namespace HandSurvivor.Core.Passive
                 upgradeId = name;
             }
 
+            // Validate targeting configuration
+            bool hasActiveSkillTargets = targetActiveSkills != null && targetActiveSkills.Count > 0;
+            int targetCount = (hasActiveSkillTargets ? 1 : 0) + (targetXPGrabber ? 1 : 0) + (applyGlobally ? 1 : 0);
+
+            if (targetCount == 0)
+            {
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogWarning($"[PassiveUpgradeData] '{displayName}' has no targets configured. Set applyGlobally, targetActiveSkills, or targetXPGrabber.");
+            }
+            else if (targetCount > 1 && applyGlobally)
+            {
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogWarning($"[PassiveUpgradeData] '{displayName}' has applyGlobally=true but also has specific targets. Global will override specific targets.");
+            }
+
             if (value < 0f)
             {
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                     Debug.LogWarning($"[PassiveUpgradeData] '{displayName}' has negative value. Ensure this is intentional.");
             }
         }

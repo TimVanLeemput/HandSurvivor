@@ -18,6 +18,9 @@ MonoBehaviour:
   description: Increases the amount of charges for items that can stack
   passiveImage: {fileID: 21300000, guid: bb67b03c2969d104caba950c446f8c8d, type: 3}
   type: 4
-  targetSkillId: meteor_skill
   value: 1
-  triggersMaxEvent: 0
+  targetActiveSkills:
+  - {fileID: 11400000, guid: 302a52fa92469f447aa5b89ff6e94b96, type: 2}
+  targetXPGrabber: 0
+  applyGlobally: 0
+  triggersMaxEvent: 1

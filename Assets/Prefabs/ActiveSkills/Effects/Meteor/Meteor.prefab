@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c964271f9c77c44845f5e5a2e76984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeteorProjectile
+  showDebugLogs: 1
   damageRadius: 0.35
   explosionForce: 500
   minImpactVelocity: 2
@@ -92,7 +93,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 740678342612432627}
   serializedVersion: 5
-  m_Mass: 50
+  m_Mass: 5000
   m_LinearDamping: 0.1
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -222,7 +223,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.055
+  m_Radius: 0.0275
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3199566020419343374
 GameObject:
@@ -283,9 +284,9 @@ Transform:
   m_GameObject: {fileID: 4615277365933361025}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5348685, y: -0, z: -0, w: 0.84493536}
-  m_LocalPosition: {x: 0.0176, y: -0.000053286552, z: 0.070943415}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0.0183}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7718792220559120924}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -543,8 +544,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: 3
+      scalar: 3
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -860,7 +861,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 1000
+    maxNumParticles: 50
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 1
@@ -5233,8 +5234,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2437399618309421826}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

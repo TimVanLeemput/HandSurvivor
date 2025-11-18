@@ -1,8 +1,9 @@
 using System;
 using UnityEngine;
 using Oculus.Interaction.HandGrab;
+using HandSurvivor.Interfaces;
 
-public class MeteorProjectile : MonoBehaviour
+public class MeteorProjectile : MonoBehaviour, IGravityScalable
 {
    [Header("Debug")]
         [SerializeField] private bool showDebugLogs = true;
@@ -21,6 +22,9 @@ public class MeteorProjectile : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private float gravityMultiplier = 100f;
+
+    public float GravityMultiplier => gravityMultiplier;
 
     private Rigidbody _rigidbody;
     private Collider _collider;
@@ -74,6 +78,21 @@ public class MeteorProjectile : MonoBehaviour
             _throwVelocity = (transform.position - _lastPosition) / Time.deltaTime;
         }
         _lastPosition = transform.position;
+    }
+
+    private void FixedUpdate()
+    {
+        ApplyScaledGravity();
+    }
+
+    public void ApplyScaledGravity()
+    {
+        // Apply additional gravity to compensate for reduced world gravity
+        // Only apply when not grabbed
+        if (_rigidbody != null && !_hasExploded && (_grabbable == null || !_grabbable.isGrabbed))
+        {
+            _rigidbody.AddForce(Physics.gravity * (gravityMultiplier - 1f), ForceMode.Acceleration);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

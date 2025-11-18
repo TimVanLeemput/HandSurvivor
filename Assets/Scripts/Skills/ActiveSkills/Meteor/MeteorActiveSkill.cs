@@ -111,7 +111,7 @@ namespace HandSurvivor.ActiveSkills
                 projectile.SetDamage((int)(data.damage * damageMultiplier));
 
                 // Damage radius scales with size
-                projectile.SetDamageRadius(3f * sizeMultiplier);
+                projectile.SetDamageRadius(sizeMultiplier);
 
                 // Set callback to start cooldown when meteor is destroyed
                 projectile.SetOnDestroyedCallback(OnMeteorDestroyed);
