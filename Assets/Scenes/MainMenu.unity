@@ -5579,7 +5579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuStartButton
   scenesToLoad:
-  - sceneAsset: {fileID: 102900000, guid: b54378b99903a0d4bac5876b6974ffc9, type: 3}
+  - sceneAsset: {fileID: 102900000, guid: d5ccedfd9ff6b884082bcb48ef7c5db5, type: 3}
     scenePath: Assets/Scenes/Levels/Level-2.unity
   scenesToUnload: []
   sceneToUnload:
