@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeteorProjectile
   showDebugLogs: 1
-  damageRadius: 0.35
+  damageRadius: 0.1
   explosionForce: 500
   minImpactVelocity: 2
   smokeTrail: {fileID: 5091118824587983106}
@@ -5247,7 +5247,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7805228437979309385}
-  m_Mesh: {fileID: -7144315526428891541, guid: dc0b2902717f7f04485c209e1fc07413, type: 3}
+  m_Mesh: {fileID: -3520329924578163680, guid: 4c9ba6ec8aeff714fbcbcf47325113db, type: 3}
 --- !u!23 &5247956064062667875
 MeshRenderer:
   m_ObjectHideFlags: 0
