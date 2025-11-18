@@ -35,6 +35,7 @@ namespace HandSurvivor.DebugSystem
                     _enableAllDebugLogs = true;
 #endif
                 }
+
                 return _enableAllDebugLogs.Value;
             }
             set
@@ -61,6 +62,7 @@ namespace HandSurvivor.DebugSystem
                     _enableDebugLog = true;
 #endif
                 }
+
                 return _enableDebugLog.Value;
             }
             set
@@ -87,6 +89,7 @@ namespace HandSurvivor.DebugSystem
                     _enableDebugLogWarning = true;
 #endif
                 }
+
                 return _enableDebugLogWarning.Value;
             }
             set
@@ -113,6 +116,7 @@ namespace HandSurvivor.DebugSystem
                     _enableDebugLogError = true;
 #endif
                 }
+
                 return _enableDebugLogError.Value;
             }
             set

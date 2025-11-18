@@ -42,7 +42,7 @@ public class LightningHandActiveSkill : ActiveSkillBase
         };
 
 
-    protected void Start()
+    protected new void Start()
     {
         FindTargetHand();
         InitializeAllFollowTransformTargets();

@@ -55,7 +55,7 @@ namespace HandSurvivor.ActiveSkills
             }
         }
 
-        protected void Start()
+        protected new void Start()
         {
             FindTargetHand();
             SetupHandShapeListener();

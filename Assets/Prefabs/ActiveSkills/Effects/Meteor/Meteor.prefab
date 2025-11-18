@@ -52,8 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c964271f9c77c44845f5e5a2e76984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeteorProjectile
-  damage: 50
-  damageRadius: 3
+  damageRadius: 0.35
   explosionForce: 500
   minImpactVelocity: 2
   smokeTrail: {fileID: 5091118824587983106}
@@ -223,7 +222,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.11
+  m_Radius: 0.055
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3199566020419343374
 GameObject:
@@ -5234,7 +5233,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2437399618309421826}

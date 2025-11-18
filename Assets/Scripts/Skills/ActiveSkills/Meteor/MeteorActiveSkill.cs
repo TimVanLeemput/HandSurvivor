@@ -17,9 +17,6 @@ namespace HandSurvivor.ActiveSkills
         [SerializeField] private int currentCharges = 1;
         [SerializeField] private int maxCharges = 1;
 
-        // Passive upgrade multipliers
-        private float chargesMultiplier = 1f;
-
         // Track active meteors
         private List<MeteorProjectile> activeMeteors = new List<MeteorProjectile>();
 
@@ -27,12 +24,15 @@ namespace HandSurvivor.ActiveSkills
         private float nextChargeRefillTime = 0f;
         private bool isRefillCooldownActive = false;
 
+        // Track pending charge refills from destroyed meteors
+        private int pendingChargeRefills = 0;
+
         protected override void Start()
         {
             base.Start();
 
             // Initialize with full charges
-            currentCharges = GetModifiedMaxCharges();
+            currentCharges = maxCharges;
 
             // Get spawn transform from reference
             if (meteorSpawnTransformReference != null)
@@ -63,7 +63,11 @@ namespace HandSurvivor.ActiveSkills
 
         public override bool CanActivate()
         {
-            // Can activate if we have at least one charge available
+            // Clean up null references first
+            activeMeteors.RemoveAll(meteor => meteor == null);
+
+            // Can spawn if we have available charges
+            // Charges represent meteors we're allowed to have active
             return currentCharges > 0;
         }
 
@@ -109,6 +113,9 @@ namespace HandSurvivor.ActiveSkills
                 // Damage radius scales with size
                 projectile.SetDamageRadius(3f * sizeMultiplier);
 
+                // Set callback to start cooldown when meteor is destroyed
+                projectile.SetOnDestroyedCallback(OnMeteorDestroyed);
+
                 activeMeteors.Add(projectile);
             }
             else
@@ -116,13 +123,7 @@ namespace HandSurvivor.ActiveSkills
                 Debug.LogError("MeteorActiveSkill: meteorPrefab is missing MeteorProjectile component!");
             }
 
-            // Start charge refill cooldown if not at max charges
-            if (currentCharges < GetModifiedMaxCharges())
-            {
-                StartChargeRefillCooldown();
-            }
-
-            Debug.Log($"Meteor spawned! Charges remaining: {currentCharges}/{GetModifiedMaxCharges()}");
+            Debug.Log($"Meteor spawned! Charges remaining: {currentCharges}/{maxCharges}");
         }
 
         protected override void OnDeactivated()
@@ -140,28 +141,46 @@ namespace HandSurvivor.ActiveSkills
 
         private void RefillCharge()
         {
-            int maxCharges = GetModifiedMaxCharges();
-
             if (currentCharges < maxCharges)
             {
                 currentCharges++;
-                Debug.Log($"Charge refilled! Charges: {currentCharges}/{maxCharges}");
-            }
+                pendingChargeRefills--;
+                Debug.Log($"Charge refilled! Charges: {currentCharges}/{maxCharges}, Pending refills: {pendingChargeRefills}");
 
-            // If still not at max, restart cooldown for next charge
-            if (currentCharges < maxCharges)
-            {
-                StartChargeRefillCooldown();
+                // If we have more pending refills, restart cooldown
+                if (pendingChargeRefills > 0 && currentCharges < maxCharges)
+                {
+                    StartChargeRefillCooldown();
+                }
+                else
+                {
+                    isRefillCooldownActive = false;
+                }
             }
             else
             {
+                // Already at max, stop refilling
                 isRefillCooldownActive = false;
+                pendingChargeRefills = 0;
             }
         }
 
         private int GetModifiedMaxCharges()
         {
-            return Mathf.Max(1, Mathf.RoundToInt(maxCharges * chargesMultiplier));
+            return Mathf.Max(1, maxCharges);
+        }
+
+        private void OnMeteorDestroyed()
+        {
+            // Queue a charge refill for this destroyed meteor
+            pendingChargeRefills++;
+            Debug.Log($"Meteor destroyed! Pending charge refills: {pendingChargeRefills}");
+
+            // Start cooldown if not already active
+            if (!isRefillCooldownActive && currentCharges < maxCharges)
+            {
+                StartChargeRefillCooldown();
+            }
         }
 
         public override void ApplyPassiveUpgrade(PassiveUpgradeData upgrade)
@@ -172,17 +191,22 @@ namespace HandSurvivor.ActiveSkills
             // Handle meteor-specific charges upgrade
             if (upgrade.type == PassiveType.ChargesIncrease)
             {
-                chargesMultiplier += upgrade.value / 100f;
+                // Clean up destroyed meteors first
+                activeMeteors.RemoveAll(meteor => meteor == null);
 
-                // Update current charges if max increased
-                int newMaxCharges = GetModifiedMaxCharges();
-                if (currentCharges > newMaxCharges)
-                {
-                    currentCharges = newMaxCharges;
-                }
+                int previousMax = maxCharges;
+                maxCharges += Mathf.RoundToInt(upgrade.value);
+
+                // Calculate total meteors (active + charges)
+                // This represents how many meteors the player "owns" right now
+                int totalMeteors = activeMeteors.Count + currentCharges;
+
+                // Set current charges based on new max and active meteors
+                // If we have active meteors, they consume charge slots
+                currentCharges = Mathf.Max(0, maxCharges - activeMeteors.Count);
 
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log($"[{Data.displayName}] Max charges updated to {newMaxCharges} (multiplier: {chargesMultiplier:F2})");
+                    Debug.Log($"[{Data.displayName}] Max charges increased to {maxCharges}. Active meteors: {activeMeteors.Count}, Available charges: {currentCharges}");
 
                 // Trigger max event if specified
                 if (upgrade.triggersMaxEvent)

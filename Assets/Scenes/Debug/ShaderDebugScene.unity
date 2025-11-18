@@ -177,7 +177,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -206,7 +206,7 @@ Transform:
   m_GameObject: {fileID: 477546500}
   serializedVersion: 2
   m_LocalRotation: {x: 0.20505716, y: -0, z: -0, w: 0.97875}
-  m_LocalPosition: {x: 0, y: 0.6, z: -1.2}
+  m_LocalPosition: {x: 0.35891694, y: 1.114, z: 0.455}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -499,6 +499,10 @@ PrefabInstance:
     - target: {fileID: 5817678942977249996, guid: 9467eb1d8f2dda644b6a767846758478, type: 3}
       propertyPath: m_Name
       value: MeteorActiveSkill
+      objectReference: {fileID: 0}
+    - target: {fileID: 8624685854388242310, guid: 9467eb1d8f2dda644b6a767846758478, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -50,24 +50,26 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FresnelPower: 4
-    - _Metallic: 0
-    - _NoiseDissolve: 0.31
-    - _NoiseScale: 1.35
-    - _NormalStrength: 5
+    - _FresnelPower: 2.73
+    - _Metallic: 1
+    - _NoiseDissolve: 170
+    - _NoiseScale: 1.1
+    - _NormalStrength: 6
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 0
-    - _VoronoiDissolve: 7.94
-    - _VoronoiScale: 1
+    - _Smoothness: 0.4
+    - _VoronoiDissolve: 4.23
+    - _VoronoiScale: 6.72
     m_Colors:
     - _FresnelColor: {r: 4, g: 1.0031999, b: 0.43921566, a: 0}
     - _MainColor: {r: 0.6603774, g: 0.46652624, b: 0.20870416, a: 1}
     - _MainTextureOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _MainTextureTiling: {r: 5, g: 5, b: 0, a: 0}
+    - _MainTextureTiling: {r: 6.33, g: 5, b: 0, a: 0}
     - _NoiseSpeed: {r: -0.1, g: 0, b: 0, a: 0}
+    - _NoiseTiling: {r: 1, g: 1, b: 0, a: 0}
     - _VoronoiColor: {r: 20.555168, g: 3.6273828, b: 0, a: 1}
     - _VoronoiSpeed: {r: 0.25, g: 0, b: 0, a: 0}
+    - _VoronoiTiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &6769464124805345023

@@ -1,10 +1,14 @@
+using System;
 using UnityEngine;
 using Oculus.Interaction.HandGrab;
 
 public class MeteorProjectile : MonoBehaviour
 {
-    [Header("Damage Settings")]
-    [SerializeField] private int damage = 50;
+   [Header("Debug")]
+        [SerializeField] private bool showDebugLogs = true;
+
+         [Header("Damage Settings")]
+    private int damage;
     [SerializeField] private float damageRadius = 3f;
     [SerializeField] private float explosionForce = 500f;
     [SerializeField] private float minImpactVelocity = 2f;
@@ -27,6 +31,7 @@ public class MeteorProjectile : MonoBehaviour
     private OVRGrabbable _grabbable;
     private Vector3 _lastPosition;
     private Vector3 _throwVelocity;
+    private Action _onDestroyed;
 
     private void Awake()
     {
@@ -36,12 +41,16 @@ public class MeteorProjectile : MonoBehaviour
 
         if (_rigidbody == null)
         {
-            Debug.LogError("MeteorProjectile requires a Rigidbody component!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLogError)
+
+                Debug.LogError("MeteorProjectile requires a Rigidbody component!");
         }
 
         if (_collider == null)
         {
-            Debug.LogError("MeteorProjectile requires a Collider component!");
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableDebugLogError)
+
+                Debug.LogError("MeteorProjectile requires a Collider component!");
         }
     }
 
@@ -112,6 +121,9 @@ public class MeteorProjectile : MonoBehaviour
             Destroy(crater, craterDuration);
         }
 
+        // Notify that meteor is being destroyed
+        _onDestroyed?.Invoke();
+
         // Destroy meteor after delay
         Destroy(gameObject, meteorDestroyDelay);
     }
@@ -152,6 +164,11 @@ public class MeteorProjectile : MonoBehaviour
     public void SetDamageRadius(float newRadius)
     {
         damageRadius = newRadius;
+    }
+
+    public void SetOnDestroyedCallback(Action callback)
+    {
+        _onDestroyed = callback;
     }
 
     private void OnDrawGizmosSelected()
