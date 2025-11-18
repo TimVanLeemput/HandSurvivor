@@ -14,7 +14,7 @@ public class WaveEditor : Editor
         waveDurationProp = serializedObject.FindProperty("WaveDuration");
         spawnFrequencyProp = serializedObject.FindProperty("SpawnFequency");
         bossProp = serializedObject.FindProperty("Boss");
-        enemyEntriesProp = serializedObject.FindProperty("EnemyEntries");
+        enemyEntriesProp = serializedObject.FindProperty("Enemies");
     }
 
     public override void OnInspectorGUI()

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: Assembly-CSharp::Level
   Waves:
-  - {fileID: 11400000, guid: 60a8342a9089cdd459d35a611ba7a75f, type: 2}
   - {fileID: 11400000, guid: 35a123a76ae5e1c43a1122be083e23f2, type: 2}
+  - {fileID: 11400000, guid: 60a8342a9089cdd459d35a611ba7a75f, type: 2}

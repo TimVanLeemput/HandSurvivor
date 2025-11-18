@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be93a4227b151e24eae8ad940ba7bee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Skills.SkillSlotUI
-  showDebugLogs: 1
+  showDebugLogs: 0
   iconImage: {fileID: 184611208146575429}
   cooldownFillImage: {fileID: 4255562200686343116}
   emptySlotIndicator: {fileID: 5551655295564918090}

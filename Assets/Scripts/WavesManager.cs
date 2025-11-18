@@ -39,8 +39,11 @@ public class WavesManager : MonoBehaviour
         {
             Transform spawnPoint = EnemiesSpawnPoints[Random.Range(0, EnemiesSpawnPoints.Count)];
 
+            Debug.Log("START WAVE: " + wave + " " + wave.Enemies + " " + spawnPoint + " " + EnemiesParent);
+            GameObject prefab = PickRandomEnemy(wave.Enemies);
+            Debug.Log("PREFAB: " + prefab);
             GameObject go = Instantiate(
-                PickRandomEnemy(wave.Enemies),
+                prefab,
                 spawnPoint.position,
                 spawnPoint.rotation,
                 EnemiesParent
@@ -104,25 +107,25 @@ public class WavesManager : MonoBehaviour
         }
     }
 
-    public static GameObject PickRandomEnemy(Dictionary<GameObject, float> enemies)
+    public static GameObject PickRandomEnemy(List<Wave.EnemyEntry> enemies)
     {
         // Tirage aléatoire entre 0 et 1
         float r = Random.value;
         float cumulative = 0f;
 
-        foreach (var kvp in enemies)
+        foreach (var enemy in enemies)
         {
-            cumulative += kvp.Value; // kvp.Value = probabilité de cet ennemi
+            cumulative += enemy.Probability; 
 
             if (r <= cumulative)
             {
-                return kvp.Key;
+                return enemy.Enemy;
             }
         }
 
         // Sécurité (au cas où à cause des flottants)
         foreach (var kvp in enemies)
-            return kvp.Key;
+            return kvp.Enemy;
 
         return null;
     }
