@@ -12,6 +12,7 @@ public class XPGrabber : MonoBehaviour, IUpgradeable
          [Header("Base Properties")]
     [SerializeField] private float baseRadius = 1f;
     [SerializeField] private float collectDuration = 0.4f;
+    [SerializeField] private LayerMask collisionLayer = -1;
 
     [Header("Debug Visualization")]
     [SerializeField] private bool showDebugSphere = false;
@@ -47,6 +48,12 @@ public class XPGrabber : MonoBehaviour, IUpgradeable
 
     private void OnTriggerEnter(Collider other)
     {
+        // Check if the colliding object's layer is in the collision layer mask
+        if (((1 << other.gameObject.layer) & collisionLayer) == 0)
+        {
+            return;
+        }
+
         StartCoroutine(CollectCoroutine(other));
     }
     

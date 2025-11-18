@@ -10,12 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7718792220559120924}
   - component: {fileID: 7298300570226951762}
+  - component: {fileID: 7840574579009356794}
   - component: {fileID: 4636394687877674032}
   - component: {fileID: 8624685854388242310}
   - component: {fileID: 3769295551931387288}
   - component: {fileID: 417385054452791222}
   - component: {fileID: 5962111675704498749}
-  m_Layer: 4
+  - component: {fileID: 2897453838999444364}
+  m_Layer: 0
   m_Name: Meteor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,6 +40,7 @@ Transform:
   - {fileID: 2437399618309421826}
   - {fileID: 7163429521993619928}
   - {fileID: 1405731269901279598}
+  - {fileID: 4050446074265544803}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7298300570226951762
@@ -63,7 +66,81 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  gravityMultiplier: 100
+  gravityMultiplier: 1
+  colliderToIgnoreOnThrow: {fileID: 5962111675704498749}
+--- !u!114 &7840574579009356794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740678342612432627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3792657c132d9d47a36172b14cf5d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.Passive.PassiveUpgradePath
+  showDebugLogs: 1
+  maxCustomBehaviorLevel: 3
+  currentLevel: 1
+  targetPassiveUpgrade: {fileID: 11400000, guid: 80ab1a24ed6a2ca498ea8a46f2ffbfaa, type: 2}
+  activeSkillData: {fileID: 11400000, guid: 302a52fa92469f447aa5b89ff6e94b96, type: 2}
+  calculatedMaxLevels: 0
+  levelBehaviors:
+  - description: 1
+    onLevelReached:
+      m_PersistentCalls:
+        m_Calls: []
+    objectsToEnable: []
+    objectsToDisable: []
+  - description: 2
+    onLevelReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7298300570226951762}
+          m_TargetAssemblyTypeName: MeteorProjectile, Assembly-CSharp
+          m_MethodName: SetGravityMultiplier
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 500
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 5697201662623729399}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    objectsToEnable: []
+    objectsToDisable: []
+  - description: 3
+    onLevelReached:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7298300570226951762}
+          m_TargetAssemblyTypeName: MeteorProjectile, Assembly-CSharp
+          m_MethodName: SetGravityMultiplier
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 1000
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    objectsToEnable: []
+    objectsToDisable: []
 --- !u!114 &4636394687877674032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,10 +182,10 @@ Rigidbody:
     m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 896
+    m_Bits: 3006
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -226,6 +303,32 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.0275
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2897453838999444364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740678342612432627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a43670c9d42d2847a526a3c46ddc8fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestroyOnBounds
+  _checkInterval: 5
+  _afterGrabInterval: 5
+  _checkXAxis: 1
+  _xRange:
+    Min: -100
+    Max: 100
+  _checkYAxis: 1
+  _yRange:
+    Min: -20
+    Max: 20
+  _checkZAxis: 1
+  _zRange:
+    Min: -100
+    Max: 100
 --- !u!1 &3199566020419343374
 GameObject:
   m_ObjectHideFlags: 0
@@ -5094,6 +5197,117 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &5697201662623729399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4050446074265544803}
+  - component: {fileID: 5014558353023531131}
+  - component: {fileID: 8198851000693768161}
+  - component: {fileID: 5300638070777947095}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4050446074265544803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5697201662623729399}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0329, z: 0}
+  m_LocalScale: {x: 0.031478, y: 0.031478, z: 0.031478}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7718792220559120924}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5014558353023531131
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5697201662623729399}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &8198851000693768161
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5697201662623729399}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &5300638070777947095
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5697201662623729399}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5986636512529687940
 GameObject:
   m_ObjectHideFlags: 0
@@ -5103,9 +5317,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7163429521993619928}
+  - component: {fileID: 8102055778864660040}
   - component: {fileID: 3092276780271362693}
   - component: {fileID: 3813683373936395406}
-  m_Layer: 4
+  m_Layer: 0
   m_Name: HandGrabInteractable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5127,6 +5342,79 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7718792220559120924}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8102055778864660040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5986636512529687940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464721f2283eb14e94a33e812b47be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.InteractableUnityEventWrapper
+  _interactableView: {fileID: 3092276780271362693}
+  _whenHover:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenUnhover:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenSelect:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenUnselect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: HandSurvivor.Core.GravityScaler, Assembly-CSharp
+        m_MethodName: SetDisableWhenGrabbed
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8624685854388242310}
+        m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
+        m_MethodName: set_useGravity
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 7298300570226951762}
+        m_TargetAssemblyTypeName: MeteorProjectile, Assembly-CSharp
+        m_MethodName: IgnoreCollisionTemporarily
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.05
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  _whenInteractorViewAdded:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenInteractorViewRemoved:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenSelectingInteractorViewAdded:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenSelectingInteractorViewRemoved:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3092276780271362693
 MonoBehaviour:
   m_ObjectHideFlags: 0

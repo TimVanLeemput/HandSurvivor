@@ -85,7 +85,13 @@ namespace HandSurvivor.Core.Passive
                 Debug.Log($"[PassiveUpgradePath] Applying Level {level}: {behavior.description}");
 
             // Invoke Unity Events for custom logic
-            behavior.onLevelReached?.Invoke();
+            if (behavior.onLevelReached != null)
+            {
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[PassiveUpgradePath] Invoking UnityEvent for level {level} with {behavior.onLevelReached.GetPersistentEventCount()} listener(s)");
+
+                behavior.onLevelReached.Invoke();
+            }
 
             // Enable/disable GameObjects
             foreach (GameObject obj in behavior.objectsToEnable)
@@ -106,14 +112,25 @@ namespace HandSurvivor.Core.Passive
         /// </summary>
         public void SetLevel(int level)
         {
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[PassiveUpgradePath] SetLevel called with level {level}. MaxCustomBehaviorLevel={maxCustomBehaviorLevel}, LevelBehaviors.Length={levelBehaviors?.Length ?? 0}");
+
             currentLevel = Mathf.Clamp(level, 1, int.MaxValue);
 
             // Apply all behaviors up to current level
             for (int i = 1; i <= Mathf.Min(currentLevel, maxCustomBehaviorLevel); i++)
             {
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[PassiveUpgradePath] Attempting to apply level {i}");
+
                 if (i <= levelBehaviors.Length)
                 {
                     ApplyLevelBehavior(i);
+                }
+                else
+                {
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.LogWarning($"[PassiveUpgradePath] Level {i} exceeds levelBehaviors array length ({levelBehaviors.Length})");
                 }
             }
         }

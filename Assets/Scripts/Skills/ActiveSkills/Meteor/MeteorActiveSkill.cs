@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using HandSurvivor.ActiveSkills;
 using HandSurvivor.Core.Passive;
+using HandSurvivor.Interfaces;
 using UnityEngine;
 
 namespace HandSurvivor.ActiveSkills
 {
-    public class MeteorActiveSkill : ActiveSkillBase
+    public class MeteorActiveSkill : ActiveSkillBase, IChargeableSkill
     {
         [Header("Meteor Settings")]
         [SerializeField] private GameObject meteorPrefab;
@@ -16,9 +17,11 @@ namespace HandSurvivor.ActiveSkills
         [Header("Charge System")]
         [SerializeField] private int currentCharges = 1;
         [SerializeField] private int maxCharges = 1;
+        [SerializeField] private int absoluteMaxCharges = 3; // Defines the number of slots that can be filled even if more charge upgrades are picked.
 
-        // Track active meteors
-        private List<MeteorProjectile> activeMeteors = new List<MeteorProjectile>();
+        // Slot tracking system
+        private Dictionary<int, MeteorProjectile> activeSlotMeteors = new Dictionary<int, MeteorProjectile>();
+        private Queue<int> freeSlots = new Queue<int>();
 
         // Cooldown tracking for charge refill
         private float nextChargeRefillTime = 0f;
@@ -56,19 +59,12 @@ namespace HandSurvivor.ActiveSkills
             {
                 RefillCharge();
             }
-
-            // Clean up null references from destroyed meteors
-            activeMeteors.RemoveAll(meteor => meteor == null);
         }
 
         public override bool CanActivate()
         {
-            // Clean up null references first
-            activeMeteors.RemoveAll(meteor => meteor == null);
-
-            // Can spawn if we have available charges
-            // Charges represent meteors we're allowed to have active
-            return currentCharges > 0;
+            // Can spawn if we have available charges AND available slots
+            return currentCharges > 0 && activeSlotMeteors.Count < absoluteMaxCharges;
         }
 
         protected override void OnActivated()
@@ -85,20 +81,24 @@ namespace HandSurvivor.ActiveSkills
                 return;
             }
 
-            if (meteorSpawnTransform == null)
+            // Get next available slot
+            int slotIndex = GetNextAvailableSlot();
+            Transform spawnTransform = GetSlotTransform(slotIndex);
+
+            if (spawnTransform == null)
             {
-                Debug.LogError("MeteorActiveSkill: meteorSpawnTransform from TransformReference is null! Make sure the reference is set at runtime.");
+                Debug.LogError($"MeteorActiveSkill: Could not get spawn transform for slot {slotIndex}!");
                 return;
             }
 
             // Consume one charge
             currentCharges--;
 
-            // Spawn meteor at designated transform
+            // Spawn meteor at slot
             GameObject meteorInstance = Instantiate(
                 meteorPrefab,
-                meteorSpawnTransform.position,
-                meteorSpawnTransform.rotation
+                spawnTransform.position,
+                spawnTransform.rotation
             );
 
             // Apply size multiplier
@@ -109,21 +109,35 @@ namespace HandSurvivor.ActiveSkills
             if (projectile != null)
             {
                 projectile.SetDamage((int)(data.damage * damageMultiplier));
-
-                // Damage radius scales with size
                 projectile.SetDamageRadius(sizeMultiplier);
 
-                // Set callback to start cooldown when meteor is destroyed
-                projectile.SetOnDestroyedCallback(OnMeteorDestroyed);
+                // Set slot index and callback
+                projectile.SetSlotIndex(slotIndex);
+                projectile.SetOnDestroyedCallback(() => OnMeteorDestroyed(slotIndex));
 
-                activeMeteors.Add(projectile);
+                // Sync PassiveUpgradePath level from ActiveSkill to spawned projectile
+                if (upgradePath != null)
+                {
+                    PassiveUpgradePath projectileUpgradePath = meteorInstance.GetComponent<PassiveUpgradePath>();
+                    if (projectileUpgradePath != null)
+                    {
+                        projectileUpgradePath.SetLevel(upgradePath.CurrentLevel);
+
+                        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                            Debug.Log($"[MeteorActiveSkill] Synced upgrade level {upgradePath.CurrentLevel} to spawned meteor");
+                    }
+                }
+
+                // Track meteor in slot
+                activeSlotMeteors[slotIndex] = projectile;
+
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[MeteorActiveSkill] Spawned meteor at slot {slotIndex}. Charges remaining: {currentCharges}/{maxCharges}");
             }
             else
             {
                 Debug.LogError("MeteorActiveSkill: meteorPrefab is missing MeteorProjectile component!");
             }
-
-            Debug.Log($"Meteor spawned! Charges remaining: {currentCharges}/{maxCharges}");
         }
 
         protected override void OnDeactivated()
@@ -170,17 +184,52 @@ namespace HandSurvivor.ActiveSkills
             return Mathf.Max(1, maxCharges);
         }
 
-        private void OnMeteorDestroyed()
+        private void OnMeteorDestroyed(int slotIndex)
         {
+            // Free the slot
+            if (activeSlotMeteors.ContainsKey(slotIndex))
+            {
+                activeSlotMeteors.Remove(slotIndex);
+                freeSlots.Enqueue(slotIndex);
+
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[MeteorActiveSkill] Slot {slotIndex} freed. Free slots: {freeSlots.Count}");
+            }
+
             // Queue a charge refill for this destroyed meteor
             pendingChargeRefills++;
-            Debug.Log($"Meteor destroyed! Pending charge refills: {pendingChargeRefills}");
 
             // Start cooldown if not already active
             if (!isRefillCooldownActive && currentCharges < maxCharges)
             {
                 StartChargeRefillCooldown();
             }
+        }
+
+        /// <summary>
+        /// Gets the next available slot index (prioritizes freed slots)
+        /// </summary>
+        private int GetNextAvailableSlot()
+        {
+            // Use freed slot if available
+            if (freeSlots.Count > 0)
+            {
+                return freeSlots.Dequeue();
+            }
+
+            // Otherwise use next sequential slot
+            return activeSlotMeteors.Count;
+        }
+
+        /// <summary>
+        /// Gets the Transform for a specific slot index
+        /// </summary>
+        private Transform GetSlotTransform(int slotIndex)
+        {
+            if (meteorSpawnTransformReference == null)
+                return null;
+
+            return meteorSpawnTransformReference.GetSpawnSlot(slotIndex, absoluteMaxCharges);
         }
 
         public override void ApplyPassiveUpgrade(PassiveUpgradeData upgrade)
@@ -191,27 +240,28 @@ namespace HandSurvivor.ActiveSkills
             // Handle meteor-specific charges upgrade
             if (upgrade.type == PassiveType.ChargesIncrease)
             {
-                // Clean up destroyed meteors first
-                activeMeteors.RemoveAll(meteor => meteor == null);
-
-                int previousMax = maxCharges;
-                maxCharges += Mathf.RoundToInt(upgrade.value);
-
-                // Calculate total meteors (active + charges)
-                // This represents how many meteors the player "owns" right now
-                int totalMeteors = activeMeteors.Count + currentCharges;
-
-                // Set current charges based on new max and active meteors
-                // If we have active meteors, they consume charge slots
-                currentCharges = Mathf.Max(0, maxCharges - activeMeteors.Count);
-
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log($"[{Data.displayName}] Max charges increased to {maxCharges}. Active meteors: {activeMeteors.Count}, Available charges: {currentCharges}");
-
-                // Trigger max event if specified
-                if (upgrade.triggersMaxEvent)
+                // Only apply if we haven't reached the absolute max
+                if (maxCharges < absoluteMaxCharges)
                 {
-                    TriggerMaxPassiveReached();
+                    int previousMax = maxCharges;
+                    maxCharges = Mathf.Min(maxCharges + Mathf.RoundToInt(upgrade.value), absoluteMaxCharges);
+
+                    // Set current charges based on new max and active slot meteors
+                    currentCharges = Mathf.Max(0, maxCharges - activeSlotMeteors.Count);
+
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.Log($"[{Data.displayName}] Max charges increased to {maxCharges}. Active meteors: {activeSlotMeteors.Count}, Available charges: {currentCharges}");
+
+                    // Trigger max event if specified
+                    if (upgrade.triggersMaxEvent)
+                    {
+                        TriggerMaxPassiveReached();
+                    }
+                }
+                else
+                {
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.Log($"[{Data.displayName}] Charge upgrade ignored - already at absolute max ({absoluteMaxCharges})");
                 }
             }
         }
@@ -223,7 +273,10 @@ namespace HandSurvivor.ActiveSkills
 
         public int GetMaxCharges()
         {
-            return GetModifiedMaxCharges();
+            int result = maxCharges;
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[MeteorActiveSkill] GetMaxCharges() called - returning {result} (maxCharges field = {maxCharges})");
+            return Mathf.Max(1, result);
         }
 
         public float GetChargeRefillProgress()
@@ -239,11 +292,20 @@ namespace HandSurvivor.ActiveSkills
         // Debug visualization
         private void OnDrawGizmos()
         {
-            if (meteorSpawnTransform != null)
+            if (meteorSpawnTransformReference != null)
             {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(meteorSpawnTransform.position, 0.15f);
-                Gizmos.DrawLine(meteorSpawnTransform.position, meteorSpawnTransform.position + meteorSpawnTransform.forward * 0.5f);
+                int totalSlots = meteorSpawnTransformReference.GetTotalSlotCount();
+                for (int i = 0; i < Mathf.Min(totalSlots, absoluteMaxCharges); i++)
+                {
+                    Transform spawn = meteorSpawnTransformReference.GetSpawnSlot(i, absoluteMaxCharges);
+                    if (spawn != null)
+                    {
+                        // Green if occupied, yellow if free
+                        Gizmos.color = activeSlotMeteors.ContainsKey(i) ? Color.green : Color.yellow;
+                        Gizmos.DrawWireSphere(spawn.position, 0.15f);
+                        Gizmos.DrawLine(spawn.position, spawn.position + spawn.forward * 0.5f);
+                    }
+                }
             }
         }
     }

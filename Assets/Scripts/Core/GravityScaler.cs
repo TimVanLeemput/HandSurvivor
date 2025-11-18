@@ -45,5 +45,15 @@ namespace HandSurvivor.Core
             // Apply additional gravity to compensate for reduced world gravity
             _rigidbody.AddForce(Physics.gravity * (gravityMultiplier - 1f), ForceMode.Acceleration);
         }
+        
+        public void SetDisableWhenGrabbed(bool value)
+        {
+            disableWhenGrabbed = value;
+        }
+        
+        public void SetGravityMultiplier(float value)
+        {
+            gravityMultiplier = value;
+        }
     }
 }

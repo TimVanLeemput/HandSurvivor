@@ -65,3 +65,4 @@ MonoBehaviour:
   meteorSpawnTransformReference: {fileID: 11400000, guid: 9ebdb86a610b45945886bb4df0882236, type: 2}
   currentCharges: 1
   maxCharges: 1
+  absoluteMaxCharges: 3

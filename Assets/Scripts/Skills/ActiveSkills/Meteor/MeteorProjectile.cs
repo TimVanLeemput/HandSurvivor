@@ -23,6 +23,7 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
     [Header("Physics")]
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private float gravityMultiplier = 100f;
+    [SerializeField] private Collider colliderToIgnoreOnThrow;
 
     public float GravityMultiplier => gravityMultiplier;
 
@@ -36,6 +37,8 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
     private Vector3 _lastPosition;
     private Vector3 _throwVelocity;
     private Action _onDestroyed;
+    private int _slotIndex = -1;
+    private Coroutine _ignoreCollisionCoroutine;
 
     private void Awake()
     {
@@ -95,6 +98,13 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
         }
     }
 
+    public void SetGravityMultiplier(float value)
+    {
+        gravityMultiplier = value;
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+            Debug.Log($"[MeteorProjectile] Gravity multiplier set to: {gravityMultiplier}");
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (_hasExploded || !_canCollide)
@@ -147,6 +157,11 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
         Destroy(gameObject, meteorDestroyDelay);
     }
 
+    private void OnDestroy()
+    {
+        _onDestroyed?.Invoke();
+    }
+
     private void DealAreaDamage(Vector3 center)
     {
         Collider[] hitColliders = Physics.OverlapSphere(center, damageRadius, enemyLayer);
@@ -182,12 +197,57 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
 
     public void SetDamageRadius(float newRadius)
     {
-        damageRadius = newRadius;
+        damageRadius = newRadius/8;
+    }
+
+    public void SetSlotIndex(int slotIndex)
+    {
+        _slotIndex = slotIndex;
     }
 
     public void SetOnDestroyedCallback(Action callback)
     {
         _onDestroyed = callback;
+    }
+
+    /// <summary>
+    /// Ignore collision between this meteor and the specified collider for a duration.
+    /// Call this from your interactable wrapper to prevent hand collision on throw.
+    /// </summary>
+    /// <param name="colliderToIgnore">The collider to ignore (e.g., hand collider)</param>
+    /// <param name="duration">How long to ignore collision (default: 0.5 seconds)</param>
+    public void IgnoreCollisionTemporarily(float duration = 0.5f)
+    {
+        if (_collider == null || colliderToIgnoreOnThrow == null)
+            return;
+
+        // Stop any existing coroutine
+        if (_ignoreCollisionCoroutine != null)
+        {
+            StopCoroutine(_ignoreCollisionCoroutine);
+        }
+
+        _ignoreCollisionCoroutine = StartCoroutine(IgnoreCollisionCoroutine(colliderToIgnoreOnThrow, duration));
+    }
+
+    private System.Collections.IEnumerator IgnoreCollisionCoroutine(Collider colliderToIgnore, float duration)
+    {
+        // Disable collision
+        Physics.IgnoreCollision(_collider, colliderToIgnore, true);
+
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+            Debug.Log($"[MeteorProjectile] Ignoring collision with {colliderToIgnore.name} for {duration}s");
+
+        // Wait for duration
+        yield return new WaitForSeconds(duration);
+
+        // Re-enable collision
+        Physics.IgnoreCollision(_collider, colliderToIgnore, false);
+
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+            Debug.Log($"[MeteorProjectile] Re-enabled collision with {colliderToIgnore.name}");
+
+        _ignoreCollisionCoroutine = null;
     }
 
     private void OnDrawGizmosSelected()

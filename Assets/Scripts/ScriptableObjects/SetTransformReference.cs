@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace HandSurvivor
 {
     /// <summary>
-    /// Sets a Transform into a TransformReference ScriptableObject
+    /// Sets Transform references into a TransformReference ScriptableObject.
+    /// Supports single transform or multiple fixed spawn slots (manually positioned in scene).
     /// </summary>
     public class SetTransformReference : MonoBehaviour
     {
@@ -20,6 +22,13 @@ namespace HandSurvivor
         [Header("Settings")]
         [SerializeField] private bool setOnStart = true;
         [SerializeField] private bool setOnEnable = false;
+
+        [Header("Multi-Slot System")]
+        [Tooltip("Enable to use multiple spawn slots")]
+        [SerializeField] private bool enableMultiSlot = false;
+
+        [Tooltip("Manual spawn slot transforms (create 10 child GameObjects and assign them here)")]
+        [SerializeField] private List<Transform> spawnSlots = new List<Transform>();
 
         private void Start()
         {
@@ -40,7 +49,7 @@ namespace HandSurvivor
         private void OnDisable()
         {
             // Optionally clear the reference when this object is disabled
-            if (transformReference != null && transformReference.Value == GetTargetTransform())
+            if (transformReference != null)
             {
                 transformReference.Clear();
             }
@@ -54,25 +63,32 @@ namespace HandSurvivor
             if (transformReference == null)
             {
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                     Debug.LogWarning($"[SetTransformReference] No TransformReference assigned on {gameObject.name}");
                 return;
             }
 
-            Transform transformToSet = GetTargetTransform();
-
-            if (transformToSet == null)
+            // Multi-slot system
+            if (enableMultiSlot && spawnSlots != null && spawnSlots.Count > 0)
             {
+                transformReference.SetSpawnSlots(spawnSlots);
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
-                    Debug.LogWarning($"[SetTransformReference] No Transform to set on {gameObject.name}");
-                return;
+                    Debug.Log($"[SetTransformReference] Set {spawnSlots.Count} spawn slots to TransformReference '{transformReference.name}'");
             }
+            else
+            {
+                // Standard single transform
+                Transform transformToSet = GetTargetTransform();
+                if (transformToSet == null)
+                {
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.LogWarning($"[SetTransformReference] No Transform to set on {gameObject.name}");
+                    return;
+                }
 
-            transformReference.Value = transformToSet;
-            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
-                Debug.Log($"[SetTransformReference] Set '{transformToSet.name}' to TransformReference '{transformReference.name}'");
+                transformReference.Value = transformToSet;
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log($"[SetTransformReference] Set '{transformToSet.name}' to TransformReference '{transformReference.name}'");
+            }
         }
 
         /// <summary>
@@ -84,7 +100,6 @@ namespace HandSurvivor
             {
                 transformReference.Clear();
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                     Debug.Log($"[SetTransformReference] Cleared TransformReference '{transformReference.name}'");
             }
         }
