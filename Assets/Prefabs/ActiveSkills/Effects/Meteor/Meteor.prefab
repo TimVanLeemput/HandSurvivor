@@ -57,12 +57,13 @@ MonoBehaviour:
   explosionForce: 500
   minImpactVelocity: 2
   smokeTrail: {fileID: 5091118824587983106}
-  craterParticlePrefab: {fileID: 482898580328776980, guid: b42ac6934d578494fabbf18b3f44700b, type: 3}
+  craterParticlePrefab: {fileID: 3967290595789836420, guid: a40ee4abb60e4654390a742e2880dadf, type: 3}
   craterDuration: 3
   meteorDestroyDelay: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  gravityMultiplier: 100
 --- !u!114 &4636394687877674032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,10 +102,10 @@ Rigidbody:
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 896
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1

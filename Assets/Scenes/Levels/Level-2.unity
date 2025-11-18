@@ -872,15 +872,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -888,7 +888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -925,6 +925,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (30)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1123,15 +1127,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1139,7 +1143,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1176,6 +1180,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1426,15 +1434,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1442,7 +1450,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1479,6 +1487,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1565,15 +1577,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1581,7 +1593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1618,6 +1630,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1794,15 +1810,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1810,7 +1826,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1847,6 +1863,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1975,15 +1995,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1991,7 +2011,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2028,6 +2048,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (26)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2408,15 +2432,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2424,7 +2448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2461,6 +2485,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2661,15 +2689,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2677,7 +2705,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2714,6 +2742,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (25)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3419,15 +3451,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3435,7 +3467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3472,6 +3504,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3648,15 +3684,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3664,7 +3700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3701,6 +3737,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (23)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3799,15 +3839,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3815,7 +3855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3852,6 +3892,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3978,15 +4022,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3994,7 +4038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4032,6 +4076,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4047,15 +4095,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4063,7 +4111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4101,6 +4149,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4116,15 +4168,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4132,7 +4184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4169,6 +4221,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4304,15 +4360,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4320,7 +4376,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4357,6 +4413,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4907,15 +4967,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4923,7 +4983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4961,6 +5021,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4976,15 +5040,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4992,7 +5056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5029,6 +5093,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5538,15 +5606,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5554,7 +5622,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5591,6 +5659,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5747,15 +5819,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5763,7 +5835,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5800,6 +5872,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6069,15 +6145,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6085,7 +6161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6123,6 +6199,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (27)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6138,15 +6218,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6154,7 +6234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6191,6 +6271,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6320,15 +6404,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6336,7 +6420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6374,6 +6458,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6389,15 +6477,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6405,7 +6493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6442,6 +6530,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6664,15 +6756,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6680,7 +6772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6717,6 +6809,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7807,15 +7903,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7823,7 +7919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7860,6 +7956,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (24)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8124,15 +8224,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8140,7 +8240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8177,6 +8277,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8527,15 +8631,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8543,7 +8647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8581,6 +8685,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XPDroplet (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8596,15 +8704,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8612,7 +8720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8649,6 +8757,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8839,15 +8951,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8855,7 +8967,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8892,6 +9004,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (29)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9151,15 +9267,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9167,7 +9283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9204,6 +9320,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9462,15 +9582,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.005
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9478,7 +9598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1156
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2642216641699830730, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9515,6 +9635,10 @@ PrefabInstance:
     - target: {fileID: 4875623832796805400, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
       propertyPath: m_Name
       value: XPDroplet (28)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210928559639831987, guid: 6be87f028c9cb04479053817fcc845ec, type: 3}
+      propertyPath: XPAmount
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
