@@ -174,6 +174,23 @@ public class Enemy : MonoBehaviour
         Die();
     }
 
+    public void OnGrab()
+    {
+        XPManager.Instance.DropXP(XPAmount, transform.position);
+        if (MyEnemyType != EnemyType.medium) return;
+
+        if (GetComponent<InvisibleEnemyRef>().Ref != null)
+            Destroy(GetComponent<InvisibleEnemyRef>().Ref.gameObject);
+
+        _rigidbody.isKinematic = false;
+        _animator.SetTrigger("Hanging");
+    }
+    
+    public void OnRelease()
+    {
+        Die(false);
+    }
+
     public enum EnemyType
     {
         small,
