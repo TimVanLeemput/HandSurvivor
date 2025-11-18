@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073efa8bb3c24a9419ba449351b2792b, type: 3}
+  m_Name: ActiveSkill_MeteorSkillData
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.ActiveSkillData
+  activeSkillId: meteor_skill
+  displayName: Meteor
+  description: Grab a blazing meteor to throw at your foes!
+  skillImage: {fileID: 21300000, guid: 300abdf8cbdd5c742a05b6506767fd64, type: 3}
+  ActiveSkillType: 0
+  duration: 2
+  cooldown: 5
+  damage: 50
+  minCooldownMultiplier: 0.1
+  maxUpgradedRepeatRate: 0
+  activationSound: {fileID: 8300000, guid: 856bff2ad7eccd4469de1d63bb910f7e, type: 3}
+  loopActivationSound: 0
+  comments: 

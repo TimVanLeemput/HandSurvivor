@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6808de61f1f2c2448691504b69465a0, type: 3}
   m_Name: MainSkillPool
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.LevelUp.SkillPoolData
+  showDebugLogs: 1
   activeSkillPrefabs:
   - {fileID: 5258929736210494127, guid: 2036f659065ac4643aaa90a429197000, type: 3}
   - {fileID: 5258929736210494127, guid: 2615700098a10a44a984ec1c9bd65325, type: 3}
+  - {fileID: 8450785433369913540, guid: 73c3654f7776ba54691e5200e2f19b64, type: 3}
   passiveUpgrades:
   - {fileID: 11400000, guid: ef98a9545ed22204ab5b45677917b8f9, type: 2}
   - {fileID: 11400000, guid: 600e61cb25439b44a9de420bf475e160, type: 2}
   - {fileID: 11400000, guid: 80ab1a24ed6a2ca498ea8a46f2ffbfaa, type: 2}
   - {fileID: 11400000, guid: 8d4e2a1f9c5b3e7a2d6f1b9c4e8a3d7f, type: 2}
+  - {fileID: 11400000, guid: 52f2eb88ebdfc2144b9f90bd01c760eb, type: 2}
