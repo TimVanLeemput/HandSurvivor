@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Ufo
   description: A UFO will spawn sometimes, try to grab it to use it to your advantage
     before it escapes!
-  skillImage: {fileID: 21300000, guid: 3786796723c7ea94698c44e5480ac9bc, type: 3}
+  skillImage: {fileID: 21300000, guid: 31cedb017e9b2104e839e29b3cd520c0, type: 3}
   ActiveSkillType: 0
   duration: 2
   cooldown: 4
