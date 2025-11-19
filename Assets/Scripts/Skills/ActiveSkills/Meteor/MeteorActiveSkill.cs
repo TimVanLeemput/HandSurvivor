@@ -116,15 +116,18 @@ namespace HandSurvivor.ActiveSkills
                 projectile.SetOnDestroyedCallback(() => OnMeteorDestroyed(slotIndex));
 
                 // Sync PassiveUpgradePath level from ActiveSkill to spawned projectile
+                Debug.Log($"[MeteorActiveSkill] upgradePath is {(upgradePath != null ? "NOT NULL, Level=" + upgradePath.CurrentLevel : "NULL")}");
+
                 if (upgradePath != null)
                 {
                     PassiveUpgradePath projectileUpgradePath = meteorInstance.GetComponent<PassiveUpgradePath>();
+                    Debug.Log($"[MeteorActiveSkill] Projectile upgradePath is {(projectileUpgradePath != null ? "NOT NULL" : "NULL")}");
+
                     if (projectileUpgradePath != null)
                     {
+                        Debug.Log($"[MeteorActiveSkill] About to sync level {upgradePath.CurrentLevel} to projectile");
                         projectileUpgradePath.SetLevel(upgradePath.CurrentLevel);
-
-                        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                            Debug.Log($"[MeteorActiveSkill] Synced upgrade level {upgradePath.CurrentLevel} to spawned meteor");
+                        Debug.Log($"[MeteorActiveSkill] Successfully synced level");
                     }
                 }
 

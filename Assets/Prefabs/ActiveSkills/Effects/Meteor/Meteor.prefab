@@ -40,7 +40,6 @@ Transform:
   - {fileID: 2437399618309421826}
   - {fileID: 7163429521993619928}
   - {fileID: 1405731269901279598}
-  - {fileID: 4050446074265544803}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7298300570226951762
@@ -57,6 +56,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeteorProjectile
   showDebugLogs: 1
   damageRadius: 0.1
+  damageRadiusMultiplier: 8
   explosionForce: 500
   minImpactVelocity: 2
   smokeTrail: {fileID: 5091118824587983106}
@@ -66,7 +66,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  gravityMultiplier: 1
+  gravityMultiplier: 100
   colliderToIgnoreOnThrow: {fileID: 5962111675704498749}
 --- !u!114 &7840574579009356794
 MonoBehaviour:
@@ -109,7 +109,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 5697201662623729399}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
           m_Mode: 6
@@ -5197,7 +5197,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!1 &5697201662623729399
+--- !u!1 &5059841977224215212
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5205,109 +5205,94 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4050446074265544803}
-  - component: {fileID: 5014558353023531131}
-  - component: {fileID: 8198851000693768161}
-  - component: {fileID: 5300638070777947095}
+  - component: {fileID: 6995420786317639971}
+  - component: {fileID: 5313192490445556138}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: HandGrabPose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &4050446074265544803
+--- !u!4 &6995420786317639971
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5697201662623729399}
+  m_GameObject: {fileID: 5059841977224215212}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0329, z: 0}
-  m_LocalScale: {x: 0.031478, y: 0.031478, z: 0.031478}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: -0.43065834, y: 0.102993935, z: 0.20455159, w: 0.8729744}
+  m_LocalPosition: {x: -0.027, y: -0.0587, z: -0.0822}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 7718792220559120924}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5014558353023531131
-MeshFilter:
+  m_Father: {fileID: 7163429521993619928}
+  m_LocalEulerAnglesHint: {x: 232.565, y: -179.657, z: -153.795}
+--- !u!114 &5313192490445556138
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5697201662623729399}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &8198851000693768161
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5697201662623729399}
+  m_GameObject: {fileID: 5059841977224215212}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5300638070777947095
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5697201662623729399}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 622db80eec0bd344f920b1aa056ae8d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.HandGrab.HandGrabPose
+  _surface: {fileID: 0}
+  _relativeTo: {fileID: 7718792220559120924}
+  _usesHandPose: 1
+  _handPose:
+    _handedness: 0
+    _fingersFreedom: 0200000002000000010000000100000000000000
+    _jointRotations:
+    - {x: -0.06665304, y: 0.3969201, z: -0.5750258, w: 0.71229}
+    - {x: 0.2201137, y: -0.05016914, z: 0.08162888, w: 0.9707573}
+    - {x: 0.1129198, y: 0.05065549, z: -0.0791567, w: 0.9891499}
+    - {x: 0, y: 0, z: 0, w: 1}
+    - {x: 0.151882, y: 0.07698268, z: -0.0411778, w: 0.9845354}
+    - {x: 0.1307591, y: -0.003759917, z: 0.02628858, w: 0.9910585}
+    - {x: -0.003017978, y: -0.02607772, z: 0.0164322, w: 0.9995203}
+    - {x: 0, y: 0, z: 0, w: 1}
+    - {x: 0.1896454, y: -0.0117154, z: 0.009750124, w: 0.9817344}
+    - {x: 0.2042747, y: -0.001967482, z: 0.0123084, w: 0.9788343}
+    - {x: -0.03223448, y: -0.001938704, z: 0.040453, w: 0.9986595}
+    - {x: 0, y: 0, z: 0, w: 1}
+    - {x: 0.08123156, y: -0.08615339, z: 0.05587993, w: 0.9913912}
+    - {x: 0.3017412, y: 0.007293773, z: 0.03955524, w: 0.9525411}
+    - {x: 0.09175414, y: 0.02957179, z: 0.008965106, w: 0.9953021}
+    - {x: 0.01833355, y: -0.1403366, z: 0.2070356, w: 0.9680423}
+    - {x: -0.06267674, y: -0.05101484, z: -0.09903724, w: 0.9917967}
+    - {x: 0.3602582, y: -0.025497, z: 0.06776039, w: 0.930039}
+    - {x: 0.1151107, y: 0.04873112, z: -0.001109484, w: 0.992156}
+  _targetHandPose:
+    _handedness: 0
+    _fingersFreedom: 0200000002000000010000000100000001000000
+    _jointRotations:
+    - {x: 0.12855278, y: 0.3717604, z: -0.69689125, w: 0.59967554}
+    - {x: 0.18636553, y: -0.053449903, z: 0.08215051, w: 0.9775799}
+    - {x: 0.17955944, y: 0.04455258, z: -0.07683124, w: 0.97973007}
+    - {x: 0, y: 0, z: 0, w: 0.9999999}
+    - {x: 0.29648894, y: -0.0008238392, z: -0.039042555, w: 0.95423734}
+    - {x: 0.5676755, y: 0.008743815, z: 0.024209203, w: 0.82284963}
+    - {x: 0.23535247, y: -0.021428237, z: 0.017142631, w: 0.97152233}
+    - {x: 0, y: 0, z: 0, w: 0.9999999}
+    - {x: 0.40919092, y: -0.04957516, z: 0.027088601, w: 0.91069806}
+    - {x: 0.71773374, y: 0.005035421, z: 0.012447779, w: 0.6961881}
+    - {x: 0.47536412, y: 0.020273248, z: 0.08490099, w: 0.87544876}
+    - {x: 0, y: 0, z: 0, w: 0.9999999}
+    - {x: 0.49260843, y: -0.06574029, z: 0.089241296, w: 0.8631632}
+    - {x: 0.72250825, y: 0.022153588, z: 0.041389544, w: 0.6897662}
+    - {x: 0.50545454, y: 0.027623856, z: 0.027725106, w: 0.8619651}
+    - {x: 0.018311806, y: -0.1403428, z: 0.20703588, w: 0.96804154}
+    - {x: 0.46246827, y: -0.027085897, z: -0.06767161, w: 0.8836343}
+    - {x: 0.6880064, y: -0.0038790482, z: 0.08840774, w: 0.72028875}
+    - {x: 0.5025922, y: 0.04214094, z: -0.0023625365, w: 0.86349255}
+  _ghostProvider: {fileID: 0}
+  _handGhostProvider: {fileID: 11400000, guid: 9b9df4f150839de48af887d742aabf53, type: 2}
+  _ovrOffsetMode: 0
 --- !u!1 &5986636512529687940
 GameObject:
   m_ObjectHideFlags: 0
@@ -5339,7 +5324,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6995420786317639971}
   m_Father: {fileID: 7718792220559120924}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8102055778864660040
@@ -5367,18 +5353,6 @@ MonoBehaviour:
   _whenUnselect:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HandSurvivor.Core.GravityScaler, Assembly-CSharp
-        m_MethodName: SetDisableWhenGrabbed
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 8624685854388242310}
         m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine
         m_MethodName: set_useGravity
@@ -5438,7 +5412,7 @@ MonoBehaviour:
   _scoringModifier:
     _positionRotationWeight: 0
   _slippiness: 0
-  _supportedGrabTypes: 3
+  _supportedGrabTypes: 2
   _pinchGrabRules:
     _thumbRequirement: 0
     _indexRequirement: 1

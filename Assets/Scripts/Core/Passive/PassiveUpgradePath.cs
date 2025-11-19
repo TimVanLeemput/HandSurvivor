@@ -80,17 +80,15 @@ namespace HandSurvivor.Core.Passive
             }
 
             LevelBehavior behavior = levelBehaviors[level - 1];
-            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
-                Debug.Log($"[PassiveUpgradePath] Applying Level {level}: {behavior.description}");
+            Debug.Log($"[PassiveUpgradePath] Applying Level {level}: {behavior.description}");
+            Debug.Log($"[PassiveUpgradePath] onLevelReached is {(behavior.onLevelReached != null ? "NOT NULL, has " + behavior.onLevelReached.GetPersistentEventCount() + " listeners" : "NULL")}");
 
             // Invoke Unity Events for custom logic
             if (behavior.onLevelReached != null)
             {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log($"[PassiveUpgradePath] Invoking UnityEvent for level {level} with {behavior.onLevelReached.GetPersistentEventCount()} listener(s)");
-
+                Debug.Log($"[PassiveUpgradePath] Invoking onLevelReached");
                 behavior.onLevelReached.Invoke();
+                Debug.Log($"[PassiveUpgradePath] Invoke complete");
             }
 
             // Enable/disable GameObjects
@@ -112,27 +110,22 @@ namespace HandSurvivor.Core.Passive
         /// </summary>
         public void SetLevel(int level)
         {
-            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                Debug.Log($"[PassiveUpgradePath] SetLevel called with level {level}. MaxCustomBehaviorLevel={maxCustomBehaviorLevel}, LevelBehaviors.Length={levelBehaviors?.Length ?? 0}");
+            Debug.Log($"[PassiveUpgradePath] SetLevel({level}) called. maxCustomBehaviorLevel={maxCustomBehaviorLevel}, levelBehaviors.Length={levelBehaviors?.Length ?? 0}");
 
             currentLevel = Mathf.Clamp(level, 1, int.MaxValue);
 
             // Apply all behaviors up to current level
             for (int i = 1; i <= Mathf.Min(currentLevel, maxCustomBehaviorLevel); i++)
             {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log($"[PassiveUpgradePath] Attempting to apply level {i}");
-
+                Debug.Log($"[PassiveUpgradePath] Loop iteration {i}");
                 if (i <= levelBehaviors.Length)
                 {
+                    Debug.Log($"[PassiveUpgradePath] Calling ApplyLevelBehavior({i})");
                     ApplyLevelBehavior(i);
                 }
-                else
-                {
-                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                        Debug.LogWarning($"[PassiveUpgradePath] Level {i} exceeds levelBehaviors array length ({levelBehaviors.Length})");
-                }
             }
+
+            Debug.Log($"[PassiveUpgradePath] SetLevel complete");
         }
 
         [System.Serializable]

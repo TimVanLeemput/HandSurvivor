@@ -11,8 +11,11 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
          [Header("Damage Settings")]
     private int damage;
     [SerializeField] private float damageRadius = 3f;
+    [SerializeField] private float damageRadiusMultiplier = 8f;  // Use this multiplier if the values in passive uprades are changed
     [SerializeField] private float explosionForce = 500f;
     [SerializeField] private float minImpactVelocity = 2f;
+
+    private float ActualDamageRadius => damageRadius / damageRadiusMultiplier;
 
     [Header("VFX")]
     [SerializeField] private ParticleSystem smokeTrail;
@@ -100,9 +103,9 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
 
     public void SetGravityMultiplier(float value)
     {
+        Debug.Log($"[MeteorProjectile] SetGravityMultiplier({value}) called. Old value: {gravityMultiplier}");
         gravityMultiplier = value;
-        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-            Debug.Log($"[MeteorProjectile] Gravity multiplier set to: {gravityMultiplier}");
+        Debug.Log($"[MeteorProjectile] Gravity multiplier now: {gravityMultiplier}");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -164,7 +167,7 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
 
     private void DealAreaDamage(Vector3 center)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(center, damageRadius, enemyLayer);
+        Collider[] hitColliders = Physics.OverlapSphere(center, ActualDamageRadius, enemyLayer);
 
         foreach (Collider col in hitColliders)
         {
@@ -183,7 +186,7 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
                     Rigidbody[] ragdollRigidbodies = enemy.GetComponentsInChildren<Rigidbody>();
                     foreach (Rigidbody rb in ragdollRigidbodies)
                     {
-                        rb.AddExplosionForce(explosionForce, center, damageRadius);
+                        rb.AddExplosionForce(explosionForce, center, ActualDamageRadius);
                     }
                 }
             }
@@ -197,7 +200,7 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
 
     public void SetDamageRadius(float newRadius)
     {
-        damageRadius = newRadius/8;
+        damageRadius = newRadius;
     }
 
     public void SetSlotIndex(int slotIndex)
@@ -254,6 +257,6 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
     {
         // Visualize damage radius in editor
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, damageRadius);
+        Gizmos.DrawWireSphere(transform.position, ActualDamageRadius);
     }
 }
