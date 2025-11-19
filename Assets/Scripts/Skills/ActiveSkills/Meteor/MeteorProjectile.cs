@@ -182,17 +182,19 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
             {
                 enemy.TakeDamage(damage);
 
-                // Apply explosion force to ragdoll if available
                 RagdollController ragdoll = enemy.GetComponent<RagdollController>();
                 if (ragdoll != null)
                 {
                     ragdoll.SetRagdoll(true);
 
-                    // Apply force to all ragdoll rigidbodies
-                    Rigidbody[] ragdollRigidbodies = enemy.GetComponentsInChildren<Rigidbody>();
-                    foreach (Rigidbody rb in ragdollRigidbodies)
+                    Rigidbody[] ragdollRigidbodies = ragdoll.RagdollBodies;
+                    if (ragdollRigidbodies != null)
                     {
-                        rb.AddExplosionForce(explosionForce, center, ActualDamageRadius);
+                        foreach (Rigidbody rb in ragdollRigidbodies)
+                        {
+                            if (rb != null)
+                                rb.AddExplosionForce(explosionForce, center, ActualDamageRadius);
+                        }
                     }
                 }
             }

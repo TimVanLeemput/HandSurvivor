@@ -8,6 +8,8 @@ public class RagdollController : MonoBehaviour
 
     private bool isRagdoll = false;
 
+    public Rigidbody[] RagdollBodies => ragdollBodies;
+
     void Awake()
     {
         if (animator == null)
@@ -15,9 +17,10 @@ public class RagdollController : MonoBehaviour
         if (animator == null)
             animator = GetComponentInParent<Animator>();
 
-        // Récupère tous les rigidbodies du personnage
-        ragdollBodies = GetComponentsInChildren<Rigidbody>();
-        ragdollColliders = GetComponentsInChildren<Collider>();
+        if (ragdollBodies == null || ragdollBodies.Length == 0)
+            ragdollBodies = GetComponentsInChildren<Rigidbody>();
+        if (ragdollColliders == null || ragdollColliders.Length == 0)
+            ragdollColliders = GetComponentsInChildren<Collider>();
 
         SetRagdoll(false);
     }

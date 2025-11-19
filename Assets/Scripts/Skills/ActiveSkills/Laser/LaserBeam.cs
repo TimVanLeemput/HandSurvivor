@@ -46,7 +46,7 @@ namespace HandSurvivor.ActiveSkills
         [Header("Effects")] [SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private GameObject muzzleEffectPrefab;
         [SerializeField] private GameObject beamOriginParticlesPrefab;
-        [SerializeField] private AudioClip beamSound;
+        [SerializeField] private AudioClip[] beamSounds;
         [SerializeField] private bool loopBeamSound = true;
 
         [Header("Debug")]
@@ -66,6 +66,10 @@ namespace HandSurvivor.ActiveSkills
         private float laserDuration;
         private ParticleSystem.MainModule particlesMainModule;
         private float lastSurfaceContactEventTime = 0f;
+
+        private RaycastHit[] cachedHits;
+        private int frameSkipCounter = 0;
+        private const int RAYCAST_FRAME_SKIP = 2;
 
         public bool IsActive { get; private set; }
 
@@ -126,21 +130,18 @@ namespace HandSurvivor.ActiveSkills
             }
 
             // Play beam sound
-            if (beamSound != null)
+            if (beamSounds != null && beamSounds.Length > 0)
             {
                 if (audioSource == null)
                 {
                     audioSource = gameObject.AddComponent<AudioSource>();
                 }
 
-                audioSource.clip = beamSound;
                 audioSource.loop = loopBeamSound;
-                audioSource.Play();
+                audioSource.PlayRandomClipWithPitch(beamSounds);
             }
 
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
-
                 Debug.Log("[LaserBeam] Laser started");
         }
 
@@ -193,8 +194,6 @@ namespace HandSurvivor.ActiveSkills
             }
 
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
-
                 Debug.Log("[LaserBeam] Laser stopped");
         }
 
@@ -247,7 +246,19 @@ namespace HandSurvivor.ActiveSkills
             Vector3 boxHalfExtents = autoSyncBoxWithBeamWidth
                 ? new Vector3(beamWidth * 0.5f, beamWidth * 0.5f, raycastBoxHalfExtents.z)
                 : raycastBoxHalfExtents;
-            RaycastHit[] hits = Physics.BoxCastAll(startPos, boxHalfExtents, direction, origin.rotation, effectiveRange, hitLayers);
+
+            RaycastHit[] hits;
+            if (frameSkipCounter <= 0)
+            {
+                hits = Physics.BoxCastAll(startPos, boxHalfExtents, direction, origin.rotation, effectiveRange, hitLayers);
+                cachedHits = hits;
+                frameSkipCounter = RAYCAST_FRAME_SKIP;
+            }
+            else
+            {
+                hits = cachedHits ?? new RaycastHit[0];
+                frameSkipCounter--;
+            }
 
             // Separate blocking surfaces from damage targets
             RaycastHit closestBlockingSurface = default;
@@ -379,7 +390,6 @@ namespace HandSurvivor.ActiveSkills
         private void DealDamage(RaycastHit hit)
         {
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
                 Debug.LogWarning($"[LaserBeam] Enemy {hit.transform.gameObject.name} trying to deal damage!");
             Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
 
@@ -393,13 +403,10 @@ namespace HandSurvivor.ActiveSkills
                 else
                 {
                     if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
-                        Debug.LogWarning($"[LaserBeam] Enemy '{enemy.name}' has no RagdollController component!");
+                    Debug.LogWarning($"[LaserBeam] Enemy '{enemy.name}' has no RagdollController component!");
                 }
 
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-
-
                     Debug.Log($"[LaserBeam] Damaged enemy: {enemy.name}");
                 enemy.TakeDamage((int)damage);
 

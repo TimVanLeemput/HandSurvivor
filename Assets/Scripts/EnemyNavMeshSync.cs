@@ -8,12 +8,22 @@ public class EnemyNavMeshSync : MonoBehaviour
     public Animator animator;
     public Animator miniatureAnimator;
 
+    private void OnEnable()
+    {
+        EnemyNavMeshSyncManager.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        EnemyNavMeshSyncManager.Unregister(this);
+    }
+
     public void Attack()
     {
         miniatureAnimator.SetTrigger("Attack");
     }
 
-    private void Update()
+    public void SyncTransforms()
     {
         miniatureTransform.localPosition = transform.localPosition;
         miniatureTransform.localRotation = transform.localRotation;

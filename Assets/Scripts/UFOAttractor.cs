@@ -22,8 +22,8 @@ public class UFOAttractor : MonoBehaviour
     [SerializeField] private float flingForce = 1f;
 
     [Header("Audio")]
-    [SerializeField] private AudioClip beamSound;
-    [SerializeField] private AudioClip escapeSound;
+    [SerializeField] private AudioClip[] beamSounds;
+    [SerializeField] private AudioClip[] escapeSounds;
     [SerializeField] private float audioFadeDuration = 0.3f;
     [SerializeField] [Range(0f, 1f)] private float maxVolume = 0.8f;
     [SerializeField] [Range(0f, 1f)] private float escapeSoundVolume = 1f;
@@ -65,10 +65,9 @@ public class UFOAttractor : MonoBehaviour
             attractorBeamVisual.SetActive(false);
         }
 
-        if (beamSound != null)
+        if (beamSounds != null && beamSounds.Length > 0)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.clip = beamSound;
             audioSource.loop = true;
             audioSource.volume = 0f;
             audioSource.playOnAwake = false;
@@ -118,10 +117,10 @@ public class UFOAttractor : MonoBehaviour
         if (beamScaleCoroutine != null)
             StopCoroutine(beamScaleCoroutine);
 
-        if (audioSource != null && beamSound != null)
+        if (audioSource != null && beamSounds != null && beamSounds.Length > 0)
         {
             if (!audioSource.isPlaying)
-                audioSource.Play();
+                audioSource.PlayRandomClipWithPitch(beamSounds);
             audioFadeCoroutine = StartCoroutine(FadeAudio(audioSource, maxVolume, audioFadeDuration));
         }
 
@@ -178,9 +177,9 @@ public class UFOAttractor : MonoBehaviour
 
         hasEscaped = true;
 
-        if (escapeSound != null)
+        if (escapeSounds != null && escapeSounds.Length > 0 && attractedEnemies.Count > 0)
         {
-            AudioSource.PlayClipAtPoint(escapeSound, transform.position, escapeSoundVolume);
+            AudioSourceExtensions.PlayRandomClipAtPointWithPitch(escapeSounds, transform.position, escapeSoundVolume);
         }
 
         if (escapeVFX != null)
@@ -200,7 +199,8 @@ public class UFOAttractor : MonoBehaviour
 
         if (audioSource != null && audioSource.isPlaying)
         {
-            audioFadeCoroutine = StartCoroutine(FadeAudioAndStop(audioSource, audioFadeDuration));
+            audioSource.Stop();
+            audioSource.volume = 0f;
         }
 
         if (attractorBeamVisual != null)
@@ -286,7 +286,7 @@ public class UFOAttractor : MonoBehaviour
 
         enemy.GetComponent<Animator>().SetTrigger("Floating");
 
-        DisableAllChildColliders(enemy.gameObject);
+        DisableAllChildColliders(enemyData);
         float elapsed = 0f;
         Vector3 initialScale = enemyTransform.localScale;
 
@@ -372,17 +372,17 @@ public class UFOAttractor : MonoBehaviour
         attractedEnemies.Clear();
     }
 
-    private void DisableAllChildColliders(GameObject root)
+    private void DisableAllChildColliders(AttractedEnemyData enemyData)
     {
-        Collider[] colliders = root.GetComponentsInChildren<Collider>(includeInactive: true);
-        foreach (var col in colliders)
+        foreach (Collider col in enemyData.colliders)
         {
-            col.enabled = false;
+            if (col != null)
+                col.enabled = false;
         }
-        Rigidbody[] rbs = root.GetComponentsInChildren<Rigidbody>(includeInactive: true);
-        foreach (var rb in rbs)
+        foreach (Rigidbody rb in enemyData.rigidbodies)
         {
-            rb.useGravity = false;
+            if (rb != null)
+                rb.useGravity = false;
         }
     }
 

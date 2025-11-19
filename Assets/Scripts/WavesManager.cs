@@ -27,7 +27,10 @@ public class WavesManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(StartWave(Level.Waves[_currentWaveIndex]));
+        if (Level != null && Level.Waves != null && Level.Waves.Count > 0)
+        {
+            StartCoroutine(StartWave(Level.Waves[_currentWaveIndex]));
+        }
     }
 
     public IEnumerator StartWave(Wave wave)
@@ -75,11 +78,11 @@ public class WavesManager : MonoBehaviour
             GameObject miniatureGo = EnemiesNavMeshSyncManager.Instance.SpawnMiniatureEnemy(go);
             CurrentEnnemies.Add(miniatureGo.GetComponent<Enemy>());
             SetLayerRecursively(miniatureGo, LayerMask.NameToLayer("Enemy"));
-            if (_currentWaveIndex == Level.Waves.Count)
+            if (_currentWaveIndex == Level.Waves.Count - 1)
                 _lastBoss = go;
         }
 
-        if (_currentWaveIndex == Level.Waves.Count)
+        if (_currentWaveIndex >= Level.Waves.Count - 1)
         {
             // NO MORE WAVES
             while (_lastBoss != null)
@@ -87,13 +90,15 @@ public class WavesManager : MonoBehaviour
                 yield return null;
             }
             // LAST BOSS DEAD: VICTORY
-            // TODO: handle it
             Debug.Log("VICTORY");
         }
         else
         {
             _currentWaveIndex++;
-            StartCoroutine(StartWave(Level.Waves[_currentWaveIndex]));
+            if (_currentWaveIndex < Level.Waves.Count)
+            {
+                StartCoroutine(StartWave(Level.Waves[_currentWaveIndex]));
+            }
         }
     }
 

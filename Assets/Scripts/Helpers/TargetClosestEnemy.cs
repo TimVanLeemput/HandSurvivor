@@ -14,6 +14,9 @@ public class TargetClosestEnemy : MonoBehaviour
 
     public bool IsActive;
 
+    private float targetUpdateTimer = 0f;
+    private const float TARGET_UPDATE_INTERVAL = 0.1f;
+
     private void Start()
     {
         activeSkill = GetComponentInParent<ActiveSkillBase>();
@@ -29,17 +32,27 @@ public class TargetClosestEnemy : MonoBehaviour
     {
         if (!IsActive) return;
 
-        if (previousTarget != null)
-            previousTarget.isTargeted = false;
+        targetUpdateTimer += Time.deltaTime;
+        if (targetUpdateTimer >= TARGET_UPDATE_INTERVAL)
+        {
+            targetUpdateTimer = 0f;
 
-        Target = FindClosestUntargetedEnemy();
+            if (previousTarget != null)
+                previousTarget.isTargeted = false;
+
+            Target = FindClosestUntargetedEnemy();
+            if (Target != null)
+            {
+                Target.isTargeted = true;
+                previousTarget = Target;
+            }
+        }
+
         if (Target != null)
         {
-            Target.isTargeted = true;
             int damagePerFrame = Mathf.RoundToInt(GetModifiedDPS() * Time.deltaTime);
             Target.TakeDamage(damagePerFrame);
             transform.position = Target.transform.position;
-            previousTarget = Target;
         }
     }
     

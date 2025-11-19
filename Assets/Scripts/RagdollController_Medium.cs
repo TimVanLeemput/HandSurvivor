@@ -17,9 +17,10 @@ public class RagdollController_Medium : MonoBehaviour
         if (animator == null)
             animator = GetComponentInParent<Animator>();
 
-        // Récupère tous les rigidbodies du personnage
-        ragdollBodies = GetComponentsInChildren<Rigidbody>();
-        ragdollColliders = GetComponentsInChildren<Collider>();
+        if (ragdollBodies == null || ragdollBodies.Length == 0)
+            ragdollBodies = GetComponentsInChildren<Rigidbody>();
+        if (ragdollColliders == null || ragdollColliders.Length == 0)
+            ragdollColliders = GetComponentsInChildren<Collider>();
 
         SetRagdoll(false);
     }

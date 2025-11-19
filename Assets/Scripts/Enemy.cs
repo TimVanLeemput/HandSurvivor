@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using HandSurvivor.Stats;
@@ -10,6 +9,7 @@ using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
+    private static readonly int DissolvePropertyID = Shader.PropertyToID("_Dissolve");
     public EnemyType MyEnemyType;
     public int HP = 100;
     public int damage = 10;
@@ -126,14 +126,14 @@ public class Enemy : MonoBehaviour
     private IEnumerator DeathCoroutine()
     {
         yield return new WaitForSeconds(2);
-        List<SkinnedMeshRenderer> smrs = GetComponentsInChildren<SkinnedMeshRenderer>().ToList();
+        SkinnedMeshRenderer[] smrs = GetComponentsInChildren<SkinnedMeshRenderer>();
         float t = 0;
         float dissovleDuration = 1;
         while (t < dissovleDuration)
         {
-            foreach (SkinnedMeshRenderer smr in smrs)
+            for (int i = 0; i < smrs.Length; i++)
             {
-                smr.material.SetFloat("_Dissolve", t);
+                smrs[i].material.SetFloat(DissolvePropertyID, t);
             }
 
             t += Time.deltaTime;
