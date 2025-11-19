@@ -4,6 +4,12 @@ using UnityEngine.Events;
 
 public class UFOAttractor : MonoBehaviour
 {
+    private class AttractedEnemyData
+    {
+        public Enemy enemy;
+        public Collider[] colliders;
+        public Rigidbody[] rigidbodies;
+    }
     [SerializeField] private Transform target;
     [SerializeField] private CapsuleCollider capsuleCollider;
     [SerializeField] private float radiusScaleMultiplier = 1f;
@@ -12,6 +18,18 @@ public class UFOAttractor : MonoBehaviour
     [SerializeField] [Range(0f, 10f)] private float ufoDuration = 10f;
     [SerializeField] [Range(0f, 10f)] private float escapeDestroyDelay = 2f;
     [SerializeField] private Animator animator;
+    [SerializeField] private float flingForce = 1f;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip beamSound;
+    [SerializeField] private AudioClip releaseSound;
+    [SerializeField] private float audioFadeDuration = 0.3f;
+    [SerializeField] [Range(0f, 1f)] private float maxVolume = 0.8f;
+    [SerializeField] [Range(0f, 1f)] private float releaseSoundVolume = 1f;
+    [SerializeField] private float releaseSoundStartBeforeEscape = 0.5f;
+
+    [Header("Visual Animation")]
+    [SerializeField] private float beamScaleFadeDuration = 0.25f;
 
     [Header("Events")]
     public UnityEvent OnAttractionStarted;
@@ -26,6 +44,12 @@ public class UFOAttractor : MonoBehaviour
     private bool timerStarted = false;
     private SelfDestruct selfDestruct;
     private System.Collections.Generic.List<Coroutine> activeAttractions = new System.Collections.Generic.List<Coroutine>();
+    private System.Collections.Generic.List<AttractedEnemyData> attractedEnemies = new System.Collections.Generic.List<AttractedEnemyData>();
+    private AudioSource audioSource;
+    private Coroutine audioFadeCoroutine;
+    private Coroutine beamScaleCoroutine;
+    private Vector3 originalBeamScale;
+    private bool releaseSoundPlayed = false;
 
     private void Awake()
     {
@@ -36,7 +60,18 @@ public class UFOAttractor : MonoBehaviour
         }
         if (attractorBeamVisual != null)
         {
+            originalBeamScale = attractorBeamVisual.transform.localScale;
+            attractorBeamVisual.transform.localScale = Vector3.zero;
             attractorBeamVisual.SetActive(false);
+        }
+
+        if (beamSound != null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.clip = beamSound;
+            audioSource.loop = true;
+            audioSource.volume = 0f;
+            audioSource.playOnAwake = false;
         }
     }
 
@@ -45,6 +80,13 @@ public class UFOAttractor : MonoBehaviour
         if (!timerStarted || hasEscaped) return;
 
         ufoTimer += Time.deltaTime;
+
+        if (!releaseSoundPlayed && releaseSound != null && ufoTimer >= ufoDuration - releaseSoundStartBeforeEscape)
+        {
+            AudioSource.PlayClipAtPoint(releaseSound, transform.position, releaseSoundVolume);
+            releaseSoundPlayed = true;
+        }
+
         if (ufoTimer >= ufoDuration)
         {
             DestroyUFO();
@@ -72,6 +114,23 @@ public class UFOAttractor : MonoBehaviour
             attractorBeamVisual.SetActive(true);
         }
 
+        if (audioFadeCoroutine != null)
+            StopCoroutine(audioFadeCoroutine);
+        if (beamScaleCoroutine != null)
+            StopCoroutine(beamScaleCoroutine);
+
+        if (audioSource != null && beamSound != null)
+        {
+            if (!audioSource.isPlaying)
+                audioSource.Play();
+            audioFadeCoroutine = StartCoroutine(FadeAudio(audioSource, maxVolume, audioFadeDuration));
+        }
+
+        if (attractorBeamVisual != null)
+        {
+            beamScaleCoroutine = StartCoroutine(ScaleBeam(originalBeamScale, beamScaleFadeDuration));
+        }
+
         if (firstGrab)
         {
             OnAttractionStarted?.Invoke();
@@ -85,10 +144,22 @@ public class UFOAttractor : MonoBehaviour
         {
             capsuleCollider.enabled = false;
         }
+
+        if (audioFadeCoroutine != null)
+            StopCoroutine(audioFadeCoroutine);
+        if (beamScaleCoroutine != null)
+            StopCoroutine(beamScaleCoroutine);
+
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioFadeCoroutine = StartCoroutine(FadeAudioAndStop(audioSource, audioFadeDuration));
+        }
+
         if (attractorBeamVisual != null)
         {
-            attractorBeamVisual.SetActive(false);
+            beamScaleCoroutine = StartCoroutine(ScaleBeamAndDeactivate(beamScaleFadeDuration));
         }
+
         OnAttractionStopped?.Invoke();
     }
 
@@ -134,7 +205,14 @@ public class UFOAttractor : MonoBehaviour
             capsuleCollider.enabled = false;
         }
 
+        if (!releaseSoundPlayed && releaseSound != null)
+        {
+            AudioSource.PlayClipAtPoint(releaseSound, transform.position, releaseSoundVolume);
+            releaseSoundPlayed = true;
+        }
+
         StopAllAttractions();
+        FlingAttractedEnemies();
         OnUFOEscape?.Invoke();
 
         StartCoroutine(DestroyAfterDelay());
@@ -188,11 +266,20 @@ public class UFOAttractor : MonoBehaviour
     {
         Enemy enemy = FindEnemyInParents(other.transform);
         if (enemy == null) yield break;
+
+        AttractedEnemyData enemyData = new AttractedEnemyData
+        {
+            enemy = enemy,
+            colliders = enemy.GetComponentsInChildren<Collider>(includeInactive: true),
+            rigidbodies = enemy.GetComponentsInChildren<Rigidbody>(includeInactive: true)
+        };
+        attractedEnemies.Add(enemyData);
+
         Destroy(enemy.GetComponent<InvisibleEnemyRef>().Ref.gameObject);
         Transform enemyTransform = enemy.transform;
         enemy.GetComponentInChildren<RagdollController>()?.SetRagdoll(true);
         enemy.GetComponentInChildren<RagdollController_Medium>()?.SetRagdoll(true);
-        
+
         enemy.GetComponent<Animator>().SetTrigger("Floating");
 
         DisableAllChildColliders(enemy.gameObject);
@@ -230,6 +317,7 @@ public class UFOAttractor : MonoBehaviour
             enemyTransform.position = target.position;
 
         yield return null;
+        attractedEnemies.RemoveAll(data => data.enemy == enemy);
         Destroy(enemyTransform.gameObject);
         OnEnemyCollected?.Invoke();
     }
@@ -250,6 +338,36 @@ public class UFOAttractor : MonoBehaviour
         return null;
     }
     
+    private void FlingAttractedEnemies()
+    {
+        foreach (AttractedEnemyData enemyData in attractedEnemies)
+        {
+            if (enemyData.enemy == null) continue;
+
+            foreach (Collider col in enemyData.colliders)
+            {
+                if (col != null)
+                    col.enabled = true;
+            }
+
+            foreach (Rigidbody rb in enemyData.rigidbodies)
+            {
+                if (rb != null)
+                {
+                    rb.isKinematic = false;
+                    rb.useGravity = true;
+
+                    Vector3 directionAway = (rb.position - transform.position).normalized;
+                    rb.AddForce(directionAway * flingForce, ForceMode.Impulse);
+                }
+            }
+
+            enemyData.enemy.Die();
+        }
+
+        attractedEnemies.Clear();
+    }
+
     private void DisableAllChildColliders(GameObject root)
     {
         Collider[] colliders = root.GetComponentsInChildren<Collider>(includeInactive: true);
@@ -262,5 +380,69 @@ public class UFOAttractor : MonoBehaviour
         {
             rb.useGravity = false;
         }
+    }
+
+    private IEnumerator FadeAudio(AudioSource source, float targetVolume, float duration)
+    {
+        float startVolume = source.volume;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            source.volume = Mathf.Lerp(startVolume, targetVolume, elapsed / duration);
+            yield return null;
+        }
+
+        source.volume = targetVolume;
+    }
+
+    private IEnumerator FadeAudioAndStop(AudioSource source, float duration)
+    {
+        float startVolume = source.volume;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            source.volume = Mathf.Lerp(startVolume, 0f, elapsed / duration);
+            yield return null;
+        }
+
+        source.volume = 0f;
+        source.Stop();
+    }
+
+    private IEnumerator ScaleBeam(Vector3 targetScale, float duration)
+    {
+        Vector3 startScale = attractorBeamVisual.transform.localScale;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            attractorBeamVisual.transform.localScale = Vector3.Lerp(startScale, targetScale, t);
+            yield return null;
+        }
+
+        attractorBeamVisual.transform.localScale = targetScale;
+    }
+
+    private IEnumerator ScaleBeamAndDeactivate(float duration)
+    {
+        Vector3 startScale = attractorBeamVisual.transform.localScale;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            attractorBeamVisual.transform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
+            yield return null;
+        }
+
+        attractorBeamVisual.transform.localScale = Vector3.zero;
+        attractorBeamVisual.SetActive(false);
     }
 }

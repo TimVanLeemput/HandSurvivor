@@ -42,6 +42,7 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
     private Action _onDestroyed;
     private int _slotIndex = -1;
     private Coroutine _ignoreCollisionCoroutine;
+    private bool _hasInvokedCallback = false;
 
     private void Awake()
     {
@@ -154,6 +155,7 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
         }
 
         // Notify that meteor is being destroyed
+        _hasInvokedCallback = true;
         _onDestroyed?.Invoke();
 
         // Destroy meteor after delay
@@ -162,7 +164,11 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
 
     private void OnDestroy()
     {
-        _onDestroyed?.Invoke();
+        if (!_hasInvokedCallback)
+        {
+            _hasInvokedCallback = true;
+            _onDestroyed?.Invoke();
+        }
     }
 
     private void DealAreaDamage(Vector3 center)
