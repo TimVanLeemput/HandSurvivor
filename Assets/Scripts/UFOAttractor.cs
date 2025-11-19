@@ -14,6 +14,7 @@ public class UFOAttractor : MonoBehaviour
     [SerializeField] private CapsuleCollider capsuleCollider;
     [SerializeField] private float radiusScaleMultiplier = 1f;
     [SerializeField] private GameObject attractorBeamVisual;
+    [SerializeField] private GrabbableController grabbableController;
     [SerializeField] [Range(0f, 10f)] private float collectDuration = 2f;
     [SerializeField] [Range(0f, 10f)] private float ufoDuration = 10f;
     [SerializeField] [Range(0f, 10f)] private float escapeDestroyDelay = 2f;
@@ -22,14 +23,14 @@ public class UFOAttractor : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip beamSound;
-    [SerializeField] private AudioClip releaseSound;
+    [SerializeField] private AudioClip escapeSound;
     [SerializeField] private float audioFadeDuration = 0.3f;
     [SerializeField] [Range(0f, 1f)] private float maxVolume = 0.8f;
-    [SerializeField] [Range(0f, 1f)] private float releaseSoundVolume = 1f;
-    [SerializeField] private float releaseSoundStartBeforeEscape = 0.5f;
+    [SerializeField] [Range(0f, 1f)] private float escapeSoundVolume = 1f;
 
     [Header("Visual Animation")]
     [SerializeField] private float beamScaleFadeDuration = 0.25f;
+    [SerializeField] private GameObject escapeVFX;
 
     [Header("Events")]
     public UnityEvent OnAttractionStarted;
@@ -49,7 +50,6 @@ public class UFOAttractor : MonoBehaviour
     private Coroutine audioFadeCoroutine;
     private Coroutine beamScaleCoroutine;
     private Vector3 originalBeamScale;
-    private bool releaseSoundPlayed = false;
 
     private void Awake()
     {
@@ -73,6 +73,11 @@ public class UFOAttractor : MonoBehaviour
             audioSource.volume = 0f;
             audioSource.playOnAwake = false;
         }
+
+        if (escapeVFX != null)
+        {
+            escapeVFX.SetActive(false);
+        }
     }
 
     private void Update()
@@ -81,15 +86,9 @@ public class UFOAttractor : MonoBehaviour
 
         ufoTimer += Time.deltaTime;
 
-        if (!releaseSoundPlayed && releaseSound != null && ufoTimer >= ufoDuration - releaseSoundStartBeforeEscape)
-        {
-            AudioSource.PlayClipAtPoint(releaseSound, transform.position, releaseSoundVolume);
-            releaseSoundPlayed = true;
-        }
-
         if (ufoTimer >= ufoDuration)
         {
-            DestroyUFO();
+            TriggerEscape();
         }
     }
 
@@ -145,21 +144,6 @@ public class UFOAttractor : MonoBehaviour
             capsuleCollider.enabled = false;
         }
 
-        if (audioFadeCoroutine != null)
-            StopCoroutine(audioFadeCoroutine);
-        if (beamScaleCoroutine != null)
-            StopCoroutine(beamScaleCoroutine);
-
-        if (audioSource != null && audioSource.isPlaying)
-        {
-            audioFadeCoroutine = StartCoroutine(FadeAudioAndStop(audioSource, audioFadeDuration));
-        }
-
-        if (attractorBeamVisual != null)
-        {
-            beamScaleCoroutine = StartCoroutine(ScaleBeamAndDeactivate(beamScaleFadeDuration));
-        }
-
         OnAttractionStopped?.Invoke();
     }
 
@@ -188,27 +172,47 @@ public class UFOAttractor : MonoBehaviour
         return Mathf.Max(0f, ufoDuration - ufoTimer);
     }
 
-    private void DestroyUFO()
-    {
-        TriggerEscape();
-    }
-
     private void TriggerEscape()
     {
         if (hasEscaped) return;
 
         hasEscaped = true;
+
+        if (escapeSound != null)
+        {
+            AudioSource.PlayClipAtPoint(escapeSound, transform.position, escapeSoundVolume);
+        }
+
+        if (escapeVFX != null)
+        {
+            escapeVFX.SetActive(true);
+        }
+
+        if (grabbableController != null)
+        {
+            grabbableController.DisableGrabbing();
+        }
+
+        if (audioFadeCoroutine != null)
+            StopCoroutine(audioFadeCoroutine);
+        if (beamScaleCoroutine != null)
+            StopCoroutine(beamScaleCoroutine);
+
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioFadeCoroutine = StartCoroutine(FadeAudioAndStop(audioSource, audioFadeDuration));
+        }
+
+        if (attractorBeamVisual != null)
+        {
+            beamScaleCoroutine = StartCoroutine(ScaleBeamAndDeactivate(beamScaleFadeDuration));
+        }
+
         isAttracting = false;
 
         if (capsuleCollider != null)
         {
             capsuleCollider.enabled = false;
-        }
-
-        if (!releaseSoundPlayed && releaseSound != null)
-        {
-            AudioSource.PlayClipAtPoint(releaseSound, transform.position, releaseSoundVolume);
-            releaseSoundPlayed = true;
         }
 
         StopAllAttractions();
