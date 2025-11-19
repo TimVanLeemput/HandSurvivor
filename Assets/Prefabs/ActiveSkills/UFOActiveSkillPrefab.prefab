@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5258929736210494127
+--- !u!1 &2771557251048688739
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,43 +8,44 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3639838813235046822}
-  - component: {fileID: 4440657449947085501}
+  - component: {fileID: 200026314388698970}
+  - component: {fileID: 1468147914502813443}
   m_Layer: 0
-  m_Name: LaserSkillPrefab
+  m_Name: UFOActiveSkillPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3639838813235046822
+--- !u!4 &200026314388698970
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5258929736210494127}
+  m_GameObject: {fileID: 2771557251048688739}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.63547, y: 1.84768, z: -0.1812}
+  m_LocalPosition: {x: 0.13979, y: 0, z: 0.47958}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4440657449947085501
+--- !u!114 &1468147914502813443
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5258929736210494127}
+  m_GameObject: {fileID: 2771557251048688739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e996946429f9d9247ae5de5afe52f07b, type: 3}
+  m_Script: {fileID: 11500000, guid: 65d8dc3b32e3d214b95bfb4ebf034385, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.LaserActiveSkill
-  data: {fileID: 11400000, guid: 50c5af4b0e6c90046ad48de3b1b5ba60, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.UFOActiveSkill
+  showDebugLogs: 1
+  data: {fileID: 11400000, guid: 3543a75eabc4f0b44b13c9f9f3cfdcf8, type: 2}
   OnPickup:
     m_PersistentCalls:
       m_Calls: []
@@ -60,8 +61,5 @@ MonoBehaviour:
   OnMaxPassiveReached:
     m_PersistentCalls:
       m_Calls: []
-  laserBeamPrefab: {fileID: 7768875096541566223, guid: 05f990bb57934e04db61b3fc69d63936, type: 3}
-  laserDamage: 15
-  useOffHand: 1
-  fingerTipBone: 10
-  primedParticlesPrefab: {fileID: 823212768247775278, guid: cf702e8ddd82ac74e8d745d7593f9f90, type: 3}
+  ufoPrefab: {fileID: 2954800815241215798, guid: 048c3cfcacb7d334dbe11953704bdf71, type: 3}
+  ufoSpawnTransformReference: {fileID: 11400000, guid: dafe075ec1118cc49856520c8439185b, type: 2}

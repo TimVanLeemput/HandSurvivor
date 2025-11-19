@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 3473521734602494220}
   - component: {fileID: 1189870441490153943}
   m_Layer: 0
-  m_Name: LightningHandSkillPrefab
+  m_Name: LightningHandActiveSkillPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,6 +12,7 @@ namespace HandSurvivor
     {
         [System.NonSerialized] private Transform runtimeValue;
         [System.NonSerialized] private List<Transform> spawnSlots = new List<Transform>();
+        [System.NonSerialized] private bool randomizeSpawn = false;
 
         public Transform Value
         {
@@ -42,6 +43,41 @@ namespace HandSurvivor
         }
 
         /// <summary>
+        /// Get a random spawn slot from available slots within maxSlots range.
+        /// Falls back to main value if slots not configured.
+        /// </summary>
+        public Transform GetRandomSpawnSlot(int maxSlots)
+        {
+            // If spawn slots exist, pick random one
+            if (spawnSlots != null && spawnSlots.Count > 0)
+            {
+                int actualMax = Mathf.Min(maxSlots, spawnSlots.Count);
+                int randomIndex = Random.Range(0, actualMax);
+                return spawnSlots[randomIndex];
+            }
+
+            // Fallback to main value if no slots configured
+            return runtimeValue;
+        }
+
+        /// <summary>
+        /// Get next spawn slot based on randomize setting (configured via SetTransformReference).
+        /// Uses random selection if randomizeSpawn is enabled, otherwise returns first slot (index 0).
+        /// Falls back to main value if slots not configured.
+        /// </summary>
+        public Transform GetNextSpawnSlot(int maxSlots)
+        {
+            if (randomizeSpawn)
+            {
+                return GetRandomSpawnSlot(maxSlots);
+            }
+            else
+            {
+                return GetSpawnSlot(slotIndex: 0, maxSlots);
+            }
+        }
+
+        /// <summary>
         /// Get total number of spawn slots available
         /// </summary>
         public int GetTotalSlotCount()
@@ -55,13 +91,14 @@ namespace HandSurvivor
         /// <summary>
         /// Set spawn slot transforms (manual slots from scene)
         /// </summary>
-        public void SetSpawnSlots(List<Transform> slots)
+        public void SetSpawnSlots(List<Transform> slots, bool randomize = false)
         {
             if (spawnSlots == null)
                 spawnSlots = new List<Transform>();
 
             spawnSlots.Clear();
             spawnSlots.AddRange(slots);
+            randomizeSpawn = randomize;
         }
 
         /// <summary>
@@ -71,6 +108,7 @@ namespace HandSurvivor
         {
             runtimeValue = null;
             spawnSlots?.Clear();
+            randomizeSpawn = false;
         }
 
         private void OnDisable()

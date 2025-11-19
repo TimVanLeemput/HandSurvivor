@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8450785433369913540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3657508671724745567}
+  - component: {fileID: 8745804445578299433}
+  m_Layer: 0
+  m_Name: MeteorActiveSkillPrefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3657508671724745567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450785433369913540}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8745804445578299433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450785433369913540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7045592b501ad174eaca18866f48c76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.ActiveSkills.MeteorActiveSkill
+  showDebugLogs: 1
+  data: {fileID: 11400000, guid: 302a52fa92469f447aa5b89ff6e94b96, type: 2}
+  OnPickup:
+    m_PersistentCalls:
+      m_Calls: []
+  OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExpire:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMaxPassiveReached:
+    m_PersistentCalls:
+      m_Calls: []
+  meteorPrefab: {fileID: 740678342612432627, guid: 9467eb1d8f2dda644b6a767846758478, type: 3}
+  meteorSpawnTransformReference: {fileID: 11400000, guid: 9ebdb86a610b45945886bb4df0882236, type: 2}
+  currentCharges: 1
+  maxCharges: 1
+  absoluteMaxCharges: 3

@@ -30,6 +30,9 @@ namespace HandSurvivor
         [Tooltip("Manual spawn slot transforms (create 10 child GameObjects and assign them here)")]
         [SerializeField] private List<Transform> spawnSlots = new List<Transform>();
 
+        [Tooltip("Randomize spawn slot selection instead of using sequential/first slot")]
+        [SerializeField] private bool randomizeSpawn = false;
+
         private void Start()
         {
             if (setOnStart)
@@ -70,9 +73,9 @@ namespace HandSurvivor
             // Multi-slot system
             if (enableMultiSlot && spawnSlots != null && spawnSlots.Count > 0)
             {
-                transformReference.SetSpawnSlots(spawnSlots);
+                transformReference.SetSpawnSlots(spawnSlots, randomizeSpawn);
                 if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log($"[SetTransformReference] Set {spawnSlots.Count} spawn slots to TransformReference '{transformReference.name}'");
+                    Debug.Log($"[SetTransformReference] Set {spawnSlots.Count} spawn slots to TransformReference '{transformReference.name}' (randomize: {randomizeSpawn})");
             }
             else
             {

@@ -22,7 +22,7 @@ public class SelfDestruct : MonoBehaviour
 {
     [Header("Check Settings")]
     [SerializeField] private float _checkInterval = 3f;
-    [SerializeField] private float _afterGrabInterval = 5f;
+    [SerializeField] private float _delay = 5f;
     
     [Header("X Axis Boundaries")]
     [SerializeField] private bool _checkXAxis = false;
@@ -64,9 +64,14 @@ public class SelfDestruct : MonoBehaviour
         }
     }
     
-    public void DestroyAfterGrab()
+    public void DestroyWithDelay()
     {
-        Invoke(nameof(Destroy), _afterGrabInterval);
+        Invoke(nameof(Destroy), _delay);
+    }
+    
+    public void DestroyWithDelay(float delay)
+    {
+        Invoke(nameof(Destroy), delay);
     }
 
     public void CancelSelfDestruct()

@@ -26,4 +26,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3543a75eabc4f0b44b13c9f9f3cfdcf8, type: 2}
   targetXPGrabber: 0
   applyGlobally: 0
-  triggersMaxEvent: 0
+  triggersMaxEvent: 1

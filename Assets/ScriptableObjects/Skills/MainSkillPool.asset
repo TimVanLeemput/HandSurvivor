@@ -17,6 +17,7 @@ MonoBehaviour:
   - {fileID: 5258929736210494127, guid: 2036f659065ac4643aaa90a429197000, type: 3}
   - {fileID: 5258929736210494127, guid: 2615700098a10a44a984ec1c9bd65325, type: 3}
   - {fileID: 8450785433369913540, guid: 73c3654f7776ba54691e5200e2f19b64, type: 3}
+  - {fileID: 2771557251048688739, guid: e6dd989bd6458bd47a48322e443bf82e, type: 3}
   passiveUpgrades:
   - {fileID: 11400000, guid: ef98a9545ed22204ab5b45677917b8f9, type: 2}
   - {fileID: 11400000, guid: 600e61cb25439b44a9de420bf475e160, type: 2}

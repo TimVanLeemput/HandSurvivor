@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 718d60313c72bd14183d652db7c84756, type: 3}
   m_Name: PassiveUpgrade_XPGrabberRangeIncrease
   m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Core.Passive.PassiveUpgradeData
+  showDebugLogs: 1
   upgradeId: XPGrabberRangeIncrease
   displayName: XP Magnet Range +20%
   description: Increases XP collection range by {value}%
   passiveImage: {fileID: 21300000, guid: 08c71e4e0565fe4469d1e0a593047156, type: 3}
   type: 3
-  targetSkillId: xp_grabber
   value: 20
+  targetActiveSkills: []
+  targetXPGrabber: 1
+  applyGlobally: 0
   triggersMaxEvent: 0
