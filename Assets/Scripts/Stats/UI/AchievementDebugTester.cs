@@ -242,6 +242,23 @@ namespace HandSurvivor.Stats.UI
                       $"Progress: {progress:P0} ({progressString})");
         }
 
+        /// <summary>
+        /// Show PlayerStatsManager tracking status for debugging
+        /// </summary>
+        [ContextMenu("Show Tracking Status")]
+        [ButtonMethod]
+        public void ShowTrackingStatus()
+        {
+            if (PlayerStatsManager.Instance != null)
+            {
+                PlayerStatsManager.Instance.LogTrackingStatus();
+            }
+            else
+            {
+                Debug.LogError("[AchievementDebugTester] PlayerStatsManager.Instance is NULL!");
+            }
+        }
+
         private Achievement GetTargetAchievement()
         {
             // Prefer direct assignment

@@ -54,6 +54,15 @@ namespace HandSurvivor.Stats
 
         private IEnumerator InitializeWithRetry()
         {
+            // Always start run tracking immediately - don't wait for other managers
+            if (!isRunActive)
+            {
+                StartNewRun();
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.Log("[PlayerStatsManager] Run tracking started");
+            }
+
+            // Wait for other managers to subscribe to their events (optional)
             float timeout = 5f;
             float elapsed = 0f;
 
@@ -67,26 +76,16 @@ namespace HandSurvivor.Stats
                 elapsed += 0.1f;
             }
 
-            if (AllManagersReady())
-            {
-                SubscribeToEvents();
+            // Subscribe to events from managers that exist
+            SubscribeToEvents();
 
-                // Auto-start tracking for development/testing
-                // TODO: Move this to proper game start logic when implemented
-                if (!isRunActive)
-                {
-                    StartNewRun();
-                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                        Debug.Log("[PlayerStatsManager] Auto-started run tracking for testing");
-                }
-
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.Log("[PlayerStatsManager] Initialized and subscribed to events");
-            }
-            else
+            // Log which managers are available
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
             {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.LogWarning("[PlayerStatsManager] Some managers not available after timeout");
+                Debug.Log($"[PlayerStatsManager] Initialization complete. Available managers: " +
+                          $"XP={XPManager.Instance != null}, " +
+                          $"Passive={PassiveUpgradeManager.Instance != null}, " +
+                          $"ActiveSkills={ActiveSkillInventory.Instance != null}");
             }
         }
 
@@ -167,7 +166,12 @@ namespace HandSurvivor.Stats
         /// </summary>
         public void RecordDamage(string skillId, float damage, string enemyType = "")
         {
-            if (!isRunActive) return;
+            if (!isRunActive)
+            {
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogWarning("[PlayerStatsManager] RecordDamage called but run is not active! Call StartNewRun() first.");
+                return;
+            }
 
             currentRun.AddDamage(skillId, damage);
 
@@ -195,7 +199,12 @@ namespace HandSurvivor.Stats
         /// </summary>
         public void RecordKill(string enemyType, int xpDropped = 0)
         {
-            if (!isRunActive) return;
+            if (!isRunActive)
+            {
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogWarning("[PlayerStatsManager] RecordKill called but run is not active! Call StartNewRun() first.");
+                return;
+            }
 
             currentRun.AddKill(enemyType);
 
@@ -428,6 +437,23 @@ namespace HandSurvivor.Stats
 
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
                 Debug.LogWarning("[PlayerStatsManager] All stats reset!");
+        }
+
+        /// <summary>
+        /// Debug method to check current tracking status
+        /// </summary>
+        public void LogTrackingStatus()
+        {
+            Debug.Log($"[PlayerStatsManager] === TRACKING STATUS ===\n" +
+                      $"Run Active: {isRunActive}\n" +
+                      $"Current Level: {currentRun.currentLevel}\n" +
+                      $"Total Kills: {currentRun.totalKills}\n" +
+                      $"Total Damage: {currentRun.totalDamageDealt}\n" +
+                      $"Survival Time: {currentRun.survivalTime:F1}s\n" +
+                      $"Current Wave: {currentRun.currentWave}\n" +
+                      $"Lifetime Kills: {lifetime.totalKillsAllTime}\n" +
+                      $"Lifetime Damage: {lifetime.totalDamageAllTime}\n" +
+                      $"Managers - XP: {XPManager.Instance != null}, Passive: {PassiveUpgradeManager.Instance != null}, ActiveSkills: {ActiveSkillInventory.Instance != null}");
         }
     }
 }
