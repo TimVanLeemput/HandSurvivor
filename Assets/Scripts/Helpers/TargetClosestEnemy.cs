@@ -1,4 +1,5 @@
 using HandSurvivor.ActiveSkills;
+using HandSurvivor.Stats;
 using UnityEngine;
 
 public class TargetClosestEnemy : MonoBehaviour
@@ -52,6 +53,11 @@ public class TargetClosestEnemy : MonoBehaviour
         {
             int damagePerFrame = Mathf.RoundToInt(GetModifiedDPS() * Time.deltaTime);
             Target.TakeDamage(damagePerFrame);
+
+            // Track damage for stats
+            if (PlayerStatsManager.Instance != null && activeSkill != null && activeSkill.Data != null)
+                PlayerStatsManager.Instance.RecordDamage(activeSkill.Data.activeSkillId, damagePerFrame, Target.name);
+
             transform.position = Target.transform.position;
         }
     }

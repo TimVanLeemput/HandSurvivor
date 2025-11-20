@@ -24,6 +24,27 @@ namespace HandSurvivor.Stats
         [Tooltip("Optional: Specific skill ID or enemy type for filtering")]
         public string contextFilter = "";
 
+        [Header("External Platform IDs")]
+        [Tooltip("Steam achievement ID (e.g., ACH_FIRST_KILL)")]
+        public string steamAchievementId = "";
+        [Tooltip("Meta Platform achievement ID")]
+        public string metaAchievementId = "";
+        [Tooltip("Custom platform achievement ID")]
+        public string customPlatformId = "";
+
+        [Header("Display Settings")]
+        [Tooltip("Hidden until unlocked - shows as ???")]
+        public bool isSecret = false;
+        public AchievementRarity rarity = AchievementRarity.Common;
+        [Tooltip("Override default unlock sound")]
+        public AudioClip customUnlockSound;
+
+        [Header("Notification")]
+        [Tooltip("Show notification when unlocked")]
+        public bool showNotification = true;
+        [Tooltip("Notification display duration")]
+        public float notificationDuration = 4f;
+
         [Header("State (Runtime)")]
         [HideInInspector]
         public bool isUnlocked;
@@ -120,5 +141,17 @@ namespace HandSurvivor.Stats
         Single,         // Single run/instance (e.g., 100 kills in one run)
         Streak,         // Consecutive events (e.g., 10 kills without taking damage)
         Speed           // Time-based (e.g., survive 10 minutes)
+    }
+
+    /// <summary>
+    /// Achievement rarity tiers
+    /// </summary>
+    public enum AchievementRarity
+    {
+        Common,         // 60%+ of players unlock
+        Uncommon,       // 30-60%
+        Rare,           // 10-30%
+        Epic,           // 1-10%
+        Legendary       // <1%
     }
 }

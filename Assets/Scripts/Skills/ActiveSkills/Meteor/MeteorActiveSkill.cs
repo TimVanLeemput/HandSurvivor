@@ -110,6 +110,7 @@ namespace HandSurvivor.ActiveSkills
             {
                 projectile.SetDamage((int)(data.damage * damageMultiplier));
                 projectile.SetDamageRadius(sizeMultiplier);
+                projectile.SetSkillId(data.activeSkillId);
 
                 // Set slot index and callback
                 projectile.SetSlotIndex(slotIndex);

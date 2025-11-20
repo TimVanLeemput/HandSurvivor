@@ -151,6 +151,15 @@ namespace HandSurvivor.Stats
             if (isRunActive)
             {
                 currentRun.survivalTime = Time.time - runStartTime;
+
+                // Update lifetime longest survival in real-time if enabled
+                if (updateLifetimeStatsInRealTime)
+                {
+                    if (currentRun.survivalTime > lifetime.longestSurvivalTime)
+                    {
+                        lifetime.longestSurvivalTime = currentRun.survivalTime;
+                    }
+                }
             }
         }
 
@@ -184,6 +193,12 @@ namespace HandSurvivor.Stats
                     if (!lifetime.damageBySkillAllTime.ContainsKey(skillId))
                         lifetime.damageBySkillAllTime[skillId] = 0f;
                     lifetime.damageBySkillAllTime[skillId] += damage;
+                }
+
+                // Update highest single hit record
+                if (damage > lifetime.highestSingleHitAllTime)
+                {
+                    lifetime.highestSingleHitAllTime = damage;
                 }
             }
 
@@ -261,6 +276,16 @@ namespace HandSurvivor.Stats
             if (!isRunActive) return;
 
             currentRun.currentWave = wave;
+
+            // Update lifetime highest wave in real-time if enabled
+            if (updateLifetimeStatsInRealTime)
+            {
+                if (wave > lifetime.highestWaveReached)
+                {
+                    lifetime.highestWaveReached = wave;
+                }
+            }
+
             OnStatChanged?.Invoke(StatType.CurrentWave, wave, "");
         }
 
@@ -279,7 +304,20 @@ namespace HandSurvivor.Stats
             if (!isRunActive) return;
 
             currentRun.currentLevel = newLevel;
+
+            // Update lifetime highest level in real-time if enabled
+            if (updateLifetimeStatsInRealTime)
+            {
+                if (newLevel > lifetime.highestLevelReached)
+                {
+                    lifetime.highestLevelReached = newLevel;
+                }
+            }
+
             OnStatChanged?.Invoke(StatType.CurrentLevel, newLevel, "");
+
+            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log($"[PlayerStatsManager] Level Up: {newLevel}. Lifetime highest: {lifetime.highestLevelReached}");
         }
 
         private void OnSkillAdded(ActiveSkillBase skill, int amount)
@@ -290,6 +328,16 @@ namespace HandSurvivor.Stats
             if (!currentRun.skillsAcquiredThisRun.Contains(skillId))
             {
                 currentRun.skillsAcquiredThisRun.Add(skillId);
+
+                // Update lifetime skills unlocked in real-time if enabled
+                if (updateLifetimeStatsInRealTime)
+                {
+                    if (!lifetime.allSkillsUnlocked.Contains(skillId))
+                    {
+                        lifetime.allSkillsUnlocked.Add(skillId);
+                    }
+                }
+
                 OnStatChanged?.Invoke(StatType.SkillsAcquired, currentRun.skillsAcquiredThisRun.Count, skillId);
             }
         }
@@ -299,6 +347,13 @@ namespace HandSurvivor.Stats
             if (!isRunActive) return;
 
             currentRun.passiveUpgradesApplied++;
+
+            // Update lifetime passive upgrades in real-time if enabled
+            if (updateLifetimeStatsInRealTime)
+            {
+                lifetime.totalPassiveUpgradesApplied++;
+            }
+
             OnStatChanged?.Invoke(StatType.PassiveUpgrades, currentRun.passiveUpgradesApplied, "");
         }
 
@@ -446,14 +501,23 @@ namespace HandSurvivor.Stats
         {
             Debug.Log($"[PlayerStatsManager] === TRACKING STATUS ===\n" +
                       $"Run Active: {isRunActive}\n" +
+                      $"Real-time Lifetime Updates: {updateLifetimeStatsInRealTime}\n" +
+                      $"\n=== CURRENT RUN ===\n" +
                       $"Current Level: {currentRun.currentLevel}\n" +
                       $"Total Kills: {currentRun.totalKills}\n" +
-                      $"Total Damage: {currentRun.totalDamageDealt}\n" +
+                      $"Total Damage: {currentRun.totalDamageDealt:F1}\n" +
                       $"Survival Time: {currentRun.survivalTime:F1}s\n" +
                       $"Current Wave: {currentRun.currentWave}\n" +
-                      $"Lifetime Kills: {lifetime.totalKillsAllTime}\n" +
-                      $"Lifetime Damage: {lifetime.totalDamageAllTime}\n" +
-                      $"Managers - XP: {XPManager.Instance != null}, Passive: {PassiveUpgradeManager.Instance != null}, ActiveSkills: {ActiveSkillInventory.Instance != null}");
+                      $"XP Earned: {currentRun.xpEarnedThisRun}\n" +
+                      $"\n=== LIFETIME RECORDS ===\n" +
+                      $"Highest Level: {lifetime.highestLevelReached}\n" +
+                      $"Total Kills: {lifetime.totalKillsAllTime}\n" +
+                      $"Total Damage: {lifetime.totalDamageAllTime:F1}\n" +
+                      $"Highest Wave: {lifetime.highestWaveReached}\n" +
+                      $"Longest Survival: {lifetime.longestSurvivalTime:F1}s\n" +
+                      $"Skills Unlocked: {lifetime.allSkillsUnlocked.Count}\n" +
+                      $"\n=== MANAGERS ===\n" +
+                      $"XP: {XPManager.Instance != null}, Passive: {PassiveUpgradeManager.Instance != null}, ActiveSkills: {ActiveSkillInventory.Instance != null}");
         }
     }
 }

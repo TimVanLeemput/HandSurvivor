@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Oculus.Interaction.HandGrab;
 using HandSurvivor.Interfaces;
+using HandSurvivor.Stats;
 
 public class MeteorProjectile : MonoBehaviour, IGravityScalable
 {
@@ -10,6 +11,7 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
 
          [Header("Damage Settings")]
     private int damage;
+    private string skillId = ""; // Set at runtime for stats tracking
     [SerializeField] private float damageRadius = 3f;
     [SerializeField] private float damageRadiusMultiplier = 8f;  // Use this multiplier if the values in passive uprades are changed
     [SerializeField] private float explosionForce = 500f;
@@ -182,6 +184,10 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
             {
                 enemy.TakeDamage(damage);
 
+                // Track damage for stats
+                if (PlayerStatsManager.Instance != null && !string.IsNullOrEmpty(skillId))
+                    PlayerStatsManager.Instance.RecordDamage(skillId, damage, enemy.name);
+
                 RagdollController ragdoll = enemy.GetComponent<RagdollController>();
                 if (ragdoll != null)
                 {
@@ -204,6 +210,11 @@ public class MeteorProjectile : MonoBehaviour, IGravityScalable
     public void SetDamage(int newDamage)
     {
         damage = newDamage;
+    }
+
+    public void SetSkillId(string id)
+    {
+        skillId = id;
     }
 
     public void SetDamageRadius(float newRadius)

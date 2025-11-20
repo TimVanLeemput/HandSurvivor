@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9102e29af3ab64babc87f787c95ea9, type: 3}
+  m_Name: Achievement_LightningHand_100_Damage_Done
+  m_EditorClassIdentifier: Assembly-CSharp::HandSurvivor.Stats.Achievement
+  achievementId: lightninghand_100_damage_done
+  displayName: LightningHand 100 damage done
+  description: You've done 100 damage with the LightningHand skill!
+  icon: {fileID: 21300000, guid: 281d4541606c6934a81388a2d3b9cdb3, type: 3}
+  type: 1
+  condition: 2
+  targetValue: 100
+  contextFilter: lightninghand_skill
+  steamAchievementId: 
+  metaAchievementId: 
+  customPlatformId: 
+  isSecret: 0
+  rarity: 0
+  customUnlockSound: {fileID: 0}
+  showNotification: 1
+  notificationDuration: 4
+  isUnlocked: 1
+  unlockedDateString: 2025-11-20T16:59:01.2771082+01:00

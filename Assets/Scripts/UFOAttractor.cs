@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using HandSurvivor.Stats;
 
 public class UFOAttractor : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class UFOAttractor : MonoBehaviour
     public UnityEvent OnUFOEscape;
     public UnityEvent OnUFODestroyed;
 
+    private string skillId = ""; // Set at runtime for stats tracking
     private float ufoTimer = 0f;
     private bool isAttracting = false;
     private bool hasEscaped = false;
@@ -154,6 +156,11 @@ public class UFOAttractor : MonoBehaviour
     public void SetUFODuration(float duration)
     {
         ufoDuration = duration;
+    }
+
+    public void SetSkillId(string id)
+    {
+        skillId = id;
     }
 
     public float GetUFODuration()
@@ -321,6 +328,11 @@ public class UFOAttractor : MonoBehaviour
             enemyTransform.position = target.position;
 
         yield return null;
+
+        // Track damage for stats (enemy's remaining HP = damage dealt)
+        if (PlayerStatsManager.Instance != null && !string.IsNullOrEmpty(skillId) && enemy != null)
+            PlayerStatsManager.Instance.RecordDamage(skillId, enemy.HP, enemy.name);
+
         attractedEnemies.RemoveAll(data => data.enemy == enemy);
         Destroy(enemyTransform.gameObject);
         OnEnemyCollected?.Invoke();
@@ -365,6 +377,10 @@ public class UFOAttractor : MonoBehaviour
                     rb.AddForce(directionAway * flingForce, ForceMode.Impulse);
                 }
             }
+
+            // Track damage for stats (enemy's remaining HP = damage dealt)
+            if (PlayerStatsManager.Instance != null && !string.IsNullOrEmpty(skillId))
+                PlayerStatsManager.Instance.RecordDamage(skillId, enemyData.enemy.HP, enemyData.enemy.name);
 
             enemyData.enemy.Die();
         }

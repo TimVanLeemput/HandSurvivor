@@ -73,6 +73,7 @@ namespace HandSurvivor.ActiveSkills
 
                 currentAttractor.SetCollectDuration(baseCollectDuration * damageMultiplier);
                 currentAttractor.SetUFODuration(baseUFODuration * damageMultiplier);
+                currentAttractor.SetSkillId(data.activeSkillId);
 
                 // Subscribe to destruction event to start cooldown
                 currentAttractor.OnUFODestroyed.AddListener(HandleUFODestroyed);
