@@ -61,4 +61,35 @@ public class XPManager : MonoBehaviour
         go.transform.position = transform.position;
         go.GetComponent<XPDroplet>().XPAmount = CurrentXPForLevel;
     }
+
+    /// <summary>
+    /// Get XP required to reach a specific level (for debug/testing purposes)
+    /// </summary>
+    public int GetXPRequiredForLevel(int targetLevel)
+    {
+        if (targetLevel <= 1)
+            return 0;
+
+        // Calculate total XP needed for target level
+        // Base XP + (XPIncreasePerLevel * levels gained)
+        int levelsToGain = targetLevel - 1;
+        int totalXPNeeded = 1000 + (XPIncreasePerLevel * levelsToGain);
+
+        return totalXPNeeded;
+    }
+
+    /// <summary>
+    /// Get current level (for consistency with other managers)
+    /// </summary>
+    public int CurrentLevel => Level;
+
+    /// <summary>
+    /// Get current XP progress
+    /// </summary>
+    public int GetCurrentXP() => CurrentXP;
+
+    /// <summary>
+    /// Get XP needed for next level
+    /// </summary>
+    public int GetXPForNextLevel() => CurrentXPForLevel;
 }

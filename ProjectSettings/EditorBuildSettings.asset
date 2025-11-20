@@ -9,23 +9,26 @@ EditorBuildSettings:
     path: Assets/Scenes/MainScene.unity
     guid: cbab1b8c8bf318648a050bd9da407bd6
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 2634450c25fb32f4f977c27479ab86d6
-  - enabled: 1
-    path: Assets/Scenes/WorldPlacementScene.unity
-    guid: d1469832cf06d7a4f9230fa14dc662eb
-  - enabled: 1
-    path: Assets/Scenes/ActiveSkills&PassiveUpgradesUI.unity
-    guid: 9d4de55d332ad594ba156312d74cba9d
-  - enabled: 1
-    path: Assets/Scenes/Environment.unity
+    path: Assets/Scenes/Environment/Environment.unity
     guid: e248e566f5896644caa24333fb211484
   - enabled: 1
-    path: Assets/Scenes/LoadingScene.unity
-    guid: a0ff693285811124d94eb381ecbdd49d
+    path: Assets/Scenes/Environment/WorldPlacementScene.unity
+    guid: d1469832cf06d7a4f9230fa14dc662eb
   - enabled: 1
     path: Assets/Scenes/Levels/Level-2.unity
     guid: d5ccedfd9ff6b884082bcb48ef7c5db5
+  - enabled: 1
+    path: Assets/Scenes/UI/ActiveSkills&PassiveUpgradesUI.unity
+    guid: 9d4de55d332ad594ba156312d74cba9d
+  - enabled: 1
+    path: Assets/Scenes/UI/LoadingScene.unity
+    guid: a0ff693285811124d94eb381ecbdd49d
+  - enabled: 1
+    path: Assets/Scenes/UI/MainMenu.unity
+    guid: 2634450c25fb32f4f977c27479ab86d6
+  - enabled: 1
+    path: Assets/Scenes/UI/UserInterfaceScene.unity
+    guid: 71e1271e84d4bd14aa4c5bb50a7f71dd
   - enabled: 1
     path: Assets/Scenes/Test-Denis.unity
     guid: c2540cf26a13e0448b5461158a683952

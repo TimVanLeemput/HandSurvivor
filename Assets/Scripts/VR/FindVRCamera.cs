@@ -7,10 +7,10 @@ using UnityEngine;
 /// </summary>
 public class FindVRCamera : MonoBehaviour
 {
-   [Header("Debug")]
-        [SerializeField] private bool showDebugLogs = true;
+    [Header("Debug")] [SerializeField] private bool showDebugLogs = true;
+    public static Camera VRCamera;
 
-         private void Awake()
+    private void Awake()
     {
         OVRCameraRig cameraRig = FindFirstObjectByType<OVRCameraRig>();
 
@@ -28,7 +28,8 @@ public class FindVRCamera : MonoBehaviour
         {
             if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
 
-                Debug.LogWarning("[FindVRCamera] OVRCameraRig center eye anchor does not have a Camera component!", this);
+                Debug.LogWarning("[FindVRCamera] OVRCameraRig center eye anchor does not have a Camera component!",
+                    this);
             return;
         }
 
@@ -46,6 +47,7 @@ public class FindVRCamera : MonoBehaviour
     public static Camera GetVRCamera()
     {
         OVRCameraRig cameraRig = FindFirstObjectByType<OVRCameraRig>();
+        VRCamera = cameraRig.centerEyeAnchor.GetComponent<Camera>();
         return cameraRig != null ? cameraRig.centerEyeAnchor.GetComponent<Camera>() : null;
     }
 }
