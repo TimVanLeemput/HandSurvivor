@@ -42,8 +42,18 @@ namespace HandSurvivor.Stats.UI
         /// </summary>
         public void Initialize(Achievement achievement, bool isUnlocked, float progress, string progressString)
         {
+            Debug.Log($"[AchievementCardUI] Initialize called for: {achievement?.displayName ?? "NULL"}");
+
+            if (achievement == null)
+            {
+                Debug.LogError("[AchievementCardUI] Achievement is NULL in Initialize!");
+                return;
+            }
+
             this.achievement = achievement;
             this.isUnlocked = isUnlocked;
+
+            Debug.Log($"[AchievementCardUI] Setting up {(isUnlocked ? "UNLOCKED" : "LOCKED")} state for: {achievement.displayName}");
 
             if (isUnlocked)
             {
@@ -53,15 +63,24 @@ namespace HandSurvivor.Stats.UI
             {
                 SetupLockedState(progress, progressString);
             }
+
+            Debug.Log($"[AchievementCardUI] Initialize complete for: {achievement.displayName}");
         }
 
         private void SetupUnlockedState(float progress, string progressString)
         {
+            Debug.Log($"[AchievementCardUI] SetupUnlockedState - icon: {iconImage != null}, title: {titleText != null}, desc: {descriptionText != null}");
+
             // Set icon
             if (iconImage != null)
             {
                 iconImage.sprite = achievement.icon != null ? achievement.icon : lockedIcon;
                 iconImage.color = unlockedIconColor;
+                Debug.Log($"[AchievementCardUI] Set icon sprite: {iconImage.sprite?.name ?? "NULL"}");
+            }
+            else
+            {
+                Debug.LogWarning("[AchievementCardUI] iconImage is NULL!");
             }
 
             // Set title
@@ -69,6 +88,11 @@ namespace HandSurvivor.Stats.UI
             {
                 titleText.text = achievement.displayName;
                 titleText.color = unlockedTextColor;
+                Debug.Log($"[AchievementCardUI] Set title text: {titleText.text}");
+            }
+            else
+            {
+                Debug.LogWarning("[AchievementCardUI] titleText is NULL!");
             }
 
             // Set description
@@ -76,6 +100,11 @@ namespace HandSurvivor.Stats.UI
             {
                 descriptionText.text = achievement.description;
                 descriptionText.color = unlockedTextColor;
+                Debug.Log($"[AchievementCardUI] Set description text: {descriptionText.text}");
+            }
+            else
+            {
+                Debug.LogWarning("[AchievementCardUI] descriptionText is NULL!");
             }
 
             // Set progress (100% for unlocked)
@@ -115,11 +144,18 @@ namespace HandSurvivor.Stats.UI
 
         private void SetupLockedState(float progress, string progressString)
         {
+            Debug.Log($"[AchievementCardUI] SetupLockedState - icon: {iconImage != null}, title: {titleText != null}, desc: {descriptionText != null}");
+
             // Set locked icon
             if (iconImage != null)
             {
                 iconImage.sprite = lockedIcon;
                 iconImage.color = lockedIconColor;
+                Debug.Log($"[AchievementCardUI] Set LOCKED icon sprite: {iconImage.sprite?.name ?? "NULL"}");
+            }
+            else
+            {
+                Debug.LogError("[AchievementCardUI] iconImage is NULL in SetupLockedState!");
             }
 
             // Set locked title
@@ -127,6 +163,11 @@ namespace HandSurvivor.Stats.UI
             {
                 titleText.text = lockedTitle;
                 titleText.color = lockedTextColor;
+                Debug.Log($"[AchievementCardUI] Set LOCKED title text: {titleText.text}");
+            }
+            else
+            {
+                Debug.LogError("[AchievementCardUI] titleText is NULL in SetupLockedState!");
             }
 
             // Set locked description
@@ -134,6 +175,11 @@ namespace HandSurvivor.Stats.UI
             {
                 descriptionText.text = lockedDescription;
                 descriptionText.color = lockedTextColor;
+                Debug.Log($"[AchievementCardUI] Set LOCKED description text: {descriptionText.text}");
+            }
+            else
+            {
+                Debug.LogError("[AchievementCardUI] descriptionText is NULL in SetupLockedState!");
             }
 
             // Handle progress display for locked achievements

@@ -13,7 +13,7 @@ namespace HandSurvivor.Stats.UI
     {
         [Header("UI References")]
         [SerializeField] private Transform cardContainer;
-        [SerializeField] private AchievementCardUI cardPrefab;
+        [SerializeField] private GameObject cardPrefab;
         [SerializeField] private ScrollRect scrollRect;
 
         [Header("Filter Buttons")]
@@ -82,10 +82,11 @@ namespace HandSurvivor.Stats.UI
         {
             if (AchievementManager.Instance == null)
             {
-                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                    Debug.LogWarning("[AchievementMenuUI] AchievementManager not available");
+                Debug.LogError("[AchievementMenuUI] AchievementManager.Instance is NULL!");
                 return;
             }
+
+            Debug.Log($"[AchievementMenuUI] RefreshMenu called - AchievementManager found");
 
             // Clear existing cards
             ClearCards();
@@ -93,9 +94,18 @@ namespace HandSurvivor.Stats.UI
             // Get filtered achievements
             List<Achievement> achievements = GetFilteredAchievements();
 
+            Debug.Log($"[AchievementMenuUI] Retrieved {achievements.Count} achievements for filter: {currentFilter}");
+
             // Spawn cards for each achievement
             foreach (Achievement achievement in achievements)
             {
+                if (achievement == null)
+                {
+                    Debug.LogWarning("[AchievementMenuUI] Null achievement in list!");
+                    continue;
+                }
+
+                Debug.Log($"[AchievementMenuUI] Spawning card for: {achievement.displayName}");
                 SpawnCard(achievement);
             }
 
@@ -106,8 +116,7 @@ namespace HandSurvivor.Stats.UI
             if (scrollRect != null)
                 scrollRect.verticalNormalizedPosition = 1f;
 
-            if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                Debug.Log($"[AchievementMenuUI] Menu refreshed - {achievements.Count} achievements displayed");
+            Debug.Log($"[AchievementMenuUI] Menu refreshed - {achievements.Count} achievements displayed");
         }
 
         private List<Achievement> GetFilteredAchievements()
@@ -134,14 +143,31 @@ namespace HandSurvivor.Stats.UI
 
         private void SpawnCard(Achievement achievement)
         {
-            if (cardPrefab == null || cardContainer == null)
+            if (cardPrefab == null)
             {
-                Debug.LogError("[AchievementMenuUI] Card prefab or container not assigned!");
+                Debug.LogError("[AchievementMenuUI] Card prefab is NULL!");
+                return;
+            }
+
+            if (cardContainer == null)
+            {
+                Debug.LogError("[AchievementMenuUI] Card container is NULL!");
                 return;
             }
 
             // Create card instance
-            AchievementCardUI card = Instantiate(cardPrefab, cardContainer);
+            GameObject card = Instantiate(cardPrefab, cardContainer);
+
+            if (card == null)
+            {
+                Debug.LogError("[AchievementMenuUI] Failed to instantiate card!");
+                return;
+            }
+
+            // Reset scale to normal (in case prefab has tiny scale)
+            card.transform.localScale = Vector3.one;
+
+            Debug.Log($"[AchievementMenuUI] Card instantiated for: {achievement.displayName}", card);
 
             // Determine if achievement is unlocked
             bool isUnlocked = AchievementManager.Instance.IsAchievementUnlocked(achievement.achievementId);
@@ -150,10 +176,12 @@ namespace HandSurvivor.Stats.UI
             float progress = AchievementManager.Instance.GetAchievementProgress(achievement);
             string progressString = AchievementManager.Instance.GetAchievementProgressString(achievement);
 
+            Debug.Log($"[AchievementMenuUI] Calling Initialize - isUnlocked: {isUnlocked}, progress: {progress}, progressString: {progressString}");
+            AchievementCardUI cardUI = card.GetComponent<AchievementCardUI>();
             // Initialize card (it will handle locked/unlocked display logic)
-            card.Initialize(achievement, isUnlocked, progress, progressString);
+            cardUI.Initialize(achievement, isUnlocked, progress, progressString);
 
-            spawnedCards.Add(card);
+            spawnedCards.Add(cardUI);
         }
 
         private void ClearCards()
