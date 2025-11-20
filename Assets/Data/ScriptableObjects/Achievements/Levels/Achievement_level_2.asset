@@ -20,5 +20,13 @@ MonoBehaviour:
   condition: 0
   targetValue: 2
   contextFilter: 
+  steamAchievementId: 
+  metaAchievementId: 
+  customPlatformId: 
+  isSecret: 0
+  rarity: 0
+  customUnlockSound: {fileID: 8300000, guid: 16f581b3edffe95498abe518851590bf, type: 3}
+  showNotification: 1
+  notificationDuration: 4
   isUnlocked: 0
   unlockedDateString: 

@@ -164,9 +164,6 @@ namespace HandSurvivor.Stats.UI
                 return;
             }
 
-            // Reset scale to normal (in case prefab has tiny scale)
-            card.transform.localScale = Vector3.one;
-
             Debug.Log($"[AchievementMenuUI] Card instantiated for: {achievement.displayName}", card);
 
             // Determine if achievement is unlocked

@@ -45,6 +45,13 @@ namespace HandSurvivor.Stats
         [Tooltip("Notification display duration")]
         public float notificationDuration = 4f;
 
+#if UNITY_EDITOR
+        private void Reset()
+        {
+            customUnlockSound = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Achievements/AchievementSound.wav");
+        }
+#endif
+
         [Header("State (Runtime)")]
         [HideInInspector]
         public bool isUnlocked;
