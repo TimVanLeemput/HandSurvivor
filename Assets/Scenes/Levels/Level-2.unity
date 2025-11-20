@@ -1296,17 +1296,17 @@ MonoBehaviour:
   capsuleCollider: {fileID: 0}
   radiusScaleMultiplier: 1
   attractorBeamVisual: {fileID: 0}
+  grabbableController: {fileID: 0}
   collectDuration: 2
   ufoDuration: 10
   escapeDestroyDelay: 2
   animator: {fileID: 0}
   flingForce: 1
-  beamSound: {fileID: 0}
-  releaseSound: {fileID: 0}
+  beamSounds: []
+  escapeSounds: []
   audioFadeDuration: 0.3
   maxVolume: 0.8
-  releaseSoundVolume: 1
-  releaseSoundStartBeforeEscape: 0.5
+  escapeSoundVolume: 1
   beamScaleFadeDuration: 0.25
   escapeVFX: {fileID: 0}
   OnAttractionStarted:
@@ -2818,6 +2818,66 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6788052325190768025, guid: d7a0f2135a302d54baf7c358958ffd9b, type: 3}
   m_PrefabInstance: {fileID: 472034916}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &487697078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 487697080}
+  - component: {fileID: 487697079}
+  m_Layer: 0
+  m_Name: OnStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &487697079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487697078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0e3eaab096945e48ba2b3b595402590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OnStart
+  delay: 0
+  onStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 07ca4986d1328cf4994aa7205a5ae96b, type: 2}
+        m_TargetAssemblyTypeName: GlobalBoolStateData, Assembly-CSharp
+        m_MethodName: SetTrueAndCheck
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!4 &487697080
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487697078}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.32012, y: 0, z: -0.73622}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &490051814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11509,3 +11569,4 @@ SceneRoots:
   - {fileID: 1521246077}
   - {fileID: 604593587}
   - {fileID: 1058074405}
+  - {fileID: 487697080}

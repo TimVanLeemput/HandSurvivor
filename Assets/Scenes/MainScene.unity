@@ -698,6 +698,10 @@ PrefabInstance:
       propertyPath: m_enableAutoSizing
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1583754110669661596, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: _canActivateWristMenuGlobalState
+      value: 
+      objectReference: {fileID: 11400000, guid: 07ca4986d1328cf4994aa7205a5ae96b, type: 2}
     - target: {fileID: 2097025197002216061, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
       value: 1

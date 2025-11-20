@@ -1,20 +1,17 @@
+using HandSurvivor;
 using Oculus.Interaction;
 using Oculus.Interaction.Locomotion;
 using UnityEngine;
 
 public class WristMenuToggle : MonoBehaviour
 {
-    [Header("Menu")]
-    [SerializeField]
-    private GameObject _menu;
+    [Header("Menu")] [SerializeField] private GameObject _menu;
+    [SerializeField] private GlobalBoolStateData _canActivateWristMenuGlobalState = null;
 
-    [Header("Wrist Angle Active State")]
-    [SerializeField]
+    [Header("Wrist Angle Active State")] [SerializeField]
     private WristAngleActiveState _wristAngleActiveState;
 
-    [Header("Debug")]
-    [SerializeField]
-    private bool _showDebugLogs = false;
+    [Header("Debug")] [SerializeField] private bool _showDebugLogs = false;
 
     private bool _wasActive = false;
 
@@ -40,21 +37,23 @@ public class WristMenuToggle : MonoBehaviour
     private void Update()
     {
         bool isActive = _wristAngleActiveState.Active;
-
-        if (isActive && !_wasActive)
+        if (_canActivateWristMenuGlobalState.State)
         {
-            _menu.SetActive(true);
-            if (_showDebugLogs)
+            if (isActive && !_wasActive)
             {
-                Debug.Log("<color=green>Wrist menu ACTIVATED</color>");
+                _menu.SetActive(true);
+                if (_showDebugLogs)
+                {
+                    Debug.Log("<color=green>Wrist menu ACTIVATED</color>");
+                }
             }
-        }
-        else if (!isActive && _wasActive)
-        {
-            _menu.SetActive(false);
-            if (_showDebugLogs)
+            else if (!isActive && _wasActive)
             {
-                Debug.Log("<color=red>Wrist menu DEACTIVATED</color>");
+                _menu.SetActive(false);
+                if (_showDebugLogs)
+                {
+                    Debug.Log("<color=red>Wrist menu DEACTIVATED</color>");
+                }
             }
         }
 
