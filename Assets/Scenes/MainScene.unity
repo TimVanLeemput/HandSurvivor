@@ -1400,6 +1400,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6415501437703253955, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: _activeStates.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6415501437703253957, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: _transformFeatureConfigs._values.Array.size
       value: 1
@@ -1430,6 +1434,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6415501437703253957, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
       propertyPath: _transformFeatureConfigs._values.Array.data[3]._feature
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415501437837416769, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
+      propertyPath: _activeStates.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6415501437837416771, guid: 08a2f14b80e703c4e81977080be63354, type: 3}
