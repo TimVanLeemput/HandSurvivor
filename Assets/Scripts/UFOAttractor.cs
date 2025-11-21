@@ -279,7 +279,7 @@ public class UFOAttractor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isAttracting || hasEscaped) return;
+        if (!isAttracting || hasEscaped || other == null) return;
         Coroutine coroutine = StartCoroutine(AttractCoroutine(other));
         activeAttractions.Add(coroutine);
     }
@@ -345,7 +345,8 @@ public class UFOAttractor : MonoBehaviour
             PlayerStatsManager.Instance.RecordDamage(skillId, enemy.HP, enemy.name);
 
         attractedEnemies.RemoveAll(data => data.enemy == enemy);
-        Destroy(enemyTransform.gameObject);
+        if (enemyTransform != null && enemyTransform.gameObject != null)
+            Destroy(enemyTransform.gameObject);
         OnEnemyCollected?.Invoke();
     }
     

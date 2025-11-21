@@ -92,7 +92,7 @@ public class Enemy : MonoBehaviour
 
     public void DealDamage()
     {
-        Nexus.Instance.HP -= damage;
+        Nexus.Instance.TakeDamage(damage);
 
         // Track nexus damage for stats
         if (PlayerStatsManager.Instance != null)
