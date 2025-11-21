@@ -60,9 +60,9 @@ public abstract class UsableItemBase : MonoBehaviour, IUpgradeable
 
     protected virtual void PlayUseSound()
     {
-        if (_data.UseSound != null && _audioSource != null)
+        if (_data.UseSound != null)
         {
-            _audioSource.PlayOneShot(_data.UseSound);
+            AudioSource.PlayClipAtPoint(_data.UseSound, Camera.main.transform.position);
         }
     }
 
