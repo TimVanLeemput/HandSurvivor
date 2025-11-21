@@ -26,6 +26,10 @@ public abstract class UsableItemBase : MonoBehaviour, IUpgradeable
     {
         if (UsableItemInventory.Instance != null)
         {
+            CollectibleUsableItem collectible = GetComponent<CollectibleUsableItem>();
+            if (collectible != null)
+                Destroy(collectible);
+
             UsableItemInventory.Instance.AddItem(this);
             OnPickup?.Invoke();
         }

@@ -9,10 +9,6 @@ public class CollectibleUsableItem : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool _showDebugLogs = true;
 
-    [Header("Usable Item Configuration")]
-    [SerializeField] private UsableItemData _usableItemData;
-    [SerializeField] private GameObject _usableItemPrefab;
-
     [Header("Pickup Settings")]
     [Tooltip("Automatically pickup on collision (true) or require grab interaction (false)")]
     [SerializeField] private bool _autoPickupOnCollision = true;
@@ -136,22 +132,6 @@ public class CollectibleUsableItem : MonoBehaviour
 
         _hasBeenCollected = true;
 
-        if (_usableItemData == null)
-        {
-            if (_showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                Debug.LogError("[CollectibleUsableItem] No UsableItemData assigned!");
-            Destroy(gameObject);
-            return;
-        }
-
-        if (_usableItemPrefab == null)
-        {
-            if (_showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                Debug.LogError("[CollectibleUsableItem] No UsableItem prefab assigned!");
-            Destroy(gameObject);
-            return;
-        }
-
         if (UsableItemInventory.Instance == null)
         {
             if (_showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
@@ -160,26 +140,24 @@ public class CollectibleUsableItem : MonoBehaviour
             return;
         }
 
-        GameObject usableItemObj = Instantiate(_usableItemPrefab);
-        UsableItemBase usableItem = usableItemObj.GetComponent<UsableItemBase>();
+        UsableItemBase usableItem = GetComponent<UsableItemBase>();
 
         if (usableItem == null)
         {
             if (_showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-                Debug.LogError($"[CollectibleUsableItem] UsableItem prefab does not have a UsableItemBase component!");
-            Destroy(usableItemObj);
+                Debug.LogError($"[CollectibleUsableItem] No UsableItemBase component found on this GameObject!");
             Destroy(gameObject);
             return;
         }
 
-        usableItem.Pickup();
+        if (_showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+            Debug.Log($"[CollectibleUsableItem] Picked up: {usableItem.GetData().DisplayName}");
 
         OnPickedUp?.Invoke();
 
-        if (_showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
-            Debug.Log($"[CollectibleUsableItem] Picked up: {_usableItemData.DisplayName}");
+        enabled = false;
 
-        Destroy(gameObject);
+        usableItem.Pickup();
     }
 
     private void OnDestroy()

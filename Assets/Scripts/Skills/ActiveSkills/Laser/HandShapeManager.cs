@@ -17,6 +17,8 @@ namespace HandSurvivor.ActiveSkills
 
         [Header("Events")]
         public UnityEvent OnFingerGun;
+        public UnityEvent OnKnuckleToKnucle;
+        public UnityEvent OnNamaste;
 
         private bool wasFingerGunActive = false;
 
