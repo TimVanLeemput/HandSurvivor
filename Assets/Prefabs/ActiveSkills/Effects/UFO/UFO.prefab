@@ -5137,11 +5137,14 @@ MonoBehaviour:
   animator: {fileID: 226904264985039954}
   flingForce: 3
   beamSounds:
-  - {fileID: 8300000, guid: 8593457bfa49f63499c2a9d5d18b42fe, type: 3}
+  - {fileID: 8300000, guid: a06b945190dbaf0478955f6e3007c91b, type: 3}
   escapeSounds:
   - {fileID: 8300000, guid: 1f94c91423d3cc247be8de0bf82b2670, type: 3}
   - {fileID: 8300000, guid: a179f0d278a6eb047a7b269b54530edb, type: 3}
   - {fileID: 8300000, guid: a8fd7b0203b564341a523d5cf9801b00, type: 3}
+  escapeSpecificAmountEnemiesEjectedSounds:
+  - {fileID: 8300000, guid: fee1d8610f9ede740974127c5f759f3f, type: 3}
+  escapeSpecialSoundThreshold: 30
   audioFadeDuration: 0.3
   maxVolume: 0.1
   escapeSoundVolume: 0.2

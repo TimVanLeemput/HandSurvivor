@@ -51,6 +51,9 @@ namespace HandSurvivor.ActiveSkills
         [Tooltip("Should the activation sound loop during skill duration")]
         public bool loopActivationSound = true;
         
+        [Tooltip("Should sound be 2D or 3D")]
+        public float soundSpatialization = 0f;
+        
         [Header("Comments")]
         [TextArea]
         public string comments;    }

@@ -5,8 +5,14 @@ using UnityEngine;
 public class GlobalBoolStateData : ScriptableObject
 {
     [SerializeField] private bool _state = false;
+    [SerializeField] private bool _defaultState = false;
 
     public event Action<bool> OnStateChanged;
+
+    private void OnEnable()
+    {
+        _state = _defaultState;
+    }
 
     public bool State
     {

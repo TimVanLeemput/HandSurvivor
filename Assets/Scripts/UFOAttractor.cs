@@ -25,6 +25,8 @@ public class UFOAttractor : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioClip[] beamSounds;
     [SerializeField] private AudioClip[] escapeSounds;
+    [SerializeField] private AudioClip[] escapeSpecificAmountEnemiesEjectedSounds;
+    [SerializeField] private int escapeSpecialSoundThreshold = 10;
     [SerializeField] private float audioFadeDuration = 0.3f;
     [SerializeField] [Range(0f, 1f)] private float maxVolume = 0.8f;
     [SerializeField] [Range(0f, 1f)] private float escapeSoundVolume = 1f;
@@ -71,6 +73,7 @@ public class UFOAttractor : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.loop = true;
+            audioSource.spatialBlend = 1;
             audioSource.volume = 0f;
             audioSource.playOnAwake = false;
         }
@@ -184,9 +187,17 @@ public class UFOAttractor : MonoBehaviour
 
         hasEscaped = true;
 
-        if (escapeSounds != null && escapeSounds.Length > 0 && attractedEnemies.Count > 0)
+        if (attractedEnemies.Count > 0)
         {
-            AudioSourceExtensions.PlayRandomClipAtPointWithPitch(escapeSounds, transform.position, escapeSoundVolume);
+            // Play special sound if threshold reached, otherwise play regular escape sound
+            if (attractedEnemies.Count >= escapeSpecialSoundThreshold && escapeSpecificAmountEnemiesEjectedSounds != null && escapeSpecificAmountEnemiesEjectedSounds.Length > 0)
+            {
+                AudioSourceExtensions.PlayRandomClipAtPointWithPitch(escapeSpecificAmountEnemiesEjectedSounds, transform.position, escapeSoundVolume);
+            }
+            else if (escapeSounds != null && escapeSounds.Length > 0)
+            {
+                AudioSourceExtensions.PlayRandomClipAtPointWithPitch(escapeSounds, transform.position, escapeSoundVolume);
+            }
         }
 
         if (escapeVFX != null)

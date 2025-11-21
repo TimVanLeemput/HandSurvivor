@@ -226,6 +226,7 @@ namespace HandSurvivor.ActiveSkills
                 audioObject.transform.position = transform.position;
                 activationAudioSource.clip = data.activationSound;
                 activationAudioSource.loop = data.loopActivationSound;
+                activationAudioSource.spatialBlend = data.soundSpatialization;
                 activationAudioSource.Play();
             }
         }
