@@ -15,7 +15,7 @@ MonoBehaviour:
   _itemId: usableitem_shield
   _displayName: Shield
   _description: Prevents all damage to your Nexus for 5 seconds
-  _itemImage: {fileID: 21300000, guid: ef4eb8bb43a81644eb000469c7a1bd9f, type: 3}
+  _itemImage: {fileID: 21300000, guid: dacd1801ac1b48447ae42e4b1519d003, type: 3}
   _isStackable: 1
   _maxStacks: 99
   _useSound: {fileID: 8300000, guid: f99e7a8a30c6af040b035ce44e81dfc9, type: 3}
