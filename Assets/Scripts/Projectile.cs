@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
 
     private IEnumerator AimTarget()
     {
-        Transform Target = Nexus.Instance.transform;
+        Transform Target = NexusMiniatureRef.Instance.transform;
         Vector3 startPos = transform.position;
         Vector3 targetPos = Target.position;
 

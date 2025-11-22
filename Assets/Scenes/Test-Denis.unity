@@ -379,6 +379,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 957955611344675686, guid: 37d8ecb16fe4cea48ae67cb3612791db, type: 3}
   m_PrefabInstance: {fileID: 27246754}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &52479352 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6131947575999358800, guid: 35063b190a059d245993b480283dfe80, type: 3}
+  m_PrefabInstance: {fileID: 559846559}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &59439913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,7 +1048,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UFOAttractor
   target: {fileID: 816480617}
+  capsuleCollider: {fileID: 0}
+  radiusScaleMultiplier: 1
+  attractorBeamVisual: {fileID: 0}
+  grabbableController: {fileID: 0}
   collectDuration: 2
+  ufoDuration: 10
+  escapeDestroyDelay: 2
+  animator: {fileID: 0}
+  flingForce: 1
+  beamSounds: []
+  escapeSounds: []
+  escapeSpecificAmountEnemiesEjectedSounds: []
+  escapeSpecialSoundThreshold: 10
+  audioFadeDuration: 0.3
+  maxVolume: 0.8
+  escapeSoundVolume: 1
+  beamScaleFadeDuration: 0.25
+  escapeVFX: {fileID: 0}
+  OnAttractionStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttractionStopped:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnemyCollected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUFOEscape:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUFODestroyed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &165190029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2559,13 +2596,28 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 7090029556307396937, guid: 35063b190a059d245993b480283dfe80, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6131947575999358800, guid: 35063b190a059d245993b480283dfe80, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 559846563}
   m_SourcePrefab: {fileID: 100100000, guid: 35063b190a059d245993b480283dfe80, type: 3}
 --- !u!4 &559846560 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6796738296772967914, guid: 35063b190a059d245993b480283dfe80, type: 3}
   m_PrefabInstance: {fileID: 559846559}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &559846563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52479352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d815cac273685514c86c8b4ac5160617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NexusMiniatureRef
 --- !u!1 &593553904
 GameObject:
   m_ObjectHideFlags: 0
@@ -4157,6 +4209,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Nexus
   HP: 1000
+  MaxHP: 1000
+  _flatArmor: 0
+  _percentageArmor: 0
+  _isShieldActive: 0
+  _shieldEndTime: 0
+  _currentShieldVFX: {fileID: 0}
+  _lifeDisplay: {fileID: 0}
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnShieldActivated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnShieldDeactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNexusDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!135 &901737516
 SphereCollider:
   m_ObjectHideFlags: 0

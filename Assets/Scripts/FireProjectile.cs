@@ -7,7 +7,12 @@ public class FireProjectile : MonoBehaviour
     
     public void Fire()
     {
-        GameObject go = Instantiate(Projectile, ProjectileSpawn.position, ProjectileSpawn.rotation);
+        if (GetComponent<InvisibleEnemyRef>() == null)
+            return;
+        GameObject go = Instantiate(Projectile, ProjectileSpawn);
+        go.transform.localPosition = Vector3.zero;
+        go.transform.localScale = Vector3.one;
+            
         go.GetComponent<Projectile>().Damage = GetComponent<Enemy>().damage;
     }
 }
