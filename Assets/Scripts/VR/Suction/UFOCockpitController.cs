@@ -1,33 +1,35 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using Oculus.Interaction;
+using VR.Suction;
 
 namespace HandSurvivor.VR
 {
     /// <summary>
     /// Controls the UFO from inside the cockpit after being sucked in.
     /// Uses two joysticks: Left for height, Right for horizontal movement.
+    /// Place this component at the root of the UFOCockpit prefab (child of UFO).
     /// </summary>
     public class UFOCockpitController : MonoBehaviour
     {
         [Header("References")]
+        [Tooltip("The UFO transform this cockpit controls. Set at runtime via SetUFO() or assign in inspector if cockpit is already child of UFO.")]
         [SerializeField] private Transform ufoTransform;
-        [SerializeField] private GameObject cockpitPrefab;
-        [SerializeField] private Transform cockpitSpawnPoint;
+        [Tooltip("Where the player's head should be positioned. If null, uses this transform's position.")]
+        [SerializeField] private Transform seatPosition;
 
-        [Header("Joystick References")]
+        [Header("Joystick References (children of this prefab)")]
         [Tooltip("Left joystick controls height (Y axis)")]
         [SerializeField] private CockpitJoystick leftJoystick;
         [Tooltip("Right joystick controls horizontal movement (X/Z axes)")]
         [SerializeField] private CockpitJoystick rightJoystick;
 
         [Header("Movement Settings")]
-        [SerializeField] private float horizontalSpeed = 5f;
-        [SerializeField] private float verticalSpeed = 3f;
+        [SerializeField] private float horizontalSpeed = 1f;
+        [SerializeField] private float verticalSpeed = 0.5f;
         [SerializeField] private float maxHeight = 10f;
         [SerializeField] private float minHeight = 1f;
-        [SerializeField] private float movementSmoothing = 5f;
+        [SerializeField] private float movementSmoothing = 3f;
+        [SerializeField] [Range(0f, 0.5f)] private float joystickDeadzone = 0.15f;
 
         [Header("Bounds")]
         [SerializeField] private bool useBounds = true;
@@ -39,19 +41,23 @@ namespace HandSurvivor.VR
         public UnityEvent OnCockpitExited;
 
         private OVRCameraRig _cameraRig;
-        private GameObject _activeCockpit;
         private Vector3 _targetVelocity;
         private Vector3 _currentVelocity;
         private bool _isControlling;
         private Transform _originalParent;
-        private Vector3 _originalLocalPosition;
-        private Quaternion _originalLocalRotation;
+        private Vector3 _rigOffset;
 
         public bool IsControlling => _isControlling;
 
         private void Awake()
         {
             _cameraRig = FindFirstObjectByType<OVRCameraRig>();
+
+            // Auto-find UFO if not assigned (assumes cockpit is child of UFO)
+            if (ufoTransform == null)
+            {
+                ufoTransform = transform.parent;
+            }
         }
 
         private void Update()
@@ -65,6 +71,7 @@ namespace HandSurvivor.VR
         /// <summary>
         /// Enter the cockpit and start controlling the UFO.
         /// Call this after the suction sequence completes.
+        /// The cockpit prefab should already be a child of the UFO.
         /// </summary>
         public void EnterCockpit()
         {
@@ -72,33 +79,36 @@ namespace HandSurvivor.VR
 
             _isControlling = true;
 
-            // Store original rig state
+            // Cancel UFO self-destruct so it doesn't disappear while player is inside
+            UFOAttractor ufoAttractor = ufoTransform != null ? ufoTransform.GetComponent<UFOAttractor>() : null;
+            if (ufoAttractor != null)
+            {
+                ufoAttractor.CancelSelfDestruct();
+            }
+
+            // Store original rig parent
             if (_cameraRig != null)
             {
                 _originalParent = _cameraRig.transform.parent;
-                _originalLocalPosition = _cameraRig.transform.localPosition;
-                _originalLocalRotation = _cameraRig.transform.localRotation;
+
+                // Determine target position (seat or cockpit center)
+                Transform targetPos = seatPosition != null ? seatPosition : transform;
+
+                // Calculate where rig needs to be so HMD ends up at target
+                // HMD offset from rig in world space
+                Vector3 hmdWorldOffset = _cameraRig.centerEyeAnchor.position - _cameraRig.transform.position;
+
+                // Position rig so HMD lands at target
+                _cameraRig.transform.position = targetPos.position - hmdWorldOffset;
+
+                // Now parent to cockpit (keeps world position)
+                _cameraRig.transform.SetParent(transform, worldPositionStays: true);
+
+                _rigOffset = Vector3.zero;
             }
 
-            // Spawn cockpit if we have a prefab
-            if (cockpitPrefab != null && _activeCockpit == null)
-            {
-                Transform spawnPoint = cockpitSpawnPoint != null ? cockpitSpawnPoint : ufoTransform;
-                _activeCockpit = Instantiate(cockpitPrefab, spawnPoint.position, spawnPoint.rotation);
-                _activeCockpit.transform.SetParent(ufoTransform);
-
-                // Find joysticks in spawned cockpit if not already assigned
-                if (leftJoystick == null)
-                    leftJoystick = _activeCockpit.transform.Find("LeftJoystick")?.GetComponent<CockpitJoystick>();
-                if (rightJoystick == null)
-                    rightJoystick = _activeCockpit.transform.Find("RightJoystick")?.GetComponent<CockpitJoystick>();
-            }
-
-            // Parent camera rig to UFO so player moves with it
-            if (_cameraRig != null && ufoTransform != null)
-            {
-                _cameraRig.transform.SetParent(ufoTransform);
-            }
+            // Enable cockpit visuals (in case they were disabled)
+            gameObject.SetActive(true);
 
             OnCockpitEntered?.Invoke();
         }
@@ -116,18 +126,10 @@ namespace HandSurvivor.VR
             if (_cameraRig != null)
             {
                 _cameraRig.transform.SetParent(_originalParent);
-                // Don't reset position - let player be where they ended up
             }
 
-            // Cleanup cockpit
-            if (_activeCockpit != null)
-            {
-                Destroy(_activeCockpit);
-                _activeCockpit = null;
-            }
-
-            leftJoystick = null;
-            rightJoystick = null;
+            // Disable cockpit
+            gameObject.SetActive(false);
 
             OnCockpitExited?.Invoke();
         }
@@ -139,7 +141,7 @@ namespace HandSurvivor.VR
             // Right joystick: Horizontal movement (forward/back/left/right)
             if (rightJoystick != null)
             {
-                Vector2 rightInput = rightJoystick.GetNormalizedInput();
+                Vector2 rightInput = ApplyDeadzone(rightJoystick.GetNormalizedInput());
 
                 // Convert joystick input to world-space horizontal movement
                 // Forward/back on joystick = Z axis, Left/right = X axis
@@ -155,7 +157,7 @@ namespace HandSurvivor.VR
             // Left joystick: Height control (up/down)
             if (leftJoystick != null)
             {
-                Vector2 leftInput = leftJoystick.GetNormalizedInput();
+                Vector2 leftInput = ApplyDeadzone(leftJoystick.GetNormalizedInput());
 
                 // Y axis of joystick controls height
                 float verticalMove = leftInput.y * verticalSpeed;
@@ -163,13 +165,27 @@ namespace HandSurvivor.VR
             }
         }
 
+        private Vector2 ApplyDeadzone(Vector2 input)
+        {
+            if (input.magnitude < joystickDeadzone)
+                return Vector2.zero;
+
+            // Remap from deadzone..1 to 0..1
+            Vector2 normalized = input.normalized;
+            float magnitude = Mathf.InverseLerp(joystickDeadzone, 1f, input.magnitude);
+            return normalized * magnitude;
+        }
+
         private void ApplyMovement()
         {
             // Smooth the velocity
             _currentVelocity = Vector3.Lerp(_currentVelocity, _targetVelocity, Time.deltaTime * movementSmoothing);
 
+            // Store old position to calculate delta
+            Vector3 oldPosition = ufoTransform.position;
+
             // Calculate new position
-            Vector3 newPosition = ufoTransform.position + _currentVelocity * Time.deltaTime;
+            Vector3 newPosition = oldPosition + _currentVelocity * Time.deltaTime;
 
             // Apply height constraints
             newPosition.y = Mathf.Clamp(newPosition.y, minHeight, maxHeight);
@@ -181,11 +197,20 @@ namespace HandSurvivor.VR
                 newPosition.z = Mathf.Clamp(newPosition.z, boundsCenter.z - boundsSize.z / 2f, boundsCenter.z + boundsSize.z / 2f);
             }
 
+            // Move UFO
             ufoTransform.position = newPosition;
+
+            // Also move camera rig by the same delta (OVR tracking can fight parenting)
+            if (_cameraRig != null)
+            {
+                Vector3 delta = newPosition - oldPosition;
+                _cameraRig.transform.position += delta;
+            }
         }
 
+
         /// <summary>
-        /// Set the UFO transform to control (call before EnterCockpit).
+        /// Set the UFO transform to control.
         /// </summary>
         public void SetUFO(Transform ufo)
         {
@@ -207,125 +232,6 @@ namespace HandSurvivor.VR
             {
                 ExitCockpit();
             }
-        }
-    }
-
-    /// <summary>
-    /// Individual joystick component for the cockpit.
-    /// Attach to a grabbable object that pivots around its base.
-    /// </summary>
-    public class CockpitJoystick : MonoBehaviour
-    {
-        [Header("Settings")]
-        [SerializeField] private float maxAngle = 30f;
-        [SerializeField] private float returnSpeed = 10f;
-        [SerializeField] private bool returnToCenter = true;
-
-        [Header("Grab Detection")]
-        [SerializeField] private Grabbable grabbable;
-
-        private Vector3 _neutralRotation;
-        private bool _isGrabbed;
-
-        public bool IsGrabbed => _isGrabbed;
-
-        private void Awake()
-        {
-            _neutralRotation = transform.localEulerAngles;
-
-            if (grabbable == null)
-                grabbable = GetComponent<Grabbable>();
-        }
-
-        private void OnEnable()
-        {
-            if (grabbable != null)
-            {
-                grabbable.WhenPointerEventRaised += OnPointerEvent;
-            }
-        }
-
-        private void OnDisable()
-        {
-            if (grabbable != null)
-            {
-                grabbable.WhenPointerEventRaised -= OnPointerEvent;
-            }
-        }
-
-        private void OnPointerEvent(PointerEvent evt)
-        {
-            switch (evt.Type)
-            {
-                case PointerEventType.Select:
-                    _isGrabbed = true;
-                    break;
-                case PointerEventType.Unselect:
-                    _isGrabbed = false;
-                    break;
-            }
-        }
-
-        private void Update()
-        {
-            // Return to center when not grabbed
-            if (!_isGrabbed && returnToCenter)
-            {
-                Vector3 currentRotation = transform.localEulerAngles;
-                Vector3 targetRotation = _neutralRotation;
-
-                transform.localEulerAngles = Vector3.Lerp(currentRotation, targetRotation, Time.deltaTime * returnSpeed);
-            }
-
-            // Clamp rotation while grabbed
-            ClampRotation();
-        }
-
-        private void ClampRotation()
-        {
-            Vector3 localEuler = transform.localEulerAngles;
-
-            // Normalize angles to -180 to 180
-            float x = NormalizeAngle(localEuler.x - _neutralRotation.x);
-            float z = NormalizeAngle(localEuler.z - _neutralRotation.z);
-
-            // Clamp
-            x = Mathf.Clamp(x, -maxAngle, maxAngle);
-            z = Mathf.Clamp(z, -maxAngle, maxAngle);
-
-            transform.localEulerAngles = new Vector3(
-                _neutralRotation.x + x,
-                _neutralRotation.y,
-                _neutralRotation.z + z
-            );
-        }
-
-        /// <summary>
-        /// Get normalized joystick input (-1 to 1 for each axis).
-        /// X = left/right tilt, Y = forward/back tilt.
-        /// </summary>
-        public Vector2 GetNormalizedInput()
-        {
-            Vector3 localEuler = transform.localEulerAngles;
-
-            // Get rotation offset from neutral
-            float xAngle = NormalizeAngle(localEuler.x - _neutralRotation.x);
-            float zAngle = NormalizeAngle(localEuler.z - _neutralRotation.z);
-
-            // Normalize to -1 to 1
-            // X rotation (tilting forward/back) = Y output (forward/back movement)
-            // Z rotation (tilting left/right) = X output (left/right movement)
-            float normalizedY = -Mathf.Clamp(xAngle / maxAngle, -1f, 1f); // Negative because tilting forward is negative X rotation
-            float normalizedX = Mathf.Clamp(zAngle / maxAngle, -1f, 1f);
-
-            return new Vector2(normalizedX, normalizedY);
-        }
-
-        private float NormalizeAngle(float angle)
-        {
-            while (angle > 180f) angle -= 360f;
-            while (angle < -180f) angle += 360f;
-            return angle;
         }
     }
 }

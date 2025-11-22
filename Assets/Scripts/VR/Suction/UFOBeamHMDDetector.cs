@@ -16,7 +16,6 @@ namespace HandSurvivor.VR
 
         [Header("References")]
         [SerializeField] private VRSuctionController suctionController;
-        [SerializeField] private UFOCockpitController cockpitController;
 
         [Header("Events")]
         public UnityEvent OnBeamHitHMD;
@@ -25,6 +24,7 @@ namespace HandSurvivor.VR
         private OVRCameraRig _cameraRig;
         private Transform _hmdTransform;
         private UFOAttractor _currentUFO;
+        private UFOCockpitController _currentCockpit;
         private bool _isBeingCaptured;
         private SphereCollider _hmdCollider;
 
@@ -42,9 +42,6 @@ namespace HandSurvivor.VR
 
             if (suctionController == null)
                 suctionController = FindFirstObjectByType<VRSuctionController>();
-
-            if (cockpitController == null)
-                cockpitController = FindFirstObjectByType<UFOCockpitController>();
         }
 
         private void SetupHMDCollider()
@@ -74,6 +71,9 @@ namespace HandSurvivor.VR
             _isBeingCaptured = true;
             _currentUFO = ufo;
 
+            // Immediately cancel self-destruct so UFO doesn't disappear during suction
+            ufo.CancelSelfDestruct();
+
             OnBeamHitHMD?.Invoke();
 
             // Start suction toward UFO
@@ -97,10 +97,18 @@ namespace HandSurvivor.VR
 
         private void EnterCockpit()
         {
-            if (cockpitController != null && _currentUFO != null)
+            if (_currentUFO == null) return;
+
+            // Find the cockpit controller on the UFO (it's a child of the UFO prefab)
+            _currentCockpit = _currentUFO.GetComponentInChildren<UFOCockpitController>(includeInactive: true);
+
+            if (_currentCockpit != null)
             {
-                cockpitController.SetUFO(_currentUFO.transform);
-                cockpitController.EnterCockpit();
+                _currentCockpit.EnterCockpit();
+            }
+            else
+            {
+                Debug.LogWarning("[UFOBeamHMDDetector] No UFOCockpitController found on UFO!");
             }
 
             OnCockpitEntered?.Invoke();
@@ -115,9 +123,10 @@ namespace HandSurvivor.VR
 
             _isBeingCaptured = false;
 
-            if (cockpitController != null)
+            if (_currentCockpit != null)
             {
-                cockpitController.ExitCockpit();
+                _currentCockpit.ExitCockpit();
+                _currentCockpit = null;
             }
 
             _currentUFO = null;

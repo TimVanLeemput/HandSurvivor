@@ -76,7 +76,7 @@ namespace HandSurvivor.UI
                 gameOverUI.Show();
 
             // Pause game
-            Time.timeScale = 0f;
+            // Time.timeScale = 0f;
 
             OnGameOver?.Invoke();
 

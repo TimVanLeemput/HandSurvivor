@@ -47,7 +47,8 @@ public class UFOAttractor : MonoBehaviour
     private bool isAttracting = false;
     private bool hasEscaped = false;
     private bool timerStarted = false;
-    private SelfDestruct selfDestruct;
+    private bool timerPaused = false;
+    private Coroutine destroyCoroutine;
     private System.Collections.Generic.List<Coroutine> activeAttractions = new System.Collections.Generic.List<Coroutine>();
     private System.Collections.Generic.List<AttractedEnemyData> attractedEnemies = new System.Collections.Generic.List<AttractedEnemyData>();
     private AudioSource audioSource;
@@ -57,7 +58,6 @@ public class UFOAttractor : MonoBehaviour
 
     private void Awake()
     {
-        selfDestruct = GetComponent<SelfDestruct>();
         if (capsuleCollider != null)
         {
             capsuleCollider.enabled = false;
@@ -86,7 +86,7 @@ public class UFOAttractor : MonoBehaviour
 
     private void Update()
     {
-        if (!timerStarted || hasEscaped) return;
+        if (!timerStarted || hasEscaped || timerPaused) return;
 
         ufoTimer += Time.deltaTime;
 
@@ -181,6 +181,48 @@ public class UFOAttractor : MonoBehaviour
         return Mathf.Max(0f, ufoDuration - ufoTimer);
     }
 
+    /// <summary>
+    /// Pause the self-destruct timer. Call ResumeTimer() to continue.
+    /// </summary>
+    public void PauseTimer()
+    {
+        timerPaused = true;
+    }
+
+    /// <summary>
+    /// Resume the self-destruct timer after pausing.
+    /// </summary>
+    public void ResumeTimer()
+    {
+        timerPaused = false;
+    }
+
+    /// <summary>
+    /// Cancel the self-destruct sequence entirely.
+    /// The UFO will remain active indefinitely until manually destroyed.
+    /// </summary>
+    public void CancelSelfDestruct()
+    {
+        timerPaused = true;
+        hasEscaped = false;
+
+        // Cancel any pending destroy coroutine
+        if (destroyCoroutine != null)
+        {
+            StopCoroutine(destroyCoroutine);
+            destroyCoroutine = null;
+        }
+
+        // Also cancel the SelfDestruct component if present
+        SelfDestruct selfDestructComponent = GetComponent<SelfDestruct>();
+        if (selfDestructComponent != null)
+        {
+            selfDestructComponent.CancelSelfDestruct();
+        }
+    }
+
+    public bool IsTimerPaused => timerPaused;
+
     private void TriggerEscape()
     {
         if (hasEscaped) return;
@@ -237,7 +279,7 @@ public class UFOAttractor : MonoBehaviour
         FlingAttractedEnemies();
         OnUFOEscape?.Invoke();
 
-        StartCoroutine(DestroyAfterDelay());
+        destroyCoroutine = StartCoroutine(DestroyAfterDelay());
     }
 
     private IEnumerator DestroyAfterDelay()
