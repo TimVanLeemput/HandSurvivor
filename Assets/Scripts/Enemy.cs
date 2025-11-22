@@ -24,6 +24,10 @@ public class Enemy : MonoBehaviour
     private Rigidbody _rigidbody;
     private Collider _collider;
 
+    // Reserved ring slot info (managed by NexusRingPositionsManager)
+    private int _ringSlotIndex = -1;
+    private Vector3 _assignedDestination;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -46,48 +50,30 @@ public class Enemy : MonoBehaviour
             yield return null;
         }
 
-        while (!CheckDestinationReached(_nexusTransform.position))
+        // Try to acquire a free spot on the circle around the Nexus
+        Vector3 targetPos = _nexusTransform.position;
+        bool acquired = false;
+        if (NexusRingPositionsManager.Instance != null)
         {
-            TargetNexus();
-            yield return new WaitForSeconds(1);
+            if (NexusRingPositionsManager.Instance.AcquireNearestPosition(transform.position, destinationReachedDistance, out _ringSlotIndex, out _assignedDestination))
+            {
+                targetPos = _assignedDestination;
+                acquired = true;
+            }
         }
 
-        _animator.SetTrigger("Attack");
-        gameObject.GetComponent<EnemyNavMeshSync>().Attack();
+        _navMeshAgent.stoppingDistance = 0;
+        _navMeshAgent.SetDestination(targetPos);
 
-        while (true)
+        while (!CheckDestinationReached(targetPos))
         {
-            transform.LookAt(_nexusTransform);
             yield return null;
         }
-    }
 
-    private void TargetNexus()
-    {
-        if (_navMeshAgent != null && _navMeshAgent.isOnNavMesh)
-        {
-            Vector3 targetPos = GetDestinationNearNexus();
-            _navMeshAgent.SetDestination(targetPos);
-        }
-    }
-
-    private Vector3 GetDestinationNearNexus()
-    {
-        Vector3 nexusPos = _nexusTransform.position;
-        Vector3 fromNexusToEnemy = transform.position - nexusPos;
-
-        // Si l'ennemi est exactement au centre, choisis une direction arbitraire
-        if (fromNexusToEnemy.sqrMagnitude < 0.001f)
-        {
-            fromNexusToEnemy = Vector3.forward;
-        }
-
-        Vector3 dir = fromNexusToEnemy.normalized;
-
-        // Point sur le cercle autour du nexus, à distance destinationReachedDistance
-        Vector3 targetOnCircle = nexusPos + dir * destinationReachedDistance ;
-
-        return targetOnCircle;
+        _navMeshAgent.enabled = false;
+        _animator.SetTrigger("Attack");
+        gameObject.GetComponent<EnemyNavMeshSync>().Attack();
+        transform.LookAt(_nexusTransform);
     }
 
     public void DealDamage()
@@ -143,6 +129,10 @@ public class Enemy : MonoBehaviour
         if (GetComponent<InvisibleEnemyRef>().Ref != null)
             Destroy(GetComponent<InvisibleEnemyRef>().Ref.gameObject);
         WavesManager.Instance.CurrentEnnemies.Remove(this);
+
+        // Release reserved ring slot before destroying
+        ReleaseReservedRingSlot();
+
         Destroy(gameObject);
     }
 
@@ -151,9 +141,26 @@ public class Enemy : MonoBehaviour
         XPManager.Instance.DropXP(XPAmount, transform.position);
     }
 
+    private void ReleaseReservedRingSlot()
+    {
+        if (_ringSlotIndex >= 0 && NexusRingPositionsManager.Instance != null)
+        {
+            NexusRingPositionsManager.Instance.ReleasePosition(_ringSlotIndex);
+            _ringSlotIndex = -1;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Safety: ensure slot is freed if object is destroyed unexpectedly
+        ReleaseReservedRingSlot();
+    }
+
     bool CheckDestinationReached(Vector3 target)
     {
-        return Vector3.Distance(transform.position, target) < destinationReachedDistance;
+        Vector3 pos = transform.position;
+        pos.y = target.y;
+        return Vector3.Distance(pos, target) < 1;
     }
 
     private void OnCollisionEnter(Collision collision)

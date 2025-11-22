@@ -4169,6 +4169,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6131947575999358800, guid: 35063b190a059d245993b480283dfe80, type: 3}
       insertIndex: -1
       addedObject: {fileID: 901737514}
+    - targetCorrespondingSourceObject: {fileID: 6131947575999358800, guid: 35063b190a059d245993b480283dfe80, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 901737519}
   m_SourcePrefab: {fileID: 100100000, guid: 35063b190a059d245993b480283dfe80, type: 3}
 --- !u!1 &901737512 stripped
 GameObject:
@@ -4252,6 +4255,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 8
   m_Center: {x: -0.00000047683716, y: -0.9201988, z: 0}
+--- !u!114 &901737519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901737512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3644cd173b04e59a00ca11d4dcd911d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NexusRingPositionsManager
+  slotsCount: 256
+  navMeshSampleMaxDistance: 3
 --- !u!1001 &903307841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7012,7 +7029,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1770592366}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
