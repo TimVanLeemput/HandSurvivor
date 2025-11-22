@@ -89,7 +89,7 @@ public class XPGrabber : MonoBehaviour, IUpgradeable
         // Callback de collecte + destruction
         droplet.OnDropLetCollected();
         yield return null;
-        Destroy(droplet.gameObject);
+        Destroy(droplet?.gameObject);
     }
 
     #region IUpgradeable Implementation

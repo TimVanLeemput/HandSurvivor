@@ -499,7 +499,6 @@ Transform:
   - {fileID: 6079569499690169648}
   - {fileID: 8124065329575642574}
   - {fileID: 3288539416018198462}
-  - {fileID: 2003454048167964364}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1978396897932034869
@@ -7093,89 +7092,6 @@ MonoBehaviour:
   - {fileID: 3051779515168635851}
   - {fileID: 6403167025949694031}
   - {fileID: 7458246045183984732}
---- !u!1 &919848254161972821
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7114347218365470543}
-  - component: {fileID: 1445129508814127539}
-  m_Layer: 0
-  m_Name: GlobalBoolState-LevelUpParticles-CanPlay
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7114347218365470543
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919848254161972821}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2003454048167964364}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1445129508814127539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919848254161972821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 363a4c94d114ed847b7a1930da2994a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GlobalBoolStateChecker
-  globalBoolStates:
-  - {fileID: 11400000, guid: 3f2c1ca498a915e4a81b5d6ef98b6a48, type: 2}
-  checkOnStart: 0
-  OnAllTrue:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 378783087029995407}
-        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: 3f2c1ca498a915e4a81b5d6ef98b6a48, type: 2}
-        m_TargetAssemblyTypeName: GlobalBoolStateData, Assembly-CSharp
-        m_MethodName: SetFalseAndCheck
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnAllFalse:
-    m_PersistentCalls:
-      m_Calls: []
-  OnNotAllTrue:
-    m_PersistentCalls:
-      m_Calls: []
-  OnNotAllFalse:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &940706580481303468
 GameObject:
   m_ObjectHideFlags: 0
@@ -9676,38 +9592,6 @@ Transform:
   - {fileID: 4379044965708565003}
   - {fileID: 6215659635388369982}
   m_Father: {fileID: 2938543764945564264}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1315570072344194823
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2003454048167964364}
-  m_Layer: 0
-  m_Name: GlobalBoolStateCheckers
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2003454048167964364
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315570072344194823}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7114347218365470543}
-  m_Father: {fileID: 7563554515575242704}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1319628618675931978
 GameObject:
@@ -43616,7 +43500,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: -0.037495863, y: 0.021597086, z: -0.15380965}
   m_RotationAtRest: {x: 0.0001336607, y: 0.54515797, z: 0}
   m_TranslationOffsets:
-  - {x: -0.035923004, y: 0.021596693, z: -0.16574216}
+  - {x: -0.03592299, y: 0.021596693, z: -0.16574202}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -52951,7 +52835,7 @@ MonoBehaviour:
   rightWrist: {fileID: 4737934987365405516}
   angleTolerance: 60
   maxDistance: 0.15
-  detectionCooldown: 0.5
+  detectionCooldown: 2
   OnKnucklesPointing:
     m_PersistentCalls:
       m_Calls:
@@ -70728,11 +70612,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4be1818e12f322045ab756f8b036c5d8, type: 3}
---- !u!198 &378783087029995407 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3964889315547076630, guid: 4be1818e12f322045ab756f8b036c5d8, type: 3}
-  m_PrefabInstance: {fileID: 3623050133986713497}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2425416571071893893 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1436480485091151388, guid: 4be1818e12f322045ab756f8b036c5d8, type: 3}

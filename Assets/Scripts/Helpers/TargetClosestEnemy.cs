@@ -73,6 +73,9 @@ public class TargetClosestEnemy : MonoBehaviour
 
     private Enemy FindClosestUntargetedEnemy()
     {
+        if (WavesManager.Instance == null)
+            return null;
+
         var enemies = WavesManager.Instance.CurrentEnnemies;
 
         if (enemies == null || enemies.Count == 0)

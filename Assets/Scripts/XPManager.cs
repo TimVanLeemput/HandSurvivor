@@ -92,4 +92,17 @@ public class XPManager : MonoBehaviour
     /// Get XP needed for next level
     /// </summary>
     public int GetXPForNextLevel() => CurrentXPForLevel;
+
+    /// <summary>
+    /// Reset XP and level to starting values
+    /// </summary>
+    public void Reset()
+    {
+        Level = 1;
+        CurrentXP = 0;
+        CurrentXPForLevel = 1000;
+
+        if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+            Debug.Log("[XPManager] Reset to Level 1");
+    }
 }

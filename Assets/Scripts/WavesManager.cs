@@ -19,10 +19,26 @@ public class WavesManager : MonoBehaviour
 
     private int _currentWaveIndex = 0;
     private GameObject _lastBoss;
+    private bool _isShuttingDown = false;
 
     private void Awake()
     {
         Instance = this;
+        _isShuttingDown = false;
+    }
+
+    private void OnDisable()
+    {
+        _isShuttingDown = true;
+        StopAllCoroutines();
+    }
+
+    private void OnDestroy()
+    {
+        _isShuttingDown = true;
+        StopAllCoroutines();
+        if (Instance == this)
+            Instance = null;
     }
 
     private void Start()
@@ -40,9 +56,15 @@ public class WavesManager : MonoBehaviour
 
         while (waveTimer < wave.WaveDuration)
         {
+            // Exit if shutting down
+            if (_isShuttingDown) yield break;
+
             Transform spawnPoint = EnemiesSpawnPoints[Random.Range(0, EnemiesSpawnPoints.Count)];
+            if (spawnPoint == null) yield break;
 
             GameObject prefab = PickRandomEnemy(wave.Enemies);
+            if (prefab == null || EnemiesParent == null) yield break;
+
             GameObject go = Instantiate(
                 prefab,
                 spawnPoint.position,
@@ -60,9 +82,13 @@ public class WavesManager : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
         }
 
+        // Exit if shutting down
+        if (_isShuttingDown) yield break;
+
         if (wave.Boss != null)
         {
             Transform spawnPoint = EnemiesSpawnPoints[Random.Range(0, EnemiesSpawnPoints.Count)];
+            if (spawnPoint == null || EnemiesParent == null) yield break;
 
             GameObject go = Instantiate(
                 wave.Boss,
@@ -85,6 +111,7 @@ public class WavesManager : MonoBehaviour
             // NO MORE WAVES
             while (_lastBoss != null)
             {
+                if (_isShuttingDown) yield break;
                 yield return null;
             }
             // LAST BOSS DEAD: VICTORY
@@ -93,7 +120,7 @@ public class WavesManager : MonoBehaviour
         else
         {
             _currentWaveIndex++;
-            if (_currentWaveIndex < Level.Waves.Count)
+            if (_currentWaveIndex < Level.Waves.Count && !_isShuttingDown)
             {
                 StartCoroutine(StartWave(Level.Waves[_currentWaveIndex]));
             }

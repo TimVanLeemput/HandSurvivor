@@ -142,13 +142,13 @@ public class Enemy : MonoBehaviour
 
         if (GetComponent<InvisibleEnemyRef>().Ref != null)
             Destroy(GetComponent<InvisibleEnemyRef>().Ref.gameObject);
-        WavesManager.Instance.CurrentEnnemies.Remove(this);
+        WavesManager.Instance?.CurrentEnnemies?.Remove(this);
         Destroy(gameObject);
     }
 
     public void DropXP()
     {
-        XPManager.Instance.DropXP(XPAmount, transform.position);
+        XPManager.Instance?.DropXP(XPAmount, transform.position);
     }
 
     bool CheckDestinationReached(Vector3 target)

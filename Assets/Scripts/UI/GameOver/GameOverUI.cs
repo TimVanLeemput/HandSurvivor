@@ -66,6 +66,24 @@ namespace HandSurvivor.UI
         }
 
         /// <summary>
+        /// Reset displayed stats to zero/default
+        /// </summary>
+        public void ResetDisplay()
+        {
+            if (enemiesKilledText != null)
+                enemiesKilledText.text = "0";
+
+            if (wavesCompletedText != null)
+                wavesCompletedText.text = "0";
+
+            if (timeSurvivedText != null)
+                timeSurvivedText.text = "00:00";
+
+            if (showDebugLogs && DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                Debug.Log("[GameOverUI] Display reset");
+        }
+
+        /// <summary>
         /// Refresh all stats from PlayerStatsManager
         /// </summary>
         public void RefreshStats()

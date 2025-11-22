@@ -134,6 +134,79 @@ namespace HandSurvivor.Level
             StartCoroutine(LoadScenesSequence(scenesToLoadOverride));
         }
 
+        /// <summary>
+        /// Load multiple scenes by path sequentially with fade transition
+        /// </summary>
+        public void LoadScenesByPath(List<string> scenePaths)
+        {
+            if (isLoading)
+            {
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogWarning("SceneLoaderManager: Already loading scenes");
+                return;
+            }
+
+            if (scenePaths == null || scenePaths.Count == 0)
+            {
+                if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                    Debug.LogWarning("SceneLoaderManager: No scene paths provided to load");
+                return;
+            }
+
+            StartCoroutine(LoadScenesByPathSequence(scenePaths));
+        }
+
+        private IEnumerator LoadScenesByPathSequence(List<string> scenePaths)
+        {
+            isLoading = true;
+
+            // Fade out
+            yield return FadeOut();
+
+            // Load loading screen if configured
+            string loadingScreenScenePath = null;
+            if (useLoadingScreen && loadingScreenScene != null && loadingScreenScene.IsValid)
+            {
+                loadingScreenScenePath = loadingScreenScene.ScenePath;
+                yield return LoadSceneAsync(loadingScreenScenePath, true);
+            }
+
+            // Load all scenes sequentially
+            int totalScenes = scenePaths.Count;
+            for (int i = 0; i < totalScenes; i++)
+            {
+                string scenePath = scenePaths[i];
+
+                if (string.IsNullOrEmpty(scenePath))
+                {
+                    if (showDebugLogs && HandSurvivor.DebugSystem.DebugLogManager.EnableAllDebugLogs)
+                        Debug.LogWarning($"SceneLoaderManager: Scene path at index {i} is empty, skipping");
+                    continue;
+                }
+
+                float progressBase = (float)i / totalScenes;
+                float progressRange = 1f / totalScenes;
+
+                yield return LoadSceneAsync(scenePath, false, progressBase, progressRange);
+            }
+
+            // Unload loading screen if it was loaded
+            if (!string.IsNullOrEmpty(loadingScreenScenePath))
+            {
+                yield return UnloadSceneAsync(loadingScreenScenePath);
+            }
+
+            // Final progress update
+            OnLoadingProgress?.Invoke(1f);
+
+            // Fade in
+            yield return FadeIn();
+
+            // Loading complete
+            OnLoadingComplete?.Invoke();
+            isLoading = false;
+        }
+
         private IEnumerator LoadScenesSequence(List<SceneReference> scenesToLoadList)
         {
             isLoading = true;
