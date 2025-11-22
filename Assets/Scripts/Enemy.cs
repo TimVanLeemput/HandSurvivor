@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour
         while (true)
         {
             transform.LookAt(_nexusTransform);
-            yield return new WaitForSeconds(1);
+            yield return null;
         }
     }
 
@@ -85,7 +85,7 @@ public class Enemy : MonoBehaviour
         Vector3 dir = fromNexusToEnemy.normalized;
 
         // Point sur le cercle autour du nexus, à distance destinationReachedDistance
-        Vector3 targetOnCircle = nexusPos + dir * (destinationReachedDistance / 2f);
+        Vector3 targetOnCircle = nexusPos + dir * destinationReachedDistance ;
 
         return targetOnCircle;
     }

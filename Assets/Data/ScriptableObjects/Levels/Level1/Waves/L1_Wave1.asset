@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Wave
   WaveDuration: 60
   Enemies:
-  - Enemy: {fileID: 5937148703916929476, guid: 1680cfbdf2e80d3488a36759a33179aa, type: 3}
+  - Enemy: {fileID: 5937148703916929476, guid: ef3be02e326d80b42abfc519c0e74e91, type: 3}
     Probability: 0.8
-  - Enemy: {fileID: 5937148703916929476, guid: 563c9944f3a56bf41af35ca0163a08f0, type: 3}
+  - Enemy: {fileID: 5937148703916929476, guid: 1680cfbdf2e80d3488a36759a33179aa, type: 3}
     Probability: 0.2
   SpawnFequency: 5
   Boss: {fileID: 0}

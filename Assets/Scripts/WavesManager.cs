@@ -42,9 +42,7 @@ public class WavesManager : MonoBehaviour
         {
             Transform spawnPoint = EnemiesSpawnPoints[Random.Range(0, EnemiesSpawnPoints.Count)];
 
-            Debug.Log("START WAVE: " + wave + " " + wave.Enemies + " " + spawnPoint + " " + EnemiesParent);
             GameObject prefab = PickRandomEnemy(wave.Enemies);
-            Debug.Log("PREFAB: " + prefab);
             GameObject go = Instantiate(
                 prefab,
                 spawnPoint.position,
