@@ -22,8 +22,8 @@ MonoBehaviour:
   damage: 100
   minCooldownMultiplier: 0.25
   maxUpgradedRepeatRate: 0.5
-  pickupVFX: {fileID: 0}
-  activationVFX: {fileID: 0}
-  pickupSound: {fileID: 0}
   activationSound: {fileID: 8300000, guid: 93a976f3d7e6b82439a2e6c0197132fa, type: 3}
   loopActivationSound: 0
+  activationSoundVolume: 0.2
+  soundSpatialization: 1
+  comments: 

@@ -5898,11 +5898,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6131947575999358800, guid: 35063b190a059d245993b480283dfe80, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 901737516}
+      insertIndex: 1
+      addedObject: {fileID: 901737515}
     - targetCorrespondingSourceObject: {fileID: 6131947575999358800, guid: 35063b190a059d245993b480283dfe80, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 901737515}
+      addedObject: {fileID: 901737516}
     - targetCorrespondingSourceObject: {fileID: 6131947575999358800, guid: 35063b190a059d245993b480283dfe80, type: 3}
       insertIndex: -1
       addedObject: {fileID: 901737514}
@@ -5991,7 +5991,19 @@ MonoBehaviour:
         m_CallState: 2
   OnNexusDestroyed:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 40869227dd380344bac4792de0d1889f, type: 2}
+        m_TargetAssemblyTypeName: GlobalBoolStateData, Assembly-CSharp
+        m_MethodName: SetTrueAndCheck
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!135 &901737516
 SphereCollider:
   m_ObjectHideFlags: 0

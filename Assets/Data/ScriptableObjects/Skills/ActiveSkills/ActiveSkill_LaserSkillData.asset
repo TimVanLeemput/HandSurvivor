@@ -24,6 +24,8 @@ MonoBehaviour:
   maxUpgradedRepeatRate: 0
   activationSound: {fileID: 8300000, guid: 856bff2ad7eccd4469de1d63bb910f7e, type: 3}
   loopActivationSound: 0
+  activationSoundVolume: 0.8
+  soundSpatialization: 1
   comments: 'Good values could be :
 
     Duration = 2

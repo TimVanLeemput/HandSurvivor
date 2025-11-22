@@ -65,7 +65,7 @@ MonoBehaviour:
   meteorDestroyDelay: 1
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1024
   gravityMultiplier: 100
   colliderToIgnoreOnThrow: {fileID: 5962111675704498749}
 --- !u!114 &7840574579009356794
@@ -182,7 +182,7 @@ Rigidbody:
     m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 3006
+    m_Bits: 3007
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0

@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 224362149}
   - component: {fileID: 224362150}
   - component: {fileID: 224362151}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ISDK_HandGrabInteraction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,10 +311,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1325242701}
     m_Modifications:
+    - target: {fileID: 299491386934315840, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 495418590639305144, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 707899595121533123, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1590228755579107694, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 0ee5100e5a96acc40a2955c3fb36ea5b, type: 2}
+    - target: {fileID: 1783959515425960018, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1929171770878725537, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.44227314
@@ -370,6 +386,10 @@ PrefabInstance:
     - target: {fileID: 1929171770878725537, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2947412706466142056, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.size
@@ -496,8 +516,32 @@ PrefabInstance:
       value: Button-UnlockWorldPosition
       objectReference: {fileID: 0}
     - target: {fileID: 4879306793721756947, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879306793721756947, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6056828703108744682, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6154128223197835768, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6475726091569713023, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061917274175390648, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8483111526456997144, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5453702040034168078, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
@@ -654,7 +698,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 437383723}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Visuals-Grabbable-WorldAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -756,7 +800,7 @@ GameObject:
   - component: {fileID: 869308899}
   - component: {fileID: 869308898}
   - component: {fileID: 869308900}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Grabbable-WorldAnchor-Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1001,7 +1045,7 @@ GameObject:
   - component: {fileID: 1325242710}
   - component: {fileID: 1325242711}
   - component: {fileID: 1325242712}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Grabbable-WorldAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1947,7 +1991,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1534839389}
   - component: {fileID: 1534839390}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite-Move
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4775,6 +4819,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1325242701}
     m_Modifications:
+    - target: {fileID: 299491386934315840, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 495418590639305144, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 707899595121533123, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1783959515425960018, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1929171770878725537, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.44227314
@@ -4830,6 +4890,14 @@ PrefabInstance:
     - target: {fileID: 1929171770878725537, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2947412706466142056, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4669383022250711077, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4828403421583567690, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.size
@@ -4908,8 +4976,32 @@ PrefabInstance:
       value: Button-LockWorldPosition
       objectReference: {fileID: 0}
     - target: {fileID: 4879306793721756947, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879306793721756947, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6056828703108744682, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6154128223197835768, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6475726091569713023, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061917274175390648, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8483111526456997144, guid: e7f68de3491ab6e4891a3ce81e6cf079, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5073,6 +5165,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Nexus
   HP: 1000
+  MaxHP: 1000
+  _flatArmor: 0
+  _percentageArmor: 0
+  _isShieldActive: 0
+  _shieldEndTime: 0
+  _currentShieldVFX: {fileID: 0}
+  _lifeDisplay: {fileID: 0}
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnShieldActivated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnShieldDeactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNexusDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3969920561887638189
 GameObject:
   m_ObjectHideFlags: 0

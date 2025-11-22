@@ -43,7 +43,8 @@ namespace HandSurvivor.ActiveSkills
             Transform spawnTransform = null;
             if (ufoSpawnTransformReference != null)
             {
-                spawnTransform = ufoSpawnTransformReference.GetNextSpawnSlot(maxSlots: 1);
+                int totalSlots = ufoSpawnTransformReference.GetTotalSlotCount();
+                spawnTransform = ufoSpawnTransformReference.GetNextSpawnSlot(maxSlots: totalSlots);
             }
 
             if (spawnTransform == null)
